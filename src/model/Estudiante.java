@@ -29,8 +29,7 @@ public class Estudiante {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Estudiante Estudiante = (Estudiante) o;
-        return Objects.equals(id, Estudiante.id) &&
-                Objects.equals(nombre, Estudiante.nombre);
+        return Objects.equals(id, Estudiante.id) && Objects.equals(nombre, Estudiante.nombre);
     }
 
     public int getId() {
@@ -53,11 +52,11 @@ public class Estudiante {
         return matriculas;
     }
 
-    public void addMatriculas(Matricula matricula) {
+    public void addMatricula(Matricula matricula) {
         this.matriculas.add(matricula);
     }
 
-    public void removeMatriculas(Matricula matricula) {
-        this.matriculas.remove(matricula);
+    public boolean removeMatricula(Matricula matricula) {
+        return this.matriculas.remove(matricula);
     }
 }
