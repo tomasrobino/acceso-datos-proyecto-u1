@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Estudiante {
     private final int id;
-    private String nombre;
+    private final String nombre;
     private String email;
     private final List<Matricula> matriculas;
 
@@ -39,10 +39,6 @@ public class Estudiante {
 
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public String getEmail() {
