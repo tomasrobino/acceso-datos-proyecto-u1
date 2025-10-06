@@ -1,32 +1,29 @@
 package service;
 
-import model.Asignatura;
-import model.Estudiante;
-import model.Matricula;
-import model.Model;
+import model.*;
 import repository.*;
 
 import java.io.File;
 
 public class AdministradorIO implements BDInterfaz {
     private final TiposPersistencia tipoPersistencia;
+    private final TiposModelo tipoModelo;
     private File archivo;
     private BDInterfaz bd;
-    private final Model modelo;
 
-    public AdministradorIO(TiposPersistencia tipoPersistencia, Model modelo, String uri) {
+    public AdministradorIO(TiposPersistencia tipoPersistencia, TiposModelo tipoModelo, String uri) {
         this.tipoPersistencia = tipoPersistencia;
-        this.modelo = modelo;
+        this.tipoModelo = tipoModelo;
 
         if (tipoPersistencia != TiposPersistencia.SQL) {
             archivo = new File(uri);
         }
 
         switch (tipoPersistencia) {
-            case BIN -> bd = new BIN(archivo);
-            case CSV -> bd = new CSV(archivo);
-            case SQL -> bd = new SQL();
-            case XML -> bd = new XML(archivo);
+            case BIN -> bd = new BIN(archivo, tipoModelo);
+            case CSV -> bd = new CSV(archivo, tipoModelo);
+            case SQL -> bd = new SQL(tipoModelo);
+            case XML -> bd = new XML(archivo, tipoModelo);
         }
     }
 

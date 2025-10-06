@@ -1,14 +1,11 @@
 package repository;
 
-import model.Asignatura;
-import model.Estudiante;
-import model.Matricula;
-import model.Model;
+import model.*;
 
 import java.io.File;
 
 public class XML implements BDInterfaz{
-    public XML(File archivo) {
+    public XML(File archivo, TiposModelo tipoModelo) {
 
     }
 

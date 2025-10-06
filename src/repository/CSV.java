@@ -1,14 +1,11 @@
 package repository;
 
-import model.Asignatura;
-import model.Estudiante;
-import model.Matricula;
-import model.Model;
+import model.*;
 
 import java.io.File;
 
 public class CSV implements BDInterfaz{
-    public CSV(File archivo) {
+    public CSV(File archivo, TiposModelo tipoModelo) {
 
     }
 

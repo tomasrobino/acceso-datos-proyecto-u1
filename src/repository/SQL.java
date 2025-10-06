@@ -1,12 +1,9 @@
 package repository;
 
-import model.Asignatura;
-import model.Estudiante;
-import model.Matricula;
-import model.Model;
+import model.*;
 
 public class SQL implements BDInterfaz{
-    public SQL() {
+    public SQL(TiposModelo tipoModelo) {
 
     }
 
