@@ -3,8 +3,7 @@ package repository;
 import model.Asignatura;
 import model.Estudiante;
 import model.Matricula;
-
-import java.io.File;
+import model.Model;
 
 public class SQL implements BDInterfaz{
     public SQL() {
@@ -12,7 +11,7 @@ public class SQL implements BDInterfaz{
     }
 
     @Override
-    public Object find(int id) {
+    public Model find(int id) {
         return null;
     }
 

@@ -3,6 +3,7 @@ package repository;
 import model.Asignatura;
 import model.Estudiante;
 import model.Matricula;
+import model.Model;
 
 import java.io.File;
 
@@ -11,11 +12,13 @@ public class AdministradorIO implements BDInterfaz {
     private final TiposPersistencia tipo;
     private File archivo;
     private BDInterfaz bd;
+    private Model modelo;
 
-    private AdministradorIO(TiposPersistencia tipo, File archivo) {
-        this.tipo = tipo;
+    private AdministradorIO(TiposPersistencia tipoPersistencia, Model modelo, File archivo) {
+        this.tipo = tipoPersistencia;
         this.archivo = archivo;
-        switch (tipo) {
+        this.modelo = modelo;
+        switch (tipoPersistencia) {
             case BIN -> bd = new BIN(archivo);
             case CSV -> bd = new CSV(archivo);
             case SQL -> bd = new SQL();
@@ -23,27 +26,28 @@ public class AdministradorIO implements BDInterfaz {
         }
     }
 
-    private AdministradorIO(TiposPersistencia tipo) {
+    private AdministradorIO(TiposPersistencia tipo, Model modelo) {
         this.tipo = tipo;
+        this.modelo = modelo;
     }
 
-    public static AdministradorIO getInstance(TiposPersistencia tipo, String archivo) {
+    public static AdministradorIO getInstance(TiposPersistencia tipo, Model modelo, String archivo) {
         if (instance == null) {
             if (tipo == TiposPersistencia.SQL) {
-                instance = new AdministradorIO(tipo);
+                instance = new AdministradorIO(tipo, modelo);
             } else {
                 File file = new File(archivo);
                 // error
                 if (!file.exists()) return null;
 
-                instance = new AdministradorIO(tipo, file);
+                instance = new AdministradorIO(tipo, modelo, file);
             }
         }
         return instance;
     }
 
     @Override
-    public Object find(int id) {
+    public Model find(int id) {
         return bd.find(id);
     }
 

@@ -3,6 +3,7 @@ package repository;
 import model.Asignatura;
 import model.Estudiante;
 import model.Matricula;
+import model.Model;
 
 import java.io.File;
 
@@ -12,7 +13,7 @@ public class CSV implements BDInterfaz{
     }
 
     @Override
-    public Object find(int id) {
+    public Model find(int id) {
         return null;
     }
 

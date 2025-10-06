@@ -2,7 +2,7 @@ package model;
 
 import java.util.Date;
 
-public class Matricula {
+public class Matricula implements Model {
     private double nota;
     private final Date fecha;
     private final Asignatura asignatura;

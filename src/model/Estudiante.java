@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Estudiante {
+public class Estudiante implements Model {
     private final int id;
     private final String nombre;
     private String email;

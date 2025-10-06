@@ -1,6 +1,6 @@
 package model;
 
-public class Asignatura {
+public class Asignatura implements Model {
     private final int id;
     private String nombre;
     private int creditos;
