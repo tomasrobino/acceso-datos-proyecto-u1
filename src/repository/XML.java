@@ -15,7 +15,7 @@ public class XML extends BDInterfaz {
     }
 
     @Override
-    public boolean insert(Matricula matricula) {
+    public void insert(Matricula matricula) {
         return false;
     }
 

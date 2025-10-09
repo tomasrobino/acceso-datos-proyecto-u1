@@ -1,9 +1,8 @@
 package model;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class Matricula implements Model {
+public class Matricula extends Model {
     private double nota;
     private final Date fecha;
     private final Asignatura asignatura;
@@ -12,6 +11,10 @@ public class Matricula implements Model {
         this.nota = nota;
         this.fecha = fecha;
         this.asignatura = asignatura;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public double getNota() {

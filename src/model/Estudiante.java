@@ -1,12 +1,10 @@
 package model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Estudiante implements Model {
-    private final int id;
+public class Estudiante extends Model {
     private final String nombre;
     private String email;
     private final List<Matricula> matriculas;

@@ -1,10 +1,8 @@
 package repository;
 
-import model.Asignatura;
-import model.Estudiante;
-import model.Matricula;
+import model.Model;
 
-import java.io.FileNotFoundException;
+import java.io.*;
 
 public class CSV extends BDInterfaz {
     private static CSV miCSV = null;
@@ -20,42 +18,56 @@ public class CSV extends BDInterfaz {
         this.uri = uri;
     }
 
-    @Override
-    public boolean insert(Matricula matricula) {
-        return false;
-    }
-
-    @Override
-    public boolean insert(Estudiante estudiante) {
-        return false;
-    }
-
-    @Override
-    public boolean insert(Asignatura asignatura) {
-        return false;
-    }
-
-    @Override
-    public boolean update(Matricula matricula) {
-        return false;
-    }
-
-    @Override
-    public boolean update(Estudiante estudiante) {
-        return false;
-    }
-
-    @Override
-    public boolean update(Asignatura asignatura) {
-        return false;
-    }
-
-    @Override
-    public boolean delete(int id) {
-        return false;
-    }
-
     public String getUri() {
         return uri;
+    }
+
+    @Override
+    String[] find(int id) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(uri));
+        String line;
+        while ( (line = br.readLine()) != null ) {
+            String[] data = line.split(",");
+            if (Integer.parseInt(data[0]) == id) {
+                br.close();
+                return data;
+            }
+        }
+        br.close();
+        return null;
+    }
+
+    @Override
+    void insert(Model model) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter(uri, true));
+        bw.write(model.stringifyCSV());
+        bw.close();
+    }
+
+    @Override
+    void update(Model model) throws IOException {
+        File file1 = new File(uri);
+        File file2 = new File(uri+"_temp");
+        BufferedReader br = new BufferedReader(new FileReader(file1));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(file2));
+
+        String line;
+        while ( (line = br.readLine()) != null ) {
+            String[] data = line.split(",");
+            if (Integer.parseInt(data[0]) == model.getId()) {
+                bw.write(model.stringifyCSV());
+            } else {
+                bw.write(line);
+            }
+        }
+        br.close();
+        bw.close();
+
+        if (!file1.delete() && file2.renameTo(file1)) throw new IOException();
+    }
+
+    @Override
+    boolean delete(int id) {
+        return false;
     }
 }

@@ -2,8 +2,15 @@ package model;
 
 import java.io.Serializable;
 
-public interface Model extends Serializable {
-    String stringifyCSV();
-    String stringifyXML();
+public abstract class Model implements Serializable {
+    protected int id;
+
+    public abstract String stringifyCSV();
+    public abstract String stringifyXML();
     //TODO sql
+
+
+    public int getId() {
+        return id;
+    }
 }
