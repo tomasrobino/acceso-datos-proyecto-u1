@@ -4,10 +4,11 @@ public class Asignatura extends Model {
     private String nombre;
     private int creditos;
 
-    public Asignatura(int id, String nombre, int creditos) {
+    public Asignatura(int id, String nombre, int creditos, String xmlName) {
         this.id = id;
         this.nombre = nombre;
         this.creditos = creditos;
+        this.xmlName = xmlName;
     }
 
     @Override
@@ -17,7 +18,7 @@ public class Asignatura extends Model {
 
     @Override
     public String stringifyXML() {
-        return "<asignatura>\n\t<id>"+id+"</id>\n\t<nombre>"+nombre+"</nombre>\n\t<creditos>"+creditos+"</creditos>\n</asignatura>";
+        return "<"+xmlName+">\n\t<id>"+id+"</id>\n\t<nombre>"+nombre+"</nombre>\n\t<creditos>"+creditos+"</creditos>\n</"+xmlName+">";
     }
 
     public int getId() {

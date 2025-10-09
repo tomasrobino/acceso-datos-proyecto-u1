@@ -26,11 +26,7 @@ public class XML extends BDInterfaz {
         BufferedReader br = new BufferedReader(new FileReader(uri));
         String line;
         while ( (line = br.readLine()) != null ) {
-            String[] data = line.split(",");
-            if (Integer.parseInt(data[0]) == id) {
-                br.close();
-                return data;
-            }
+            if (line == "<"++">")
         }
         br.close();
         return null;

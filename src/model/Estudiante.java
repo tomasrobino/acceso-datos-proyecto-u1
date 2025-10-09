@@ -9,18 +9,20 @@ public class Estudiante extends Model {
     private String email;
     private final List<Matricula> matriculas;
 
-    public Estudiante(int id, String nombre, String email, List<Matricula> matriculas) {
+    public Estudiante(int id, String nombre, String email, List<Matricula> matriculas, String xmlName) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
         this.matriculas = matriculas;
+        this.xmlName = xmlName;
     }
 
-    public Estudiante(int id, String nombre, String email) {
+    public Estudiante(int id, String nombre, String email, String xmlName) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
         this.matriculas = new ArrayList<>();
+        this.xmlName = xmlName;
     }
 
     @Override

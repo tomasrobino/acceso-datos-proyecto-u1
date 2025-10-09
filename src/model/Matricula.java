@@ -7,10 +7,11 @@ public class Matricula extends Model {
     private final Date fecha;
     private final Asignatura asignatura;
 
-    public Matricula(double nota, Date fecha, Asignatura asignatura) {
+    public Matricula(double nota, Date fecha, Asignatura asignatura, String xmlName) {
         this.nota = nota;
         this.fecha = fecha;
         this.asignatura = asignatura;
+        this.xmlName = xmlName;
     }
 
     public int getId() {

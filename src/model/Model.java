@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public abstract class Model implements Serializable {
     protected int id;
+    protected String xmlName;
 
     public abstract String stringifyCSV();
     public abstract String stringifyXML();
