@@ -4,13 +4,9 @@ import model.Asignatura;
 import model.Estudiante;
 import model.Matricula;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 
 public class CSV extends BDInterfaz {
-    private final String uri;
     private static CSV miCSV = null;
 
     public static CSV getCSV(String uri) throws FileNotFoundException {
