@@ -16,8 +16,12 @@ public abstract class BDInterfaz {
         String line;
         while ( (line = br.readLine()) != null ) {
             String[] data = line.split(",");
-            if (Integer.parseInt(data[0]) == id) return data;
+            if (Integer.parseInt(data[0]) == id) {
+                br.close();
+                return data;
+            }
         }
+        br.close();
         return null;
     }
     abstract boolean insert(Matricula matricula);
