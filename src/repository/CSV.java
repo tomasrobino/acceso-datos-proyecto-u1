@@ -9,14 +9,14 @@ import java.io.FileNotFoundException;
 public class CSV extends BDInterfaz {
     private static CSV miCSV = null;
 
-    public static CSV getCSV(String uri) throws FileNotFoundException {
+    public static CSV getCSV(String uri) {
         if (miCSV == null) {
             miCSV = new CSV(uri);
         }
         return miCSV;
     }
 
-    private CSV(String uri) throws FileNotFoundException {
+    private CSV(String uri) {
         this.uri = uri;
     }
 
