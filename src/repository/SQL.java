@@ -2,13 +2,10 @@ package repository;
 
 import model.*;
 
-public class SQL implements BDInterfaz{
-    public SQL(TiposModelo tipoModelo) {
-
-    }
+public class SQL extends BDInterfaz {
 
     @Override
-    public Model find(int id) {
+    public String[] find(int id) {
         return null;
     }
 

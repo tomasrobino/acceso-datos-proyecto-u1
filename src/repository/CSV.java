@@ -3,17 +3,15 @@ package repository;
 import model.Asignatura;
 import model.Estudiante;
 import model.Matricula;
-import model.Model;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class CSV implements BDInterfaz{
+public class CSV extends BDInterfaz {
     private final String uri;
     private static CSV miCSV = null;
-    private final BufferedReader br;
 
     public static CSV getCSV(String uri) throws FileNotFoundException {
         if (miCSV == null) {
@@ -24,12 +22,6 @@ public class CSV implements BDInterfaz{
 
     private CSV(String uri) throws FileNotFoundException {
         this.uri = uri;
-        br = new BufferedReader(new FileReader(uri));
-    }
-
-    @Override
-    public Model find(int id) {
-        return null;
     }
 
     @Override
@@ -65,15 +57,6 @@ public class CSV implements BDInterfaz{
     @Override
     public boolean delete(int id) {
         return false;
-    }
-
-    public boolean destroy() {
-        try {
-            br.close();
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
     }
 
     public String getUri() {

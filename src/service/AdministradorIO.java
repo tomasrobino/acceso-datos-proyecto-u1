@@ -5,69 +5,10 @@ import repository.*;
 
 import java.io.File;
 
-public class AdministradorIO implements BDInterfaz {
-    private final TiposPersistencia tipoPersistencia;
-    private final TiposModelo tipoModelo;
+public class AdministradorIO {
     private File archivo;
     private BDInterfaz bd;
 
-    public AdministradorIO(TiposPersistencia tipoPersistencia, TiposModelo tipoModelo, String uri) {
-        this.tipoPersistencia = tipoPersistencia;
-        this.tipoModelo = tipoModelo;
-
-        if (tipoPersistencia != TiposPersistencia.SQL) {
-            archivo = new File(uri);
-        }
-
-        switch (tipoPersistencia) {
-            case BIN -> bd = new BIN(archivo, tipoModelo);
-            case CSV -> bd = new CSV(archivo, tipoModelo);
-            case SQL -> bd = new SQL(tipoModelo);
-            case XML -> bd = new XML(archivo, tipoModelo);
-        }
-    }
-
-    @Override
-    public Model find(int id) {
-        return bd.find(id);
-    }
-
-    @Override
-    public boolean insert(Matricula matricula) {
-        return bd.insert(matricula);
-    }
-
-    @Override
-    public boolean insert(Estudiante estudiante) {
-        return bd.insert(estudiante);
-    }
-
-    @Override
-    public boolean insert(Asignatura asignatura) {
-        return bd.insert(asignatura);
-    }
-
-    @Override
-    public boolean update(Matricula matricula) {
-        return bd.update(matricula);
-    }
-
-    @Override
-    public boolean update(Estudiante estudiante) {
-        return bd.update(estudiante);
-    }
-
-    @Override
-    public boolean update(Asignatura asignatura) {
-        return bd.update(asignatura);
-    }
-
-    @Override
-    public boolean delete(int id) {
-        return bd.delete(id);
-    }
-
-    public TiposPersistencia getTipoPersistencia() {
-        return tipoPersistencia;
+    public AdministradorIO(String uri) {
     }
 }

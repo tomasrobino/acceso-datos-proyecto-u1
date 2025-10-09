@@ -4,13 +4,13 @@ import model.*;
 
 import java.io.File;
 
-public class BIN implements BDInterfaz{
-    public BIN(File archivo, TiposModelo tipoModelo) {
+public class BIN extends BDInterfaz {
+    public BIN(File archivo) {
 
     }
 
     @Override
-    public Model find(int id) {
+    public String[] find(int id) {
         return null;
     }
 

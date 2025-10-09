@@ -4,13 +4,13 @@ import model.*;
 
 import java.io.File;
 
-public class XML implements BDInterfaz{
-    public XML(File archivo, TiposModelo tipoModelo) {
+public class XML extends BDInterfaz {
+    public XML(File archivo) {
 
     }
 
     @Override
-    public Model find(int id) {
+    public String[] find(int id) {
         return null;
     }
 

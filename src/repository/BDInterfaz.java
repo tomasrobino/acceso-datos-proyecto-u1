@@ -3,15 +3,28 @@ package repository;
 import model.Asignatura;
 import model.Estudiante;
 import model.Matricula;
-import model.Model;
 
-public interface BDInterfaz {
-    Model find(int id);
-    boolean insert(Matricula matricula);
-    boolean insert(Estudiante estudiante);
-    boolean insert(Asignatura asignatura);
-    boolean update(Matricula matricula);
-    boolean update(Estudiante estudiante);
-    boolean update(Asignatura asignatura);
-    boolean delete(int id);
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public abstract class BDInterfaz {
+    protected String uri;
+
+    protected String[] find(int id) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(uri));
+        String line;
+        while ( (line = br.readLine()) != null ) {
+            String[] data = line.split(",");
+            if (Integer.parseInt(data[0]) == id) return data;
+        }
+        return null;
+    }
+    abstract boolean insert(Matricula matricula);
+    abstract boolean insert(Estudiante estudiante);
+    abstract boolean insert(Asignatura asignatura);
+    abstract boolean update(Matricula matricula);
+    abstract boolean update(Estudiante estudiante);
+    abstract boolean update(Asignatura asignatura);
+    abstract boolean delete(int id);
 }
