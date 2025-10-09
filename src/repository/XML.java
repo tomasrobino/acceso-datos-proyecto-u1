@@ -2,45 +2,47 @@ package repository;
 
 import model.*;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class XML extends BDInterfaz {
-    public XML(File archivo) {
+    private static XML miXML;
 
+    public static XML getCSV(String uri) {
+        if (miXML == null) {
+            miXML = new XML(uri);
+        }
+        return miXML;
+    }
+
+    private XML(String uri) {
+        this.uri = uri;
     }
 
     @Override
-    public String[] find(int id) {
+    public String[] find(int id) throws IOException{
+        BufferedReader br = new BufferedReader(new FileReader(uri));
+        String line;
+        while ( (line = br.readLine()) != null ) {
+            String[] data = line.split(",");
+            if (Integer.parseInt(data[0]) == id) {
+                br.close();
+                return data;
+            }
+        }
+        br.close();
         return null;
     }
 
     @Override
-    public void insert(Matricula matricula) {
-        return false;
+    void insert(Model model) throws IOException {
+
     }
 
     @Override
-    public boolean insert(Estudiante estudiante) {
-        return false;
-    }
-
-    @Override
-    public boolean insert(Asignatura asignatura) {
-        return false;
-    }
-
-    @Override
-    public boolean update(Matricula matricula) {
-        return false;
-    }
-
-    @Override
-    public boolean update(Estudiante estudiante) {
-        return false;
-    }
-
-    @Override
-    public boolean update(Asignatura asignatura) {
+    boolean update(Model model) throws IOException {
         return false;
     }
 
