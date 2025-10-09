@@ -1,6 +1,6 @@
 package model;
 
-public class Asignatura {
+public class Asignatura implements Model {
     private final int id;
     private String nombre;
     private int creditos;
@@ -9,6 +9,16 @@ public class Asignatura {
         this.id = id;
         this.nombre = nombre;
         this.creditos = creditos;
+    }
+
+    @Override
+    public String stringifyCSV() {
+        return id+","+nombre+","+"creditos";
+    }
+
+    @Override
+    public String stringifyXML() {
+        return "<asignatura>\n\t<id>"+id+"</id>\n\t<nombre>"+nombre+"</nombre>\n\t<creditos>"+creditos+"</creditos>\n</asignatura>";
     }
 
     public int getId() {

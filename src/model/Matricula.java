@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Matricula {
+public class Matricula implements Model {
     private double nota;
     private final Date fecha;
     private final Asignatura asignatura;
@@ -27,5 +28,15 @@ public class Matricula {
 
     public Asignatura getAsignatura() {
         return asignatura;
+    }
+
+    @Override
+    public String stringifyCSV() {
+        return "";
+    }
+
+    @Override
+    public String stringifyXML() {
+        return "";
     }
 }

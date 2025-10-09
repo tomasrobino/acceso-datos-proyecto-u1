@@ -1,10 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Estudiante {
+public class Estudiante implements Model {
     private final int id;
     private final String nombre;
     private String email;
@@ -58,5 +59,15 @@ public class Estudiante {
 
     public boolean removeMatricula(Matricula matricula) {
         return this.matriculas.remove(matricula);
+    }
+
+    @Override
+    public String stringifyCSV() {
+        return "";
+    }
+
+    @Override
+    public String stringifyXML() {
+        return "";
     }
 }

@@ -12,7 +12,7 @@ import java.io.IOException;
 public class CSV implements BDInterfaz{
     private final String uri;
     private static CSV miCSV = null;
-    private BufferedReader br;
+    private final BufferedReader br;
 
     public static CSV getCSV(String uri) throws FileNotFoundException {
         if (miCSV == null) {
