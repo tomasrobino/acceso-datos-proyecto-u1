@@ -84,7 +84,7 @@ public class XML extends BDInterfaz {
     }
 
     @Override
-    public boolean delete(int id) throws IOException {
+    public boolean delete(int id) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();

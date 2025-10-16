@@ -68,31 +68,37 @@ public class CSV extends BDInterfaz {
             bw.close();
 
             if (!file1.delete() || !file2.renameTo(file1)) return false;
-        } catch (IOException ignored) {
-
+        } catch (IOException e) {
+            return false;
         }
         return ret;
     }
 
     @Override
-    boolean delete(int id) throws IOException {
+    boolean delete(int id) {
         File file1 = new File(uri);
         File file2 = new File(uri+"_temp");
-        BufferedReader br = new BufferedReader(new FileReader(file1));
-        BufferedWriter bw = new BufferedWriter(new FileWriter(file2));
         boolean ret = false;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file1));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file2));
 
-        String line;
-        while ( (line = br.readLine()) != null ) {
-            String[] data = line.split(",");
-            if ((Integer.parseInt(data[0]) == id)) {
-                ret = true;
-            } else bw.write(line);
+
+            String line;
+            while ( (line = br.readLine()) != null ) {
+                String[] data = line.split(",");
+                if ((Integer.parseInt(data[0]) == id)) {
+                    ret = true;
+                } else bw.write(line);
+            }
+            br.close();
+            bw.close();
+
+            if (!file1.delete() || !file2.renameTo(file1)) return false;
+        } catch (IOException e) {
+            return false;
         }
-        br.close();
-        bw.close();
 
-        if (!file1.delete() || !file2.renameTo(file1)) throw new IOException();
         return ret;
     }
 }
