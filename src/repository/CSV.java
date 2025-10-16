@@ -23,7 +23,7 @@ public class CSV extends BDInterfaz {
     }
 
     @Override
-    String[] find(int id) throws IOException {
+    String find(int id) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(uri));
         String line;
         while ( (line = br.readLine()) != null ) {

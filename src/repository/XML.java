@@ -3,7 +3,6 @@ package repository;
 import model.*;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -22,11 +21,31 @@ public class XML extends BDInterfaz {
     }
 
     @Override
-    public String[] find(int id) throws IOException{
+    public String find(int id) throws IOException{
         BufferedReader br = new BufferedReader(new FileReader(uri));
         String line;
+        String buffer = "";
         while ( (line = br.readLine()) != null ) {
-            if (line == "<"++">")
+            if (line.contains("<id>") || !buffer.isEmpty()) {
+                buffer += line;
+            }
+
+            if (line.contains("</id>")) {
+                // Procesar y vaciar buffer
+                int start = 0;
+                int end = 0;
+                for (int i = 0; i < buffer.length(); i++) {
+                    if (buffer.charAt(i) == '>' && start == 0) {
+                        start = i+1;
+                    } else if (buffer.charAt(i) == '<' && start != 0) {
+                        end = i;
+                    }
+                }
+                String sub = buffer.substring(start, end);
+                int index = Integer.parseInt(sub);
+                if (index == id) return sub;
+                buffer = "";
+            }
         }
         br.close();
         return null;

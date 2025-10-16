@@ -5,7 +5,7 @@ import model.*;
 public class SQL extends BDInterfaz {
 
     @Override
-    public String[] find(int id) {
+    public String find(int id) {
         return null;
     }
 
