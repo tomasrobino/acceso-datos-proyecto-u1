@@ -2,7 +2,9 @@ package repository;
 
 import model.Model;
 
-public abstract class BDInterfaz {
+import java.io.Serializable;
+
+public abstract class BDInterfaz implements Serializable {
     protected String uri;
 
     abstract BDInterfaz get(String uri);
