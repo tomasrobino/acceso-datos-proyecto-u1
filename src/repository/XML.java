@@ -60,6 +60,28 @@ public class XML extends BDInterfaz {
 
     @Override
     boolean update(Model model) throws IOException {
+        File file1 = new File(uri);
+        File file2 = new File(uri+"_temp");
+        BufferedReader br = new BufferedReader(new FileReader(file1));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(file2));
+        String line;
+        String buffer = "";
+        while ( (line = br.readLine()) != null ) {
+            if (line.contains("<"+model.getXmlName()+">") || !buffer.isEmpty()) {
+                buffer += line;
+            }
+
+            if (line.contains("</"+model.getXmlName()+">")) {
+                // Having read the whole entry into buffer, find id tag
+                int index = Integer.parseInt(buffer.substring(buffer.indexOf("<id>") + 4, buffer.indexOf("</id>")));
+                if (index == model.getId()) {
+                    bw.write(model.stringifyXML());
+                } else {
+                    bw.write(buffer);
+                }
+            }
+        }
+        br.close();
         return false;
     }
 

@@ -14,4 +14,8 @@ public abstract class Model implements Serializable {
     public int getId() {
         return id;
     }
+
+    public String getXmlName() {
+        return xmlName;
+    }
 }
