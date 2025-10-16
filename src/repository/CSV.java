@@ -30,7 +30,7 @@ public class CSV extends BDInterfaz {
             String[] data = line.split(",");
             if (Integer.parseInt(data[0]) == id) {
                 br.close();
-                return data;
+                return line;
             }
         }
         br.close();
