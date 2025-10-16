@@ -87,6 +87,7 @@ public class XML extends BDInterfaz {
         }
         br.close();
         bw.close();
+        if (!file1.delete() && file2.renameTo(file1)) throw new IOException();
         return ret;
     }
 
