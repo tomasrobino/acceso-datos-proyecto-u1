@@ -23,18 +23,23 @@ public class CSV extends BDInterfaz {
     }
 
     @Override
-    String find(int id) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(uri));
-        String line;
-        while ( (line = br.readLine()) != null ) {
-            String[] data = line.split(",");
-            if (Integer.parseInt(data[0]) == id) {
-                br.close();
-                return line;
+    String find(int id) {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(uri));
+            String line;
+            while ( (line = br.readLine()) != null ) {
+                String[] data = line.split(",");
+                if (Integer.parseInt(data[0]) == id) {
+                    br.close();
+                    return line;
+                }
             }
+            br.close();
+            return null;
+        } catch (IOException e) {
+            return null;
         }
-        br.close();
-        return null;
+
     }
 
     @Override

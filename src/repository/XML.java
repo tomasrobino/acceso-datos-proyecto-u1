@@ -32,7 +32,7 @@ public class XML extends BDInterfaz {
     }
 
     @Override
-    public String find(int id) throws IOException{
+    public String find(int id) {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -45,7 +45,7 @@ public class XML extends BDInterfaz {
                 }
             }
             return null;
-        } catch (ParserConfigurationException | SAXException e) {
+        } catch (ParserConfigurationException | SAXException | IOException e) {
             return null;
         }
     }
