@@ -1,7 +1,14 @@
 package repository;
 
 import model.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 
 public class XML extends BDInterfaz {
@@ -20,36 +27,22 @@ public class XML extends BDInterfaz {
 
     @Override
     public String find(int id) throws IOException{
-        BufferedReader br = new BufferedReader(new FileReader(uri));
-        String line;
-        String buffer = "";
-        while ( (line = br.readLine()) != null ) {
-            if (line.contains("<id>") || !buffer.isEmpty()) {
-                buffer += line;
-            }
-
-            if (line.contains("</id>")) {
-                // Procesar y vaciar buffer
-                int start = 0;
-                int end = 0;
-                for (int i = 0; i < buffer.length(); i++) {
-                    if (buffer.charAt(i) == '>' && start == 0) {
-                        start = i+1;
-                    } else if (buffer.charAt(i) == '<' && start != 0) {
-                        end = i;
-                    }
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        try {
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document documento = dBuilder.parse(new File(uri));
+            Node nodoRaiz = documento.getDocumentElement();
+            // get xmlName
+            NodeList lista = nodoRaiz.getChildNodes();
+            for (int i = 0; i < lista.getLength(); i++) {
+                if (Integer.parseInt(lista.item(i).getAttributes().getNamedItem("id").getTextContent()) == id ) {
+                    return lista.item(i).toString();
                 }
-                String sub = buffer.substring(start, end);
-                int index = Integer.parseInt(sub);
-                if (index == id) {
-                    br.close();
-                    return sub;
-                };
-                buffer = "";
             }
+            return null;
+        } catch (ParserConfigurationException | SAXException e) {
+            return null;
         }
-        br.close();
-        return null;
     }
 
     @Override
