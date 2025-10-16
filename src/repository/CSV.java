@@ -43,10 +43,15 @@ public class CSV extends BDInterfaz {
     }
 
     @Override
-    void insert(Model model) throws IOException {
-        BufferedWriter bw = new BufferedWriter(new FileWriter(uri, true));
-        bw.write(model.stringifyCSV());
-        bw.close();
+    boolean insert(Model model) {
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(uri, true));
+            bw.write(model.stringifyCSV());
+            bw.close();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     @Override

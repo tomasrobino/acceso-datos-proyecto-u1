@@ -10,7 +10,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -51,10 +50,16 @@ public class XML extends BDInterfaz {
     }
 
     @Override
-    void insert(Model model) throws IOException {
-        BufferedWriter bw = new BufferedWriter(new FileWriter(uri));
-        bw.write("\n"+model.stringifyXML());
-        bw.close();
+    boolean insert(Model model) {
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(uri));
+            bw.write("\n"+model.stringifyXML());
+            bw.close();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+
     }
 
     @Override
