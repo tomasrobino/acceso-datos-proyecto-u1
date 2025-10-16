@@ -86,6 +86,7 @@ public class XML extends BDInterfaz {
             }
         }
         br.close();
+        bw.close();
         return ret;
     }
 
