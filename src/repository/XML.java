@@ -92,7 +92,24 @@ public class XML extends BDInterfaz {
     }
 
     @Override
-    public boolean delete(int id) {
-        return false;
+    public boolean delete(int id) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(uri));
+        String line;
+        String buffer = "";
+        // Reading root node
+        if ((line = br.readLine()) != null && line.contains(">")) {
+            if ((line = br.readLine()) != null && line.contains("<")) {
+                // Finding out xmlName
+                int start = line.indexOf("<") + 1;
+                int end = line.indexOf(">");
+                String xmlName = line.substring(start, end);
+
+                do {
+
+                }
+            }
+        }
+        br.close();
+        return null;
     }
 }
