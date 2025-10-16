@@ -66,6 +66,7 @@ public class XML extends BDInterfaz {
         BufferedWriter bw = new BufferedWriter(new FileWriter(file2));
         String line;
         String buffer = "";
+        boolean ret = false;
         while ( (line = br.readLine()) != null ) {
             if (line.contains("<"+model.getXmlName()+">") || !buffer.isEmpty()) {
                 buffer += line;
@@ -76,13 +77,16 @@ public class XML extends BDInterfaz {
                 int index = Integer.parseInt(buffer.substring(buffer.indexOf("<id>") + 4, buffer.indexOf("</id>")));
                 if (index == model.getId()) {
                     bw.write(model.stringifyXML());
+                    ret = true;
                 } else {
                     bw.write(buffer);
                 }
+
+                buffer = "";
             }
         }
         br.close();
-        return false;
+        return ret;
     }
 
     @Override
