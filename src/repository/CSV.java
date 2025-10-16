@@ -7,7 +7,7 @@ import java.io.*;
 public class CSV extends BDInterfaz {
     private static CSV miCSV = null;
 
-    public static CSV getCSV(String uri) {
+    BDInterfaz get(String uri) {
         if (miCSV == null) {
             miCSV = new CSV(uri);
         }

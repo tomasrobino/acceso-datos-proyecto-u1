@@ -19,7 +19,7 @@ import java.io.*;
 public class XML extends BDInterfaz {
     private static XML miXML;
 
-    public static XML getCSV(String uri) {
+    BDInterfaz get(String uri) {
         if (miXML == null) {
             miXML = new XML(uri);
         }
