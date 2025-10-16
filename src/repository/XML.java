@@ -10,6 +10,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -36,7 +38,6 @@ public class XML extends BDInterfaz {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document documento = dBuilder.parse(new File(uri));
             Node nodoRaiz = documento.getDocumentElement();
-            // get xmlName
             NodeList lista = nodoRaiz.getChildNodes();
             for (int i = 0; i < lista.getLength(); i++) {
                 if (Integer.parseInt(lista.item(i).getAttributes().getNamedItem("id").getTextContent()) == id ) {
@@ -57,26 +58,27 @@ public class XML extends BDInterfaz {
     }
 
     @Override
-    boolean update(Model model) throws IOException {
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        DOMSource source = new DOMSource(doc);
-        StreamResult result = new StreamResult(new File("coches.xml"));
-        transformer.transform(source, result);
+    boolean update(Model model) {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document documento = dBuilder.parse(new File(uri));
-            Node nodoRaiz = documento.getDocumentElement();
-            // get xmlName
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.newDocument();
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File(uri));
+            transformer.transform(source, result);
+            Node nodoRaiz = doc.getDocumentElement();
             NodeList lista = nodoRaiz.getChildNodes();
             for (int i = 0; i < lista.getLength(); i++) {
                 if (Integer.parseInt(lista.item(i).getAttributes().getNamedItem("id").getTextContent()) == model.getId() ) {
-                    lista.item(i)
+                    nodoRaiz.removeChild(lista.item(i));
+                    nodoRaiz.appendChild(  db.parse(new ByteArrayInputStream(model.stringifyXML().getBytes())).getDocumentElement()  );
                     return true;
                 }
             }
             return false;
-        } catch (ParserConfigurationException | SAXException e) {
+        } catch (TransformerException | ParserConfigurationException | SAXException | IOException e) {
             return false;
         }
     }
