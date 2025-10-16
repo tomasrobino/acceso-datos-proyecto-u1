@@ -9,6 +9,10 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 
 public class XML extends BDInterfaz {
@@ -49,39 +53,32 @@ public class XML extends BDInterfaz {
     void insert(Model model) throws IOException {
         BufferedWriter bw = new BufferedWriter(new FileWriter(uri));
         bw.write("\n"+model.stringifyXML());
+        bw.close();
     }
 
     @Override
     boolean update(Model model) throws IOException {
-        File file1 = new File(uri);
-        File file2 = new File(uri+"_temp");
-        BufferedReader br = new BufferedReader(new FileReader(file1));
-        BufferedWriter bw = new BufferedWriter(new FileWriter(file2));
-        String line;
-        String buffer = "";
-        boolean ret = false;
-        while ( (line = br.readLine()) != null ) {
-            if (line.contains("<"+model.getXmlName()+">") || !buffer.isEmpty()) {
-                buffer += line;
-            }
-
-            if (line.contains("</"+model.getXmlName()+">")) {
-                // Having read the whole entry into buffer, find id tag
-                int index = Integer.parseInt(buffer.substring(buffer.indexOf("<id>") + 4, buffer.indexOf("</id>")));
-                if (index == model.getId()) {
-                    bw.write(model.stringifyXML());
-                    ret = true;
-                } else {
-                    bw.write(buffer);
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+        StreamResult result = new StreamResult(new File("coches.xml"));
+        transformer.transform(source, result);
+        try {
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document documento = dBuilder.parse(new File(uri));
+            Node nodoRaiz = documento.getDocumentElement();
+            // get xmlName
+            NodeList lista = nodoRaiz.getChildNodes();
+            for (int i = 0; i < lista.getLength(); i++) {
+                if (Integer.parseInt(lista.item(i).getAttributes().getNamedItem("id").getTextContent()) == model.getId() ) {
+                    lista.item(i)
+                    return true;
                 }
-
-                buffer = "";
             }
+            return false;
+        } catch (ParserConfigurationException | SAXException e) {
+            return false;
         }
-        br.close();
-        bw.close();
-        if (!file1.delete() || !file2.renameTo(file1)) throw new IOException();
-        return ret;
     }
 
     @Override
