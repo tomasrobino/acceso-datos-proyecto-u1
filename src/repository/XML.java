@@ -2,9 +2,7 @@ package repository;
 
 import model.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class XML extends BDInterfaz {
     private static XML miXML;
@@ -43,7 +41,10 @@ public class XML extends BDInterfaz {
                 }
                 String sub = buffer.substring(start, end);
                 int index = Integer.parseInt(sub);
-                if (index == id) return sub;
+                if (index == id) {
+                    br.close();
+                    return sub;
+                };
                 buffer = "";
             }
         }
@@ -53,7 +54,8 @@ public class XML extends BDInterfaz {
 
     @Override
     void insert(Model model) throws IOException {
-
+        BufferedWriter bw = new BufferedWriter(new FileWriter(uri));
+        bw.write("\n"+model.stringifyXML());
     }
 
     @Override
