@@ -85,23 +85,26 @@ public class XML extends BDInterfaz {
 
     @Override
     public boolean delete(int id) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(uri));
-        String line;
-        String buffer = "";
-        // Reading root node
-        if ((line = br.readLine()) != null && line.contains(">")) {
-            if ((line = br.readLine()) != null && line.contains("<")) {
-                // Finding out xmlName
-                int start = line.indexOf("<") + 1;
-                int end = line.indexOf(">");
-                String xmlName = line.substring(start, end);
-
-                do {
-
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        try {
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.newDocument();
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File(uri));
+            transformer.transform(source, result);
+            Node nodoRaiz = doc.getDocumentElement();
+            NodeList lista = nodoRaiz.getChildNodes();
+            for (int i = 0; i < lista.getLength(); i++) {
+                if (Integer.parseInt(lista.item(i).getAttributes().getNamedItem("id").getTextContent()) == id ) {
+                    nodoRaiz.removeChild(lista.item(i));
+                    return true;
                 }
             }
+            return false;
+        } catch (TransformerException | ParserConfigurationException e) {
+            return false;
         }
-        br.close();
-        return null;
     }
 }
