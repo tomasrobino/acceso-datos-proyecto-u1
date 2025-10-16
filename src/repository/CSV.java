@@ -23,7 +23,7 @@ public class CSV extends BDInterfaz {
     }
 
     @Override
-    String find(int id) {
+    Model find(int id) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(uri));
             String line;

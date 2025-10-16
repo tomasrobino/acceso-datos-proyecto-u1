@@ -2,6 +2,8 @@ package repository;
 
 import model.Model;
 
+import java.io.*;
+
 public class BIN extends BDInterfaz{
     private static BIN miBIN;
 
@@ -18,8 +20,22 @@ public class BIN extends BDInterfaz{
     }
 
     @Override
-    String find(int id) {
-        return "";
+    Model find(int id) {
+        try {
+            FileInputStream fis = new FileInputStream(uri);
+            ObjectInputStream in = new ObjectInputStream(fis);
+            Model modelo;
+            while ( (modelo = (Model)in.readObject()) != null) {
+                if (modelo.getId() == id) {
+                    return modelo;
+                }
+            }
+            in.close();
+            fis.close();
+            return null;
+        } catch(ClassNotFoundException | IOException e) {
+            return null;
+        }
     }
 
     @Override

@@ -31,7 +31,7 @@ public class XML extends BDInterfaz {
     }
 
     @Override
-    public String find(int id) {
+    public Model find(int id) {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
