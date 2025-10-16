@@ -9,6 +9,6 @@ public abstract class BDInterfaz {
 
     abstract String find(int id) throws IOException;
     abstract void insert(Model model) throws IOException;
-    abstract boolean update(Model model) throws IOException;
+    abstract boolean update(Model model);
     abstract boolean delete(int id) throws IOException;
 }
