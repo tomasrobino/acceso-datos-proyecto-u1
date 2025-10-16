@@ -65,7 +65,7 @@ public class CSV extends BDInterfaz {
         br.close();
         bw.close();
 
-        if (!file1.delete() && file2.renameTo(file1)) throw new IOException();
+        if (!file1.delete() || !file2.renameTo(file1)) throw new IOException();
         return ret;
     }
 
@@ -87,7 +87,7 @@ public class CSV extends BDInterfaz {
         br.close();
         bw.close();
 
-        if (!file1.delete() && file2.renameTo(file1)) throw new IOException();
+        if (!file1.delete() || !file2.renameTo(file1)) throw new IOException();
         return ret;
     }
 }
