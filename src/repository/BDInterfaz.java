@@ -8,7 +8,7 @@ public abstract class BDInterfaz implements Serializable {
     protected String uri;
 
     abstract BDInterfaz get(String uri);
-    abstract String find(int id);
+    abstract Model find(int id);
     abstract boolean insert(Model model);
     abstract boolean update(Model model);
     abstract boolean delete(int id);

@@ -2,6 +2,7 @@ package repository;
 
 import model.*;
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -31,7 +32,7 @@ public class XML extends BDInterfaz {
     }
 
     @Override
-    public String find(int id) {
+    public Model find(int id) {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -39,8 +40,28 @@ public class XML extends BDInterfaz {
             Node nodoRaiz = documento.getDocumentElement();
             NodeList lista = nodoRaiz.getChildNodes();
             for (int i = 0; i < lista.getLength(); i++) {
-                if (Integer.parseInt(lista.item(i).getAttributes().getNamedItem("id").getTextContent()) == id ) {
-                    return lista.item(i).getTextContent();
+                NamedNodeMap item = lista.item(i).getAttributes();
+                if (Integer.parseInt(item.getNamedItem("id").getTextContent()) == id ) {
+                    switch (lista.item(i).getNodeName()) {
+                        case "asignatura":
+                            return new Asignatura(
+                                    Integer.parseInt(item.getNamedItem("id").getTextContent()),
+                                    item.getNamedItem("nombre").getTextContent(),
+                                    Integer.parseInt(item.getNamedItem("creditos").getTextContent()),
+                                    item.getNamedItem("xmlName").getTextContent()
+                            );
+                        case "estudiante":
+                            return new Estudiante(
+                                    Integer.parseInt(item.getNamedItem("id").getTextContent()),
+                                    item.getNamedItem("nombre").getTextContent(),
+                                    item.getNamedItem("email").getTextContent(),
+                                    item.getNamedItem("matriculas").getTextContent(),
+                                    item.getNamedItem("xmlName").getTextContent()
+                            );
+                        case "matricula":
+                            break;
+                        default: return null;
+                    }
                 }
             }
             return null;
