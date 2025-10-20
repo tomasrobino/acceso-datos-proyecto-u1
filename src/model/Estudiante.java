@@ -67,17 +67,7 @@ public class Estudiante extends Model {
     }
 
     @Override
-    public Model unstringifyCSV(String string) {
-        return null;
-    }
-
-    @Override
     public String stringifyXML() {
         return "";
-    }
-
-    @Override
-    public Model unstringifyXML(String string) {
-        return null;
     }
 }

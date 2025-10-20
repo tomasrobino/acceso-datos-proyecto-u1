@@ -31,7 +31,7 @@ public class XML extends BDInterfaz {
     }
 
     @Override
-    public Model find(int id) {
+    public String find(int id) {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -40,7 +40,7 @@ public class XML extends BDInterfaz {
             NodeList lista = nodoRaiz.getChildNodes();
             for (int i = 0; i < lista.getLength(); i++) {
                 if (Integer.parseInt(lista.item(i).getAttributes().getNamedItem("id").getTextContent()) == id ) {
-                    return lista.item(i).toString();
+                    return lista.item(i).getTextContent();
                 }
             }
             return null;

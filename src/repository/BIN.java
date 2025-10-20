@@ -20,7 +20,7 @@ public class BIN extends BDInterfaz{
     }
 
     @Override
-    Model find(int id) {
+    String find(int id) {
         try {
             FileInputStream fis = new FileInputStream(uri);
             ObjectInputStream in = new ObjectInputStream(fis);
