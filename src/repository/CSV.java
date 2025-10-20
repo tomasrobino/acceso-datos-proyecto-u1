@@ -39,7 +39,6 @@ public class CSV extends BDInterfaz {
         } catch (IOException e) {
             return null;
         }
-
     }
 
     @Override

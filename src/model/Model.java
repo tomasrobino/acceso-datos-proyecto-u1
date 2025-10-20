@@ -7,7 +7,9 @@ public abstract class Model implements Serializable {
     protected String xmlName;
 
     public abstract String stringifyCSV();
+    public abstract Model unstringifyCSV(String string);
     public abstract String stringifyXML();
+    public abstract Model unstringifyXML(String string);
     //TODO sql
 
 

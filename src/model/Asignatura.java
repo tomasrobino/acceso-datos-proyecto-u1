@@ -17,8 +17,19 @@ public class Asignatura extends Model {
     }
 
     @Override
+    public Model unstringifyCSV(String string) {
+        String[] list = string.split(",");
+        return new Asignatura(Integer.parseInt(list[0]), list[1], Integer.parseInt(list[2]), list[3]);
+    }
+
+    @Override
     public String stringifyXML() {
         return "<"+xmlName+">\n\t<id>"+id+"</id>\n\t<nombre>"+nombre+"</nombre>\n\t<creditos>"+creditos+"</creditos>\n</"+xmlName+">";
+    }
+
+    @Override
+    public Model unstringifyXML(String string) {
+        return null;
     }
 
     public String getNombre() {
