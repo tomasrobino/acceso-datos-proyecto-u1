@@ -14,4 +14,8 @@ public abstract class BDInterfaz {
     public abstract boolean insert(Model model);
     public abstract boolean update(Model model);
     public abstract boolean delete(int id);
+
+    public String getUri() {
+        return uri;
+    }
 }
