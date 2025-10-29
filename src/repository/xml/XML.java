@@ -22,16 +22,16 @@ abstract class XML extends BDInterfaz {
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.newDocument();
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(uri));
-            transformer.transform(source, result);
             Node nodoRaiz = doc.getDocumentElement();
             NodeList lista = nodoRaiz.getChildNodes();
             for (int i = 0; i < lista.getLength(); i++) {
                 if (Integer.parseInt(lista.item(i).getAttributes().getNamedItem("id").getTextContent()) == id ) {
                     nodoRaiz.removeChild(lista.item(i));
+                    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                    Transformer transformer = transformerFactory.newTransformer();
+                    DOMSource source = new DOMSource(doc);
+                    StreamResult result = new StreamResult(new File(uri));
+                    transformer.transform(source, result);
                     return true;
                 }
             }
