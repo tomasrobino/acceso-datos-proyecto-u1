@@ -5,6 +5,7 @@ import model.Model;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
 public class EstudianteSequencial extends BDInterfaz {
     private static EstudianteSequencial miEstudianteSequencial;
@@ -35,6 +36,24 @@ public class EstudianteSequencial extends BDInterfaz {
             in.close();
             fis.close();
             return null;
+        } catch(ClassNotFoundException | IOException e) {
+            return null;
+        }
+    }
+
+    @Override
+    ArrayList<Model> findAll() {
+        try {
+            FileInputStream fis = new FileInputStream(uri);
+            ObjectInputStream in = new ObjectInputStream(fis);
+            Model modelo;
+            ArrayList<Model> lista = new ArrayList<>();
+            while ( (modelo = (Model)in.readObject()) != null) {
+                lista.add(modelo);
+            }
+            in.close();
+            fis.close();
+            return lista;
         } catch(ClassNotFoundException | IOException e) {
             return null;
         }
