@@ -1,5 +1,6 @@
 package repository.sequencial;
 
+import model.Estudiante;
 import model.Model;
 import repository.BDInterfaz;
 
@@ -47,9 +48,9 @@ public class EstudianteSequencial extends BDInterfaz {
         try {
             FileInputStream fis = new FileInputStream(uri);
             ObjectInputStream in = new ObjectInputStream(fis);
-            Model modelo;
+            Estudiante modelo;
             ArrayList<Model> lista = new ArrayList<>();
-            while ( (modelo = (Model)in.readObject()) != null) {
+            while ( (modelo = (Estudiante) in.readObject()) != null) {
                 lista.add(modelo);
             }
             in.close();
