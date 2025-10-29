@@ -39,12 +39,30 @@ public class EstudianteXML extends XML {
             Node nodoRaiz = documento.getDocumentElement();
             NodeList lista = nodoRaiz.getChildNodes();
             for (int i = 0; i < lista.getLength(); i++) {
-                NamedNodeMap item = lista.item(i).getAttributes();
-                if (Integer.parseInt(item.getNamedItem("id").getTextContent()) == id ) {
+                Element item = (Element) lista.item(i);
+                if (Integer.parseInt(item.getElementsByTagName("id").item(0).getTextContent()) == id ) {
+                    Element matriculas = (Element) item.getElementsByTagName("matriculas").item(0);
+                    ArrayList<Matricula> listaMatriculas = new ArrayList<>();
+                    for (int j = 0; j < matriculas.getChildNodes().getLength(); j++) {
+                        Element matricula = (Element) matriculas.getChildNodes().item(j);
+                        Element asignatura = (Element) matricula.getElementsByTagName("asignatura").item(0);
+                        listaMatriculas.add(new Matricula(
+                                Integer.parseInt(matricula.getElementsByTagName("id").item(0).getTextContent()),
+                                Double.parseDouble(matricula.getElementsByTagName("nota").item(0).getTextContent()),
+                                matricula.getElementsByTagName("fecha").item(0).getTextContent(),
+                                new Asignatura(
+                                        Integer.parseInt(asignatura.getElementsByTagName("id").item(0).getTextContent()),
+                                        asignatura.getElementsByTagName("nombre").item(0).getTextContent(),
+                                        Integer.parseInt(asignatura.getElementsByTagName("creditos").item(0).getTextContent())
+                                )
+                        ));
+                    }
+
                     return new Estudiante(
-                            Integer.parseInt(item.getNamedItem("id").getTextContent()),
-                            item.getNamedItem("nombre").getTextContent(),
-                            item.getNamedItem("email").getTextContent()
+                            Integer.parseInt(item.getElementsByTagName("id").item(0).getTextContent()),
+                            item.getElementsByTagName("nombre").item(0).getTextContent(),
+                            item.getElementsByTagName("email").item(0).getTextContent(),
+                            listaMatriculas
                     );
                 }
             }
@@ -64,11 +82,29 @@ public class EstudianteXML extends XML {
             NodeList lista = nodoRaiz.getChildNodes();
             ArrayList<Model> listaEstudiantes = new ArrayList<>();
             for (int i = 0; i < lista.getLength(); i++) {
-                NamedNodeMap item = lista.item(i).getAttributes();
+                Element item = (Element) lista.item(i);
+                Element matriculas = (Element) item.getElementsByTagName("matriculas").item(0);
+                ArrayList<Matricula> listaMatriculas = new ArrayList<>();
+                for (int j = 0; j < matriculas.getChildNodes().getLength(); j++) {
+                    Element matricula = (Element) matriculas.getChildNodes().item(j);
+                    Element asignatura = (Element) matricula.getElementsByTagName("asignatura").item(0);
+                    listaMatriculas.add(new Matricula(
+                            Integer.parseInt(matricula.getElementsByTagName("id").item(0).getTextContent()),
+                            Double.parseDouble(matricula.getElementsByTagName("nota").item(0).getTextContent()),
+                            matricula.getElementsByTagName("fecha").item(0).getTextContent(),
+                            new Asignatura(
+                                    Integer.parseInt(asignatura.getElementsByTagName("id").item(0).getTextContent()),
+                                    asignatura.getElementsByTagName("nombre").item(0).getTextContent(),
+                                    Integer.parseInt(asignatura.getElementsByTagName("creditos").item(0).getTextContent())
+                            )
+                    ));
+                }
+
                 listaEstudiantes.add(new Estudiante(
-                        Integer.parseInt(item.getNamedItem("id").getTextContent()),
-                        item.getNamedItem("nombre").getTextContent(),
-                        item.getNamedItem("email").getTextContent()
+                        Integer.parseInt(item.getElementsByTagName("id").item(0).getTextContent()),
+                        item.getElementsByTagName("nombre").item(0).getTextContent(),
+                        item.getElementsByTagName("email").item(0).getTextContent(),
+                        listaMatriculas
                 ));
             }
             return listaEstudiantes;
@@ -141,22 +177,36 @@ public class EstudianteXML extends XML {
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.newDocument();
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(uri));
-            transformer.transform(source, result);
+
             Node nodoRaiz = doc.getDocumentElement();
             NodeList lista = nodoRaiz.getChildNodes();
             for (int i = 0; i < lista.getLength(); i++) {
-                if (Integer.parseInt(lista.item(i).getAttributes().getNamedItem("id").getTextContent()) == model.getId() ) {
-                    nodoRaiz.removeChild(lista.item(i));
-                    nodoRaiz.appendChild(  db.parse(new ByteArrayInputStream(model.stringifyXML().getBytes())).getDocumentElement()  );
+                Element estudiante = (Element) lista.item(i);
+                if (Integer.parseInt(estudiante.getElementsByTagName("id").item(0).getTextContent()) == model.getId() ) {
+                    estudiante.getElementsByTagName("nombre").item(0).setTextContent(((Estudiante)model).getNombre());
+                    estudiante.getElementsByTagName("email").item(0).setTextContent(((Estudiante)model).getEmail());
+                    Element matriculas = (Element) estudiante.getElementsByTagName("matriculas").item(0);
+                    ArrayList<Matricula> listaMatriculas = ((Estudiante)model).getMatriculas();
+                    for (int j = 0; j < listaMatriculas.size(); j++) {
+                        Element matricula = (Element) matriculas.getElementsByTagName("matricula").item(j);
+                        matricula.getElementsByTagName("nota").item(0).setTextContent(String.valueOf(listaMatriculas.get(j).getNota()));
+                        matricula.getElementsByTagName("fecha").item(0).setTextContent(listaMatriculas.get(j).getFecha());
+                        Element asignatura = (Element) matricula.getElementsByTagName("asignatura").item(0);
+                        asignatura.getElementsByTagName("id").item(0).setTextContent(String.valueOf(listaMatriculas.get(j).getAsignatura().getId()));
+                        asignatura.getElementsByTagName("nombre").item(0).setTextContent(listaMatriculas.get(j).getAsignatura().getNombre());
+                        asignatura.getElementsByTagName("creditos").item(0).setTextContent(String.valueOf(listaMatriculas.get(j).getAsignatura().getCreditos()));
+                    }
+
+                    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                    Transformer transformer = transformerFactory.newTransformer();
+                    DOMSource source = new DOMSource(doc);
+                    StreamResult result = new StreamResult(new File(uri));
+                    transformer.transform(source, result);
                     return true;
                 }
             }
             return false;
-        } catch (TransformerException | ParserConfigurationException | SAXException | IOException e) {
+        } catch (TransformerException | ParserConfigurationException e) {
             return false;
         }
     }
