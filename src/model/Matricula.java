@@ -1,7 +1,7 @@
 package model;
 
 public class Matricula extends Model {
-    private double nota;
+    private final double nota;
     private final String fecha;
     private final Asignatura asignatura;
 
@@ -12,16 +12,8 @@ public class Matricula extends Model {
         this.asignatura = asignatura;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public double getNota() {
         return nota;
-    }
-
-    public void setNota(double nota) {
-        this.nota = nota;
     }
 
     public String getFecha() {
@@ -37,8 +29,4 @@ public class Matricula extends Model {
         return "";
     }
 
-    @Override
-    public String stringifyXML() {
-        return "";
-    }
 }

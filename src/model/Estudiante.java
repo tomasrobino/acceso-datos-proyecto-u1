@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Estudiante extends Model {
     private final String nombre;
-    private String email;
+    private final String email;
     private final List<Matricula> matriculas;
 
     public Estudiante(int id, String nombre, String email, List<Matricula> matriculas) {
@@ -31,10 +31,6 @@ public class Estudiante extends Model {
         return Objects.equals(id, Estudiante.id) && Objects.equals(nombre, Estudiante.nombre);
     }
 
-    public int getId() {
-        return id;
-    }
-
     public String getNombre() {
         return nombre;
     }
@@ -43,20 +39,8 @@ public class Estudiante extends Model {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public List<Matricula> getMatriculas() {
         return matriculas;
-    }
-
-    public void addMatricula(Matricula matricula) {
-        this.matriculas.add(matricula);
-    }
-
-    public boolean removeMatricula(Matricula matricula) {
-        return this.matriculas.remove(matricula);
     }
 
     @Override
@@ -64,8 +48,4 @@ public class Estudiante extends Model {
         return "";
     }
 
-    @Override
-    public String stringifyXML() {
-        return "";
-    }
 }
