@@ -107,6 +107,7 @@ public class MatriculaXML extends XML {
             matricula.appendChild(doc.createElement("fecha").appendChild(
                     doc.createTextNode( ((Matricula)model).getFecha() )
             ));
+
             Element asignatura = doc.createElement("asignatura");
             asignatura.appendChild(doc.createElement("id").appendChild(
                     doc.createTextNode( String.valueOf(((Matricula)model).getAsignatura().getId()) )
@@ -117,6 +118,7 @@ public class MatriculaXML extends XML {
             asignatura.appendChild(doc.createElement("creditos").appendChild(
                     doc.createTextNode(String.valueOf(((Matricula)model).getAsignatura().getCreditos()))
             ));
+
             matricula.appendChild(asignatura);
             nodoRaiz.appendChild(matricula);
 
@@ -138,22 +140,30 @@ public class MatriculaXML extends XML {
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.newDocument();
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(uri));
-            transformer.transform(source, result);
-            Node nodoRaiz = doc.getDocumentElement();
-            NodeList lista = nodoRaiz.getChildNodes();
+
+            NodeList lista = doc.getElementsByTagName("matricula");
             for (int i = 0; i < lista.getLength(); i++) {
-                if (Integer.parseInt(lista.item(i).getAttributes().getNamedItem("id").getTextContent()) == model.getId() ) {
-                    nodoRaiz.removeChild(lista.item(i));
-                    nodoRaiz.appendChild(  db.parse(new ByteArrayInputStream(model.stringifyXML().getBytes())).getDocumentElement()  );
+                Element matricula = (Element) lista.item(i);
+                if (matricula.getElementsByTagName("id").item(0).getTextContent().equals(String.valueOf(model.getId()))) {
+                    matricula.getElementsByTagName("nota").item(0).setTextContent(String.valueOf(((Matricula)model).getNota()));
+                    matricula.getElementsByTagName("fecha").item(0).setTextContent(((Matricula)model).getFecha());
+
+                    Element asignatura = (Element) matricula.getElementsByTagName("asignatura").item(0);
+                    asignatura.getElementsByTagName("id").item(0).setTextContent(String.valueOf(((Matricula)model).getAsignatura().getId()));
+                    asignatura.getElementsByTagName("nombre").item(0).setTextContent(((Matricula)model).getAsignatura().getNombre());
+                    asignatura.getElementsByTagName("creditos").item(0).setTextContent(String.valueOf(((Matricula)model).getAsignatura().getCreditos()));
+
+
+                    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                    Transformer transformer = transformerFactory.newTransformer();
+                    DOMSource source = new DOMSource(doc);
+                    StreamResult result = new StreamResult(new File(uri));
+                    transformer.transform(source, result);
                     return true;
                 }
             }
             return false;
-        } catch (TransformerException | ParserConfigurationException | SAXException | IOException e) {
+        } catch (TransformerException | ParserConfigurationException e) {
             return false;
         }
     }
