@@ -1,10 +1,7 @@
 package repository.xml;
 
 import model.*;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import repository.BDInterfaz;
 
@@ -82,15 +79,60 @@ public class EstudianteXML extends XML {
 
     @Override
     public boolean insert(Model model) {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(uri));
-            bw.write("\n"+model.stringifyXML());
-            bw.close();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.newDocument();
+
+            Node nodoRaiz = doc.getDocumentElement();
+            Element estudiante = doc.createElement("estudiante");
+            estudiante.appendChild(doc.createElement("id").appendChild(
+                    doc.createTextNode( String.valueOf(model.getId()) )
+            ));
+            estudiante.appendChild(doc.createElement("nombre").appendChild(
+                    doc.createTextNode(((Estudiante)model).getNombre())
+            ));
+            estudiante.appendChild(doc.createElement("email").appendChild(
+                    doc.createTextNode(((Estudiante)model).getEmail())
+            ));
+
+            ArrayList<Matricula> listaMatriculas = ((Estudiante)model).getMatriculas();
+            Element nodoMatriculas = (Element) estudiante.appendChild(doc.createElement("matriculas"));
+
+            for (int i = 0; i < listaMatriculas.size(); i++) {
+                Element matricula = (Element) nodoMatriculas.appendChild(doc.createElement("matricula"));
+                matricula.appendChild(doc.createElement("id").appendChild(
+                        doc.createTextNode( String.valueOf(listaMatriculas.get(i).getId()) )
+                ));
+                matricula.appendChild(doc.createElement("nota").appendChild(
+                        doc.createTextNode(String.valueOf(listaMatriculas.get(i).getNota())) )
+                );
+                matricula.appendChild(doc.createElement("fecha").appendChild(
+                        doc.createTextNode( listaMatriculas.get(i).getFecha() )
+                ));
+                Element asignatura = (Element) matricula.appendChild(doc.createElement("asignatura"));
+                asignatura.appendChild(doc.createElement("id").appendChild(
+                        doc.createTextNode( String.valueOf(listaMatriculas.get(i).getAsignatura().getId()) )
+                ));
+                asignatura.appendChild(doc.createElement("nombre").appendChild(
+                        doc.createTextNode(listaMatriculas.get(i).getAsignatura().getNombre())
+                ));
+                asignatura.appendChild(doc.createElement("creditos").appendChild(
+                        doc.createTextNode(String.valueOf(listaMatriculas.get(i).getAsignatura().getCreditos()))
+                ));
+            }
+
+            nodoRaiz.appendChild(estudiante);
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File(uri));
+            transformer.transform(source, result);
             return true;
-        } catch (IOException e) {
+        } catch (TransformerException | ParserConfigurationException e) {
             return false;
         }
-
     }
 
     @Override

@@ -39,17 +39,17 @@ public class MatriculaXML extends XML {
             Node nodoRaiz = documento.getDocumentElement();
             NodeList lista = nodoRaiz.getChildNodes();
             for (int i = 0; i < lista.getLength(); i++) {
-                NamedNodeMap item = lista.item(i).getAttributes();
-                if (Integer.parseInt(item.getNamedItem("id").getTextContent()) == id ) {
-                    NamedNodeMap asignatura = item.getNamedItem("asignatura").getAttributes();
+                Element item = (Element) lista.item(i);
+                if (Integer.parseInt(item.getElementsByTagName("id").item(0).getTextContent()) == id ) {
+                    Element asignatura = (Element) item.getElementsByTagName("asignatura").item(0);
                     return new Matricula(
-                            Integer.parseInt(item.getNamedItem("id").getTextContent()),
-                            Double.parseDouble(item.getNamedItem("nota").getTextContent()),
-                            item.getNamedItem("fecha").getTextContent(),
+                            Integer.parseInt(item.getElementsByTagName("id").item(0).getTextContent()),
+                            Double.parseDouble(item.getElementsByTagName("nota").item(0).getTextContent()),
+                            item.getElementsByTagName("fecha").item(0).getTextContent(),
                             new Asignatura(
-                                    Integer.parseInt(asignatura.getNamedItem("id").getTextContent()),
-                                    asignatura.getNamedItem("nombre").getTextContent(),
-                                    Integer.parseInt(asignatura.getNamedItem("creditos").getTextContent())
+                                    Integer.parseInt(asignatura.getElementsByTagName("id").item(0).getTextContent()),
+                                    asignatura.getElementsByTagName("nombre").item(0).getTextContent(),
+                                    Integer.parseInt(asignatura.getElementsByTagName("creditos").item(0).getTextContent())
                             )
                     );
                 }
@@ -70,16 +70,16 @@ public class MatriculaXML extends XML {
             NodeList lista = nodoRaiz.getChildNodes();
             ArrayList<Model> listaMatriculas = new ArrayList<>();
             for (int i = 0; i < lista.getLength(); i++) {
-                NamedNodeMap item = lista.item(i).getAttributes();
-                NamedNodeMap asignatura = item.getNamedItem("asignatura").getAttributes();
+                Element item = (Element) lista.item(i);
+                Element asignatura = (Element) item.getElementsByTagName("asignatura").item(0);
                 listaMatriculas.add(new Matricula(
-                        Integer.parseInt(item.getNamedItem("id").getTextContent()),
-                        Double.parseDouble(item.getNamedItem("nota").getTextContent()),
-                        item.getNamedItem("fecha").getTextContent(),
+                        Integer.parseInt(item.getElementsByTagName("id").item(0).getTextContent()),
+                        Double.parseDouble(item.getElementsByTagName("nota").item(0).getTextContent()),
+                        item.getElementsByTagName("fecha").item(0).getTextContent(),
                         new Asignatura(
-                                Integer.parseInt(asignatura.getNamedItem("id").getTextContent()),
-                                asignatura.getNamedItem("nombre").getTextContent(),
-                                Integer.parseInt(asignatura.getNamedItem("creditos").getTextContent())
+                                Integer.parseInt(asignatura.getElementsByTagName("id").item(0).getTextContent()),
+                                asignatura.getElementsByTagName("nombre").item(0).getTextContent(),
+                                Integer.parseInt(asignatura.getElementsByTagName("creditos").item(0).getTextContent())
                         )
                 ));
             }
@@ -131,7 +131,6 @@ public class MatriculaXML extends XML {
         } catch (TransformerException | ParserConfigurationException e) {
             return false;
         }
-
     }
 
     @Override

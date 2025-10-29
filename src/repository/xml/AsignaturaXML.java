@@ -1,10 +1,7 @@
 package repository.xml;
 
 import model.*;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import repository.BDInterfaz;
 
@@ -82,15 +79,34 @@ public class AsignaturaXML extends XML {
 
     @Override
     public boolean insert(Model model) {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(uri));
-            bw.write("\n"+model.stringifyXML());
-            bw.close();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.newDocument();
+
+            Node nodoRaiz = doc.getDocumentElement();
+            Element asignatura = doc.createElement("asignatura");
+            asignatura.appendChild(doc.createElement("id").appendChild(
+                    doc.createTextNode( String.valueOf(model.getId()) )
+            ));
+            asignatura.appendChild(doc.createElement("nombre").appendChild(
+                    doc.createTextNode(((Asignatura)model).getNombre())
+            ));
+            asignatura.appendChild(doc.createElement("creditos").appendChild(
+                    doc.createTextNode(String.valueOf(((Asignatura)model).getCreditos()))
+            ));
+            
+            nodoRaiz.appendChild(asignatura);
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File(uri));
+            transformer.transform(source, result);
             return true;
-        } catch (IOException e) {
+        } catch (TransformerException | ParserConfigurationException e) {
             return false;
         }
-
     }
 
     @Override
@@ -99,22 +115,24 @@ public class AsignaturaXML extends XML {
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.newDocument();
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(uri));
-            transformer.transform(source, result);
-            Node nodoRaiz = doc.getDocumentElement();
-            NodeList lista = nodoRaiz.getChildNodes();
+
+            NodeList lista = doc.getElementsByTagName("asignatura");
             for (int i = 0; i < lista.getLength(); i++) {
-                if (Integer.parseInt(lista.item(i).getAttributes().getNamedItem("id").getTextContent()) == model.getId() ) {
-                    nodoRaiz.removeChild(lista.item(i));
-                    nodoRaiz.appendChild(  db.parse(new ByteArrayInputStream(model.stringifyXML().getBytes())).getDocumentElement()  );
+                Element asignatura = (Element) lista.item(i);
+                if (asignatura.getElementsByTagName("id").item(0).getTextContent().equals(String.valueOf(model.getId()))) {
+                    asignatura.getElementsByTagName("nombre").item(0).setTextContent(((Asignatura)model).getNombre());
+                    asignatura.getElementsByTagName("creditos").item(0).setTextContent(String.valueOf(((Asignatura)model).getCreditos()));
+                    
+                    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                    Transformer transformer = transformerFactory.newTransformer();
+                    DOMSource source = new DOMSource(doc);
+                    StreamResult result = new StreamResult(new File(uri));
+                    transformer.transform(source, result);
                     return true;
                 }
             }
             return false;
-        } catch (TransformerException | ParserConfigurationException | SAXException | IOException e) {
+        } catch (TransformerException | ParserConfigurationException e) {
             return false;
         }
     }
