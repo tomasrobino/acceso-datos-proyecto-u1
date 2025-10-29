@@ -6,7 +6,7 @@ import repository.BDInterfaz;
 import java.io.*;
 import java.util.ArrayList;
 
-public abstract class Secuencial extends BDInterfaz {
+abstract class Secuencial extends BDInterfaz {
     @Override
     public BDInterfaz get(String uri) {
         return null;
