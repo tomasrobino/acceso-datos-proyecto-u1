@@ -7,9 +7,9 @@ import java.util.Objects;
 public class Estudiante extends Model {
     private final String nombre;
     private final String email;
-    private final List<Matricula> matriculas;
+    private final ArrayList<Matricula> matriculas;
 
-    public Estudiante(int id, String nombre, String email, List<Matricula> matriculas) {
+    public Estudiante(int id, String nombre, String email, ArrayList<Matricula> matriculas) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
