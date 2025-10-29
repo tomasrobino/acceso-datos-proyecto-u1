@@ -7,17 +7,17 @@ import repository.BDInterfaz;
 import java.io.*;
 import java.util.ArrayList;
 
-public class MatriculaSequencial extends BDInterfaz {
-    private static MatriculaSequencial miEstudianteSequencial;
+public class MatriculaSecuencial extends BDInterfaz {
+    private static MatriculaSecuencial miEstudianteSequencial;
 
-    private MatriculaSequencial(String uri) {
+    private MatriculaSecuencial(String uri) {
         this.uri = uri;
     }
 
     @Override
     public BDInterfaz get(String uri) {
         if (miEstudianteSequencial == null) {
-            miEstudianteSequencial = new MatriculaSequencial(uri);
+            miEstudianteSequencial = new MatriculaSecuencial(uri);
         }
         return miEstudianteSequencial;
     }
