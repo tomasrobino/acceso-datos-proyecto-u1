@@ -39,12 +39,12 @@ public class AsignaturaXML extends XML {
             Node nodoRaiz = documento.getDocumentElement();
             NodeList lista = nodoRaiz.getChildNodes();
             for (int i = 0; i < lista.getLength(); i++) {
-                NamedNodeMap item = lista.item(i).getAttributes();
-                if (Integer.parseInt(item.getNamedItem("id").getTextContent()) == id ) {
-                    return new Asignatura(
-                            Integer.parseInt(item.getNamedItem("id").getTextContent()),
-                            item.getNamedItem("nombre").getTextContent(),
-                            Integer.parseInt(item.getNamedItem("creditos").getTextContent())
+                Element item = (Element) lista.item(i);
+                if (Integer.parseInt(item.getElementsByTagName("id").item(0).getTextContent()) == id ) {
+                    new Asignatura(
+                            Integer.parseInt(item.getElementsByTagName("id").item(0).getTextContent()),
+                            item.getElementsByTagName("nombre").item(0).getTextContent(),
+                            Integer.parseInt(item.getElementsByTagName("creditos").item(0).getTextContent())
                     );
                 }
             }
@@ -64,11 +64,11 @@ public class AsignaturaXML extends XML {
             NodeList lista = nodoRaiz.getChildNodes();
             ArrayList<Model> listaAsignaturas = new ArrayList<>();
             for (int i = 0; i < lista.getLength(); i++) {
-                NamedNodeMap item = lista.item(i).getAttributes();
+                Element item = (Element) lista.item(i);
                 listaAsignaturas.add(new Asignatura(
-                        Integer.parseInt(item.getNamedItem("id").getTextContent()),
-                        item.getNamedItem("nombre").getTextContent(),
-                        Integer.parseInt(item.getNamedItem("creditos").getTextContent())
+                        Integer.parseInt(item.getElementsByTagName("id").item(0).getTextContent()),
+                        item.getElementsByTagName("nombre").item(0).getTextContent(),
+                        Integer.parseInt(item.getElementsByTagName("creditos").item(0).getTextContent())
                 ));
             }
             return listaAsignaturas;
