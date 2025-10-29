@@ -4,9 +4,7 @@ import model.Estudiante;
 import model.Model;
 import repository.BDInterfaz;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.util.ArrayList;
 
 public class EstudianteSequencial extends BDInterfaz {
@@ -63,7 +61,17 @@ public class EstudianteSequencial extends BDInterfaz {
 
     @Override
     public boolean insert(Model model) {
-        return false;
+        FileOutputStream fos;
+        try {
+            fos = new FileOutputStream(uri);
+            ObjectOutputStream out = new ObjectOutputStream(fos);
+            out.writeObject(model);
+            out.close();
+            fos.close();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     @Override
