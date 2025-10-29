@@ -1,13 +1,12 @@
 package model;
 
-import java.util.Date;
-
 public class Matricula extends Model {
     private double nota;
-    private final Date fecha;
+    private final String fecha;
     private final Asignatura asignatura;
 
-    public Matricula(double nota, Date fecha, Asignatura asignatura, String xmlName) {
+    public Matricula(int id, double nota, String fecha, Asignatura asignatura, String xmlName) {
+        this.id = id;
         this.nota = nota;
         this.fecha = fecha;
         this.asignatura = asignatura;
@@ -26,7 +25,7 @@ public class Matricula extends Model {
         this.nota = nota;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 

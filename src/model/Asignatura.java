@@ -11,14 +11,6 @@ public class Asignatura extends Model {
         this.xmlName = xmlName;
     }
 
-    public Asignatura(String string) {
-        String[] list = string.split(",");
-        this.id = Integer.parseInt(list[0]);
-        this.nombre = list[1];
-        this.creditos = Integer.parseInt(list[2]);
-        this.xmlName = list[3];
-    }
-
     @Override
     public String stringifyCSV() {
         return id+","+nombre+","+"creditos";
