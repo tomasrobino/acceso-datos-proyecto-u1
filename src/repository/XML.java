@@ -16,11 +16,12 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
+import java.util.ArrayList;
 
 public class XML extends BDInterfaz {
     private static XML miXML;
 
-    BDInterfaz get(String uri) {
+    public BDInterfaz get(String uri) {
         if (miXML == null) {
             miXML = new XML(uri);
         }
@@ -71,7 +72,12 @@ public class XML extends BDInterfaz {
     }
 
     @Override
-    boolean insert(Model model) {
+    public ArrayList<Model> findAll() {
+        return null;
+    }
+
+    @Override
+    public boolean insert(Model model) {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(uri));
             bw.write("\n"+model.stringifyXML());
@@ -84,7 +90,7 @@ public class XML extends BDInterfaz {
     }
 
     @Override
-    boolean update(Model model) {
+    public boolean update(Model model) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();

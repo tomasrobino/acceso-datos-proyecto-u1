@@ -8,10 +8,10 @@ import java.util.ArrayList;
 public abstract class BDInterfaz {
     protected String uri;
 
-    abstract BDInterfaz get(String uri);
-    abstract Model find(int id);
-    abstract ArrayList<Model> findAll();
-    abstract boolean insert(Model model);
-    abstract boolean update(Model model);
-    abstract boolean delete(int id);
+    public abstract BDInterfaz get(String uri);
+    public abstract Model find(int id);
+    public abstract ArrayList<Model> findAll();
+    public abstract boolean insert(Model model);
+    public abstract boolean update(Model model);
+    public abstract boolean delete(int id);
 }

@@ -1,29 +1,30 @@
-package repository;
+package repository.sequencial;
 
 import model.Model;
+import repository.BDInterfaz;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
-public class MatriculaSequencial extends BDInterfaz {
-    private static MatriculaSequencial miEstudianteSequencial;
+public class EstudianteSequencial extends BDInterfaz {
+    private static EstudianteSequencial miEstudianteSequencial;
 
-    private MatriculaSequencial(String uri) {
+    private EstudianteSequencial(String uri) {
         this.uri = uri;
     }
 
     @Override
-    BDInterfaz get(String uri) {
+    public BDInterfaz get(String uri) {
         if (miEstudianteSequencial == null) {
-            miEstudianteSequencial = new MatriculaSequencial(uri);
+            miEstudianteSequencial = new EstudianteSequencial(uri);
         }
         return miEstudianteSequencial;
     }
 
     @Override
-    Model find(int id) {
+    public Model find(int id) {
         try {
             FileInputStream fis = new FileInputStream(uri);
             ObjectInputStream in = new ObjectInputStream(fis);
@@ -42,7 +43,7 @@ public class MatriculaSequencial extends BDInterfaz {
     }
 
     @Override
-    ArrayList<Model> findAll() {
+    public ArrayList<Model> findAll() {
         try {
             FileInputStream fis = new FileInputStream(uri);
             ObjectInputStream in = new ObjectInputStream(fis);
@@ -60,17 +61,17 @@ public class MatriculaSequencial extends BDInterfaz {
     }
 
     @Override
-    boolean insert(Model model) {
+    public boolean insert(Model model) {
         return false;
     }
 
     @Override
-    boolean update(Model model) {
+    public boolean update(Model model) {
         return false;
     }
 
     @Override
-    boolean delete(int id) {
+    public boolean delete(int id) {
         return false;
     }
 }

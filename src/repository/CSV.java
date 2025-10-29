@@ -3,11 +3,12 @@ package repository;
 import model.Model;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class CSV extends BDInterfaz {
     private static CSV miCSV = null;
 
-    BDInterfaz get(String uri) {
+    public BDInterfaz get(String uri) {
         if (miCSV == null) {
             miCSV = new CSV(uri);
         }
@@ -23,7 +24,7 @@ public class CSV extends BDInterfaz {
     }
 
     @Override
-    Model find(int id) {
+    public Model find(int id) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(uri));
             String line;
@@ -42,7 +43,12 @@ public class CSV extends BDInterfaz {
     }
 
     @Override
-    boolean insert(Model model) {
+    public ArrayList<Model> findAll() {
+        return null;
+    }
+
+    @Override
+    public boolean insert(Model model) {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(uri, true));
             bw.write(model.stringifyCSV());
@@ -54,7 +60,7 @@ public class CSV extends BDInterfaz {
     }
 
     @Override
-    boolean update(Model model) {
+    public boolean update(Model model) {
         File file1 = new File(uri);
         File file2 = new File(uri+"_temp");
         boolean ret = false;
@@ -84,7 +90,7 @@ public class CSV extends BDInterfaz {
     }
 
     @Override
-    boolean delete(int id) {
+    public boolean delete(int id) {
         File file1 = new File(uri);
         File file2 = new File(uri+"_temp");
         boolean ret = false;
