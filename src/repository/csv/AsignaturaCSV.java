@@ -30,7 +30,7 @@ public class AsignaturaCSV extends CSV {
                 String[] data = line.split(",");
                 if (Integer.parseInt(data[0]) == id) {
                     br.close();
-                    return new Asignatura(id, data[1], Integer.parseInt(data[2]), data[3]);
+                    return new Asignatura(id, data[1], Integer.parseInt(data[2]));
                 }
             }
             br.close();
@@ -48,7 +48,7 @@ public class AsignaturaCSV extends CSV {
             ArrayList<Model> lista = new ArrayList<>();
             while ( (line = br.readLine()) != null ) {
                 String[] data = line.split(",");
-                lista.add(new Asignatura(Integer.parseInt(data[0]), data[1], Integer.parseInt(data[2]), data[3]));
+                lista.add(new Asignatura(Integer.parseInt(data[0]), data[1], Integer.parseInt(data[2])));
             }
             br.close();
             return lista;

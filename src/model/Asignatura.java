@@ -4,11 +4,10 @@ public class Asignatura extends Model {
     private String nombre;
     private int creditos;
 
-    public Asignatura(int id, String nombre, int creditos, String xmlName) {
+    public Asignatura(int id, String nombre, int creditos) {
         this.id = id;
         this.nombre = nombre;
         this.creditos = creditos;
-        this.xmlName = xmlName;
     }
 
     @Override

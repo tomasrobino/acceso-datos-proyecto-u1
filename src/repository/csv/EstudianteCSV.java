@@ -30,7 +30,7 @@ public class EstudianteCSV extends CSV {
                 String[] data = line.split(",");
                 if (Integer.parseInt(data[0]) == id) {
                     br.close();
-                    return new Estudiante(id, data[1], data[2], data[3]);
+                    return new Estudiante(id, data[1], data[2]);
                 }
             }
             br.close();
@@ -48,7 +48,7 @@ public class EstudianteCSV extends CSV {
             ArrayList<Model> lista = new ArrayList<>();
             while ( (line = br.readLine()) != null ) {
                 String[] data = line.split(",");
-                lista.add(new Estudiante(Integer.parseInt(data[0]), data[1], data[2], data[3]));
+                lista.add(new Estudiante(Integer.parseInt(data[0]), data[1], data[2]));
             }
             br.close();
             return lista;
