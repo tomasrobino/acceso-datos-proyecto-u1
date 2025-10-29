@@ -2,21 +2,23 @@ package repository;
 
 import model.Model;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
-public class BIN extends BDInterfaz{
-    private static BIN miBIN;
+public class EstudianteSequencial extends BDInterfaz {
+    private static EstudianteSequencial miEstudianteSequencial;
 
-    private BIN(String uri) {
+    private EstudianteSequencial(String uri) {
         this.uri = uri;
     }
 
     @Override
     BDInterfaz get(String uri) {
-        if (miBIN == null) {
-            miBIN = new BIN(uri);
+        if (miEstudianteSequencial == null) {
+            miEstudianteSequencial = new EstudianteSequencial(uri);
         }
-        return miBIN;
+        return miEstudianteSequencial;
     }
 
     @Override

@@ -1,0 +1,57 @@
+package repository;
+
+import model.Model;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
+public class MatriculaSequencial extends BDInterfaz {
+    private static MatriculaSequencial miEstudianteSequencial;
+
+    private MatriculaSequencial(String uri) {
+        this.uri = uri;
+    }
+
+    @Override
+    BDInterfaz get(String uri) {
+        if (miEstudianteSequencial == null) {
+            miEstudianteSequencial = new MatriculaSequencial(uri);
+        }
+        return miEstudianteSequencial;
+    }
+
+    @Override
+    Model find(int id) {
+        try {
+            FileInputStream fis = new FileInputStream(uri);
+            ObjectInputStream in = new ObjectInputStream(fis);
+            Model modelo;
+            while ( (modelo = (Model)in.readObject()) != null) {
+                if (modelo.getId() == id) {
+                    return modelo;
+                }
+            }
+            in.close();
+            fis.close();
+            return null;
+        } catch(ClassNotFoundException | IOException e) {
+            return null;
+        }
+    }
+
+    @Override
+    boolean insert(Model model) {
+        return false;
+    }
+
+    @Override
+    boolean update(Model model) {
+        return false;
+    }
+
+    @Override
+    boolean delete(int id) {
+        return false;
+    }
+}
