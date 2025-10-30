@@ -20,7 +20,9 @@ public class AsignaturaService {
     public ArrayList<Asignatura> listarTodas() {
         ArrayList<Model> modelos = repository.findAll();
         ArrayList<Asignatura> asignaturas = new ArrayList<>();
-        for (int i = 0; i < modelos.size(); i++) {
+        if (modelos == null) {
+            return asignaturas;
+        }        for (int i = 0; i < modelos.size(); i++) {
             asignaturas.set(i, (Asignatura) modelos.get(i));
         }
         return asignaturas;

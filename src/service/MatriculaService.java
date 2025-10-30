@@ -20,6 +20,9 @@ public class MatriculaService {
     public ArrayList<Matricula> listarTodas() {
         ArrayList<Model> modelos = repository.findAll();
         ArrayList<Matricula> matriculas = new ArrayList<>();
+        if (modelos == null) {
+            return matriculas;
+        }
         for (int i = 0; i < modelos.size(); i++) {
             matriculas.set(i, (Matricula) modelos.get(i));
         }

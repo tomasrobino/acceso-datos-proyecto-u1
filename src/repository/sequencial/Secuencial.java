@@ -36,14 +36,18 @@ abstract class Secuencial extends BDInterfaz {
         try {
             FileInputStream fis = new FileInputStream(uri);
             ObjectInputStream in = new ObjectInputStream(fis);
-            Model modelo;
             ArrayList<Model> lista = new ArrayList<>();
-            while ( (modelo = (Model) in.readObject()) != null) {
-                lista.add(modelo);
+            while (true) {
+                try {
+                    Model modelo = (Model) in.readObject();
+                    lista.add(modelo);
+                } catch (EOFException e) {
+                    in.close();
+                    fis.close();
+                    return lista;
+                }
             }
-            in.close();
-            fis.close();
-            return lista;
+
         } catch(ClassNotFoundException | IOException e) {
             return null;
         }
@@ -53,9 +57,13 @@ abstract class Secuencial extends BDInterfaz {
     public boolean insert(Model model) {
         FileOutputStream fos;
         try {
+            ArrayList<Model> lista = findAll();
+            lista.add(model);
             fos = new FileOutputStream(uri);
             ObjectOutputStream out = new ObjectOutputStream(fos);
-            out.writeObject(model);
+            for (Model value : lista) {
+                out.writeObject(value);
+            }
             out.close();
             fos.close();
             return true;

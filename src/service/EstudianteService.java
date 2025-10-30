@@ -20,8 +20,11 @@ public class EstudianteService {
     public ArrayList<Estudiante> listarTodas() {
         ArrayList<Model> modelos = repository.findAll();
         ArrayList<Estudiante> estudiantes = new ArrayList<>();
+        if (modelos == null) {
+            return estudiantes;
+        }
         for (int i = 0; i < modelos.size(); i++) {
-            estudiantes.set(i, (Estudiante) modelos.get(i));
+            estudiantes.add(i, (Estudiante) modelos.get(i));
         }
         return estudiantes;
     }
