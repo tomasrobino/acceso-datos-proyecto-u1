@@ -10,7 +10,7 @@ abstract class CSV extends BDInterfaz {
     public boolean insert(Model model) {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(uri, true));
-            bw.write(model.stringifyCSV());
+            bw.write(model.stringifyCSV()+";\n");
             bw.close();
             return true;
         } catch (IOException e) {
@@ -32,7 +32,7 @@ abstract class CSV extends BDInterfaz {
             while ( (line = br.readLine()) != null ) {
                 String[] data = line.split(",");
                 if (Integer.parseInt(data[0]) == model.getId()) {
-                    bw.write(model.stringifyCSV());
+                    bw.write(model.stringifyCSV()+";\n");
                     ret = true;
                 } else {
                     bw.write(line);

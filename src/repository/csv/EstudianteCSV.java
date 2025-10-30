@@ -27,6 +27,7 @@ public class EstudianteCSV extends CSV {
             BufferedReader br = new BufferedReader(new FileReader(uri));
             String line;
             while ( (line = br.readLine()) != null ) {
+                line = line.substring(0, line.length()-1);
                 String[] data = line.split(",");
                 if (Integer.parseInt(data[0]) == id) {
                     br.close();
@@ -47,6 +48,7 @@ public class EstudianteCSV extends CSV {
             String line;
             ArrayList<Model> lista = new ArrayList<>();
             while ( (line = br.readLine()) != null ) {
+                line = line.substring(0, line.length()-1);
                 String[] data = line.split(",");
                 lista.add(new Estudiante(Integer.parseInt(data[0]), data[1], data[2]));
             }
