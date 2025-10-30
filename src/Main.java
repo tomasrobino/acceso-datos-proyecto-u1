@@ -12,6 +12,7 @@ import service.AsignaturaService;
 import service.EstudianteService;
 import service.MatriculaService;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
@@ -34,21 +35,75 @@ public class Main {
         AsignaturaService as;
         MatriculaService ms;
 
+        File data = new File("src/data");
+        if (!data.exists()) {
+            data.mkdir();
+        }
+
         switch (persistenceType) {
             case "binary":
                 es = new EstudianteService(new EstudianteSecuencial("src/data/estudiantes.bin"));
                 as = new AsignaturaService(new AsignaturaSecuencial("src/data/asignaturas.bin"));
                 ms = new MatriculaService(new MatriculaSecuencial("src/data/matriculas.bin"));
+                try {
+                    File file = new File("src/data/estudiantes.bin");
+                    if (!file.exists()) {
+                        file.createNewFile();
+                    }
+                    file = new File("src/data/asignaturas.bin");
+                    if (!file.exists()) {
+                        file.createNewFile();
+                    }
+                    file = new File("src/data/matriculas.bin");
+                    if (!file.exists()) {
+                        file.createNewFile();
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
                 break;
             case "csv":
                 es = new EstudianteService(new EstudianteCSV("src/data/estudiantes.csv"));
                 as = new AsignaturaService(new AsignaturaCSV("src/data/asignaturas.csv"));
                 ms = new MatriculaService(new MatriculaCSV("src/data/matriculas.csv"));
+                try {
+                    File file = new File("src/data/estudiantes.csv");
+                    if (!file.exists()) {
+                        file.createNewFile();
+                    }
+                    file = new File("src/data/asignaturas.csv");
+                    if (!file.exists()) {
+                        file.createNewFile();
+                    }
+                    file = new File("src/data/matriculas.csv");
+                    if (!file.exists()) {
+                        file.createNewFile();
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 break;
             case "xml":
                 es = new EstudianteService(new EstudianteXML("src/data/estudiantes.xml"));
                 as = new AsignaturaService(new AsignaturaXML("src/data/asignaturas.xml"));
                 ms = new MatriculaService(new MatriculaXML("src/data/matriculas.xml"));
+                try {
+                    File file = new File("src/data/estudiantes.xml");
+                    if (!file.exists()) {
+                        file.createNewFile();
+                    }
+                    file = new File("src/data/asignaturas.xml");
+                    if (!file.exists()) {
+                        file.createNewFile();
+                    }
+                    file = new File("src/data/matriculas.xml");
+                    if (!file.exists()) {
+                        file.createNewFile();
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 break;
             default:
                 throw new IllegalArgumentException("Invalid persistence type: " + persistenceType);
