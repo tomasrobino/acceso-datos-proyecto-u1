@@ -1,6 +1,7 @@
 package service;
 
 import model.Matricula;
+import model.Model;
 import repository.BDInterfaz;
 
 import java.util.ArrayList;
@@ -17,15 +18,10 @@ public class MatriculaService {
     }
 
     public ArrayList<Matricula> listarTodas() {
+        ArrayList<Model> modelos = repository.findAll();
         ArrayList<Matricula> matriculas = new ArrayList<>();
-        ArrayList<?> modelos = repository.findAll();
-
-        if (modelos != null) {
-            for (Object modelo : modelos) {
-                if (modelo instanceof Matricula) {
-                    matriculas.add((Matricula) modelo);
-                }
-            }
+        for (int i = 0; i < modelos.size(); i++) {
+            matriculas.set(i, (Matricula) modelos.get(i));
         }
         return matriculas;
     }

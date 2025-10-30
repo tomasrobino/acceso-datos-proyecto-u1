@@ -1,6 +1,7 @@
 package service;
 
 import model.Estudiante;
+import model.Model;
 import repository.BDInterfaz;
 
 import java.util.ArrayList;
@@ -17,15 +18,10 @@ public class EstudianteService {
     }
 
     public ArrayList<Estudiante> listarTodas() {
+        ArrayList<Model> modelos = repository.findAll();
         ArrayList<Estudiante> estudiantes = new ArrayList<>();
-        ArrayList<?> modelos = repository.findAll();
-
-        if (modelos != null) {
-            for (Object modelo : modelos) {
-                if (modelo instanceof Estudiante) {
-                    estudiantes.add((Estudiante) modelo);
-                }
-            }
+        for (int i = 0; i < modelos.size(); i++) {
+            estudiantes.set(i, (Estudiante) modelos.get(i));
         }
         return estudiantes;
     }
