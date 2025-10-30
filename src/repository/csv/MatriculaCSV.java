@@ -18,7 +18,7 @@ public class MatriculaCSV extends CSV {
         return miMatriculaCSV;
     }
 
-    private MatriculaCSV(String uri) {
+    public MatriculaCSV(String uri) {
         this.uri = uri;
     }
 

@@ -26,7 +26,7 @@ public class AsignaturaXML extends XML {
         return miAsignaturaXML;
     }
 
-    private AsignaturaXML(String uri) {
+    public AsignaturaXML(String uri) {
         this.uri = uri;
     }
 

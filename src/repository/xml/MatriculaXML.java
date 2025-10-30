@@ -26,7 +26,7 @@ public class MatriculaXML extends XML {
         return miMatriculaXML;
     }
 
-    private MatriculaXML(String uri) {
+    public MatriculaXML(String uri) {
         this.uri = uri;
     }
 

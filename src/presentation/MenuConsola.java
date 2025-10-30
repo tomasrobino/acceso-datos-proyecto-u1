@@ -7,8 +7,6 @@ import service.AsignaturaService;
 import service.EstudianteService;
 import service.MatriculaService;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -44,7 +42,7 @@ public class MenuConsola {
             procesarOpcion(opcion);
         }
         
-        cerrar();
+        scanner.close();
     }
 
     private int leerOpcion() {
@@ -68,7 +66,7 @@ public class MenuConsola {
                 menuMatriculas();
                 break;
             case 4:
-                salir();
+                salir = true;
                 break;
             default:
                 System.out.println("Opción no válida. Por favor, intente nuevamente.");
@@ -537,19 +535,9 @@ public class MenuConsola {
             System.out.println("No hay matrículas registradas.");
             return;
         }
-
-        System.out.println("\n╔════════════════════════════════════════════════════════════════╗");
-        System.out.printf("║ %-5s ║ %-15s ║ %-15s ║ %-15s ║%n", "ID", "ID Estudiante", "ID Asignatura", "Fecha");
-        System.out.println("╠════════════════════════════════════════════════════════════════╣");
-
         for (Matricula matricula : matriculas) {
-            System.out.printf("║ %-5d ║ %-15d ║ %-15d ║ %-15s ║%n",
-                    matricula.getId(),
-                    matricula.getIdEstudiante(),
-                    matricula.getIdAsignatura(),
-                    matricula.getFechaMatricula().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            System.out.println("Id: "+matricula.getId()+" Nota: "+matricula.getNota()+" Fecha: "+matricula.getFecha()+" Asignatura id: "+matricula.getAsignatura().getId()+" Asignatura nombre: "+matricula.getAsignatura().getNombre()+" Asignatura creditos: "+matricula.getAsignatura().getCreditos());
         }
-        System.out.println("╚════════════════════════════════════════════════════════════════╝");
     }
 
     private void buscarMatricula() {
@@ -563,9 +551,11 @@ public class MenuConsola {
             if (matricula != null) {
                 System.out.println("\n✓ Matrícula encontrada:");
                 System.out.println("ID: " + matricula.getId());
-                System.out.println("ID Estudiante: " + matricula.getIdEstudiante());
-                System.out.println("ID Asignatura: " + matricula.getIdAsignatura());
-                System.out.println("Fecha de Matrícula: " + matricula.getFechaMatricula().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                System.out.println("Nota: " + matricula.getNota());
+                System.out.println("Fecha: " + matricula.getFecha());
+                System.out.println("ID Asignatura: " + matricula.getAsignatura().getId());
+                System.out.println("Nombre Asignatura: " + matricula.getAsignatura().getNombre());
+                System.out.println("Creditos Asignatura: " + matricula.getAsignatura().getCreditos());
             } else {
                 System.out.println("✗ No se encontró matrícula con ID: " + id);
             }
@@ -586,31 +576,22 @@ public class MenuConsola {
                 return;
             }
 
-            System.out.println("\nMatrícula actual: ID Estudiante " + existente.getIdEstudiante() + ", ID Asignatura " + existente.getIdAsignatura());
-            System.out.println("Deje en blanco para mantener el valor actual.\n");
+            System.out.print("Nueva nota de matrícula: ");
+            double nota = Double.parseDouble(scanner.nextLine());
 
-            System.out.print("Nuevo ID de estudiante [" + existente.getIdEstudiante() + "]: ");
-            String idEstudianteStr = scanner.nextLine();
-            int idEstudiante = existente.getIdEstudiante();
-            if (!idEstudianteStr.trim().isEmpty()) {
-                idEstudiante = Integer.parseInt(idEstudianteStr);
-            }
+            System.out.print("Nueva fecha de matrícula: ");
+            String fecha = scanner.nextLine();
 
-            System.out.print("Nuevo ID de asignatura [" + existente.getIdAsignatura() + "]: ");
-            String idAsignaturaStr = scanner.nextLine();
-            int idAsignatura = existente.getIdAsignatura();
-            if (!idAsignaturaStr.trim().isEmpty()) {
-                idAsignatura = Integer.parseInt(idAsignaturaStr);
-            }
+            System.out.print("Nuevo ID de asignatura: ");
+            int idAsignatura = Integer.parseInt(scanner.nextLine());
 
-            System.out.print("Nueva fecha de matrícula (dd/MM/yyyy) [" + existente.getFechaMatricula().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "]: ");
-            String fechaStr = scanner.nextLine();
-            LocalDate fechaMatricula = existente.getFechaMatricula();
-            if (!fechaStr.trim().isEmpty()) {
-                fechaMatricula = LocalDate.parse(fechaStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            }
+            System.out.print("Nuevo nombre de asignatura: ");
+            String nombreAsignatura = scanner.nextLine();
 
-            Matricula actualizada = new Matricula(id, idEstudiante, idAsignatura, fechaMatricula);
+            System.out.print("Nuevos creditos de asignatura: ");
+            int creditos = Integer.parseInt(scanner.nextLine());
+
+            Matricula actualizada = new Matricula(id, nota, fecha, new Asignatura(idAsignatura, nombreAsignatura, creditos));
 
             if (matriculaService.actualizar(actualizada)) {
                 System.out.println("✓ Matrícula actualizada exitosamente.");
@@ -653,17 +634,6 @@ public class MenuConsola {
             }
         } catch (NumberFormatException e) {
             System.out.println("✗ Error: ID debe ser un número válido.");
-        }
-    }
-
-    private void salir() {
-        System.out.println("\n¡Gracias por usar la aplicación!");
-        this.salir = true;
-    }
-
-    private void cerrar() {
-        if (scanner != null) {
-            scanner.close();
         }
     }
 }

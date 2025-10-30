@@ -17,7 +17,7 @@ public class AsignaturaCSV extends CSV {
         return miAsignaturaCSV;
     }
 
-    private AsignaturaCSV(String uri) {
+    public AsignaturaCSV(String uri) {
         this.uri = uri;
     }
 

@@ -5,7 +5,7 @@ import repository.BDInterfaz;
 public class EstudianteSecuencial extends Secuencial {
     private static EstudianteSecuencial miEstudianteSecuencial;
 
-    private EstudianteSecuencial(String uri) {
+    public EstudianteSecuencial(String uri) {
         this.uri = uri;
     }
 

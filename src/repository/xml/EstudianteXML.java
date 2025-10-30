@@ -26,7 +26,7 @@ public class EstudianteXML extends XML {
         return miEstudianteXML;
     }
 
-    private EstudianteXML(String uri) {
+    public EstudianteXML(String uri) {
         this.uri = uri;
     }
 
