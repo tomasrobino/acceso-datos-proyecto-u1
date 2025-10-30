@@ -26,7 +26,7 @@ public class Matricula extends Model {
 
     @Override
     public String stringifyCSV() {
-        return "";
+        return id+","+nota+","+fecha+","+asignatura.stringifyCSV();
     }
 
 }

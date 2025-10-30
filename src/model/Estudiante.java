@@ -44,7 +44,11 @@ public class Estudiante extends Model {
 
     @Override
     public String stringifyCSV() {
-        return "";
+        String s = id+","+nombre+","+email;
+        for (Matricula matricula : matriculas) {
+            s += "," + matricula.stringifyCSV();
+        }
+        return s;
     }
 
 }

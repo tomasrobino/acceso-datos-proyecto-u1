@@ -22,8 +22,9 @@ public class AsignaturaService {
         ArrayList<Asignatura> asignaturas = new ArrayList<>();
         if (modelos == null) {
             return asignaturas;
-        }        for (int i = 0; i < modelos.size(); i++) {
-            asignaturas.set(i, (Asignatura) modelos.get(i));
+        }
+        for (int i = 0; i < modelos.size(); i++) {
+            asignaturas.add(i, (Asignatura) modelos.get(i));
         }
         return asignaturas;
     }

@@ -12,7 +12,7 @@ public class Asignatura extends Model {
 
     @Override
     public String stringifyCSV() {
-        return id+","+nombre+","+"creditos";
+        return id+","+nombre+","+creditos;
     }
 
     public String getNombre() {

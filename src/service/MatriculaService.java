@@ -24,7 +24,7 @@ public class MatriculaService {
             return matriculas;
         }
         for (int i = 0; i < modelos.size(); i++) {
-            matriculas.set(i, (Matricula) modelos.get(i));
+            matriculas.add(i, (Matricula) modelos.get(i));
         }
         return matriculas;
     }
