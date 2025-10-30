@@ -238,6 +238,21 @@ public class MenuConsola {
 
             Estudiante estudiante = new Estudiante(id, nombre, email);
 
+            System.out.println("Ingrese la cantidad de matriculas");
+            int cantidad = Integer.parseInt(scanner.nextLine());
+            ArrayList<Matricula> matriculas = new ArrayList<>();
+            for (int i = 0; i < cantidad; i++) {
+                System.out.println("Ingrese el ID de la matricula #"+i);
+                int matriculaId = Integer.parseInt(scanner.nextLine());
+                Matricula matricula = matriculaService.buscarPorId(matriculaId);
+                if (matricula == null) {
+                    System.out.println("✗ Error: ID de matricula no existe.");
+                    break;
+                }
+                matriculas.add(matricula);
+            }
+            estudiante.setMatriculas(matriculas);
+
             if (estudianteService.crear(estudiante)) {
                 System.out.println("✓ Estudiante agregado exitosamente.");
             } else {

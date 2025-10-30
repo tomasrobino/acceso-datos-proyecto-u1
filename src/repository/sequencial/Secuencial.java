@@ -33,10 +33,10 @@ abstract class Secuencial extends BDInterfaz {
 
     @Override
     public ArrayList<Model> findAll() {
+        ArrayList<Model> lista = new ArrayList<>();
         try {
             FileInputStream fis = new FileInputStream(uri);
             ObjectInputStream in = new ObjectInputStream(fis);
-            ArrayList<Model> lista = new ArrayList<>();
             while (true) {
                 try {
                     Model modelo = (Model) in.readObject();
@@ -47,9 +47,8 @@ abstract class Secuencial extends BDInterfaz {
                     return lista;
                 }
             }
-
         } catch(ClassNotFoundException | IOException e) {
-            return null;
+            return lista;
         }
     }
 

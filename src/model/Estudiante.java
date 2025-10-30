@@ -6,7 +6,7 @@ import java.util.Objects;
 public class Estudiante extends Model {
     private final String nombre;
     private final String email;
-    private final ArrayList<Matricula> matriculas;
+    private ArrayList<Matricula> matriculas;
 
     public Estudiante(int id, String nombre, String email, ArrayList<Matricula> matriculas) {
         this.id = id;
@@ -40,6 +40,9 @@ public class Estudiante extends Model {
 
     public ArrayList<Matricula> getMatriculas() {
         return matriculas;
+    }
+    public void setMatriculas(ArrayList<Matricula> matriculas) {
+        this.matriculas = matriculas;
     }
 
     @Override
