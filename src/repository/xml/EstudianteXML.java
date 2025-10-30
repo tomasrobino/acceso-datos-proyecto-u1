@@ -118,7 +118,7 @@ public class EstudianteXML extends XML {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.newDocument();
+            Document doc = db.parse(new File(uri));
 
             Node nodoRaiz = doc.getDocumentElement();
             Element estudiante = doc.createElement("estudiante");
@@ -166,7 +166,7 @@ public class EstudianteXML extends XML {
             StreamResult result = new StreamResult(new File(uri));
             transformer.transform(source, result);
             return true;
-        } catch (TransformerException | ParserConfigurationException e) {
+        } catch (TransformerException | ParserConfigurationException | IOException | SAXException e) {
             return false;
         }
     }
@@ -176,7 +176,7 @@ public class EstudianteXML extends XML {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.newDocument();
+            Document doc = db.parse(new File(uri));
 
             Node nodoRaiz = doc.getDocumentElement();
             NodeList lista = nodoRaiz.getChildNodes();
@@ -206,7 +206,7 @@ public class EstudianteXML extends XML {
                 }
             }
             return false;
-        } catch (TransformerException | ParserConfigurationException e) {
+        } catch (TransformerException | ParserConfigurationException | IOException | SAXException e) {
             return false;
         }
     }

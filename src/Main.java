@@ -25,7 +25,7 @@ public class Main {
         
         try (FileReader reader = new FileReader("src/config.properties")) {
             config.load(reader);
-            persistenceType = config.getProperty("persistence.type", "binary");
+            persistenceType = config.getProperty("persistencia", "binary");
             System.out.println("Using persistence type: " + persistenceType);
         } catch (IOException e) {
             System.err.println("Warning: Could not read config.properties. Using default persistence type (binary).");

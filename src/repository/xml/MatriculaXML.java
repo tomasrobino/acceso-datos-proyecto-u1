@@ -94,7 +94,7 @@ public class MatriculaXML extends XML {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.newDocument();
+            Document doc = db.parse(new File(uri));
 
             Node nodoRaiz = doc.getDocumentElement();
             Element matricula = doc.createElement("matricula");
@@ -128,7 +128,7 @@ public class MatriculaXML extends XML {
             StreamResult result = new StreamResult(new File(uri));
             transformer.transform(source, result);
             return true;
-        } catch (TransformerException | ParserConfigurationException e) {
+        } catch (TransformerException | ParserConfigurationException | IOException | SAXException e) {
             return false;
         }
     }
@@ -138,7 +138,7 @@ public class MatriculaXML extends XML {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.newDocument();
+            Document doc = db.parse(new File(uri));
 
             NodeList lista = doc.getElementsByTagName("matricula");
             for (int i = 0; i < lista.getLength(); i++) {
@@ -162,7 +162,7 @@ public class MatriculaXML extends XML {
                 }
             }
             return false;
-        } catch (TransformerException | ParserConfigurationException e) {
+        } catch (TransformerException | ParserConfigurationException | IOException | SAXException e) {
             return false;
         }
     }

@@ -82,7 +82,7 @@ public class AsignaturaXML extends XML {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.newDocument();
+            Document doc = db.parse(new File(uri));
 
             Node nodoRaiz = doc.getDocumentElement();
             Element asignatura = doc.createElement("asignatura");
@@ -104,7 +104,7 @@ public class AsignaturaXML extends XML {
             StreamResult result = new StreamResult(new File(uri));
             transformer.transform(source, result);
             return true;
-        } catch (TransformerException | ParserConfigurationException e) {
+        } catch (TransformerException | ParserConfigurationException | IOException | SAXException e) {
             return false;
         }
     }
@@ -114,7 +114,7 @@ public class AsignaturaXML extends XML {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.newDocument();
+            Document doc = db.parse(new File(uri));
 
             NodeList lista = doc.getElementsByTagName("asignatura");
             for (int i = 0; i < lista.getLength(); i++) {
@@ -132,7 +132,7 @@ public class AsignaturaXML extends XML {
                 }
             }
             return false;
-        } catch (TransformerException | ParserConfigurationException e) {
+        } catch (TransformerException | ParserConfigurationException | IOException | SAXException e) {
             return false;
         }
     }
