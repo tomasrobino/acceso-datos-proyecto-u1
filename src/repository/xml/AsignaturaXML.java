@@ -86,15 +86,15 @@ public class AsignaturaXML extends XML {
 
             Node nodoRaiz = doc.getDocumentElement();
             Element asignatura = doc.createElement("asignatura");
-            asignatura.appendChild(doc.createElement("id").appendChild(
-                    doc.createTextNode( String.valueOf(model.getId()) )
-            ));
-            asignatura.appendChild(doc.createElement("nombre").appendChild(
-                    doc.createTextNode(((Asignatura)model).getNombre())
-            ));
-            asignatura.appendChild(doc.createElement("creditos").appendChild(
-                    doc.createTextNode(String.valueOf(((Asignatura)model).getCreditos()))
-            ));
+            Element id = doc.createElement("id");
+            id.appendChild(doc.createTextNode( String.valueOf(model.getId())));
+            asignatura.appendChild(id);
+            Element nombre = doc.createElement("nombre");
+            nombre.appendChild(doc.createTextNode(((Asignatura)model).getNombre()));
+            asignatura.appendChild(nombre);
+            Element creditos = doc.createElement("creditos");
+            creditos.appendChild(doc.createTextNode(String.valueOf(((Asignatura)model).getCreditos())));
+            asignatura.appendChild(creditos);
             
             nodoRaiz.appendChild(asignatura);
 

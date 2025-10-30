@@ -98,26 +98,33 @@ public class MatriculaXML extends XML {
 
             Node nodoRaiz = doc.getDocumentElement();
             Element matricula = doc.createElement("matricula");
-            matricula.appendChild(doc.createElement("id").appendChild(
-                    doc.createTextNode( String.valueOf(model.getId()) )
-            ));
-            matricula.appendChild(doc.createElement("nota").appendChild(
-                    doc.createTextNode(String.valueOf( ((Matricula)model).getNota() )) )
-            );
-            matricula.appendChild(doc.createElement("fecha").appendChild(
-                    doc.createTextNode( ((Matricula)model).getFecha() )
-            ));
+
+            Element id = doc.createElement("id");
+            id.appendChild(doc.createTextNode( String.valueOf(model.getId()) ) );
+            matricula.appendChild(id);
+
+            Element nota = doc.createElement("nota");
+            nota.appendChild(doc.createTextNode(String.valueOf( ((Matricula)model).getNota() )) );
+            matricula.appendChild(nota);
+
+            Element fecha = doc.createElement("fecha");
+            fecha.appendChild(doc.createTextNode( ((Matricula)model).getFecha() ) );
+            matricula.appendChild(fecha);
+
 
             Element asignatura = doc.createElement("asignatura");
-            asignatura.appendChild(doc.createElement("id").appendChild(
-                    doc.createTextNode( String.valueOf(((Matricula)model).getAsignatura().getId()) )
-            ));
-            asignatura.appendChild(doc.createElement("nombre").appendChild(
-                    doc.createTextNode(((Matricula)model).getAsignatura().getNombre())
-            ));
-            asignatura.appendChild(doc.createElement("creditos").appendChild(
-                    doc.createTextNode(String.valueOf(((Matricula)model).getAsignatura().getCreditos()))
-            ));
+
+            Element asignaturaId = doc.createElement("id");
+            asignaturaId.appendChild(doc.createTextNode( String.valueOf(((Matricula)model).getAsignatura().getId()) ) );
+            asignatura.appendChild(asignaturaId);
+
+            Element asignaturaNombre = doc.createElement("nombre");
+            asignaturaNombre.appendChild(doc.createTextNode(((Matricula)model).getAsignatura().getNombre()) );
+            asignatura.appendChild(asignaturaNombre);
+
+            Element asignaturaCreditos = doc.createElement("creditos");
+            asignaturaCreditos.appendChild(doc.createTextNode(String.valueOf(((Matricula)model).getAsignatura().getCreditos())) );
+            asignatura.appendChild(asignaturaCreditos);
 
             matricula.appendChild(asignatura);
             nodoRaiz.appendChild(matricula);

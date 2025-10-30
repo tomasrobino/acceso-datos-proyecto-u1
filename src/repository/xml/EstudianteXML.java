@@ -122,41 +122,54 @@ public class EstudianteXML extends XML {
 
             Node nodoRaiz = doc.getDocumentElement();
             Element estudiante = doc.createElement("estudiante");
-            estudiante.appendChild(doc.createElement("id").appendChild(
-                    doc.createTextNode( String.valueOf(model.getId()) )
-            ));
-            estudiante.appendChild(doc.createElement("nombre").appendChild(
-                    doc.createTextNode(((Estudiante)model).getNombre())
-            ));
-            estudiante.appendChild(doc.createElement("email").appendChild(
-                    doc.createTextNode(((Estudiante)model).getEmail())
-            ));
+            Element id = doc.createElement("id");
+            id.appendChild(doc.createTextNode( String.valueOf(model.getId()) ) );
+            estudiante.appendChild(id);
+            Element nombre = doc.createElement("nombre");
+            nombre.appendChild(doc.createTextNode(((Estudiante)model).getNombre()));
+            estudiante.appendChild(nombre);
+            Element email = doc.createElement("email");
+            email.appendChild(doc.createTextNode(((Estudiante)model).getEmail()));
+            estudiante.appendChild(email);
 
             ArrayList<Matricula> listaMatriculas = ((Estudiante)model).getMatriculas();
-            Element nodoMatriculas = (Element) estudiante.appendChild(doc.createElement("matriculas"));
+            Element nodoMatriculas = doc.createElement("matriculas");
 
             for (int i = 0; i < listaMatriculas.size(); i++) {
-                Element matricula = (Element) nodoMatriculas.appendChild(doc.createElement("matricula"));
-                matricula.appendChild(doc.createElement("id").appendChild(
-                        doc.createTextNode( String.valueOf(listaMatriculas.get(i).getId()) )
-                ));
-                matricula.appendChild(doc.createElement("nota").appendChild(
-                        doc.createTextNode(String.valueOf(listaMatriculas.get(i).getNota())) )
-                );
-                matricula.appendChild(doc.createElement("fecha").appendChild(
-                        doc.createTextNode( listaMatriculas.get(i).getFecha() )
-                ));
-                Element asignatura = (Element) matricula.appendChild(doc.createElement("asignatura"));
-                asignatura.appendChild(doc.createElement("id").appendChild(
-                        doc.createTextNode( String.valueOf(listaMatriculas.get(i).getAsignatura().getId()) )
-                ));
-                asignatura.appendChild(doc.createElement("nombre").appendChild(
-                        doc.createTextNode(listaMatriculas.get(i).getAsignatura().getNombre())
-                ));
-                asignatura.appendChild(doc.createElement("creditos").appendChild(
-                        doc.createTextNode(String.valueOf(listaMatriculas.get(i).getAsignatura().getCreditos()))
-                ));
+                Element matricula = doc.createElement("matricula");
+
+                Element matriculaId = doc.createElement("id");
+                matriculaId.appendChild(doc.createTextNode( String.valueOf(listaMatriculas.get(i).getId()) ) );
+                matricula.appendChild(matriculaId);
+
+
+                Element nota = doc.createElement("nota");
+                nota.appendChild(doc.createTextNode(String.valueOf(listaMatriculas.get(i).getNota())) );
+                matricula.appendChild(nota);
+
+                Element fecha = doc.createElement("fecha");
+                fecha.appendChild(doc.createTextNode( listaMatriculas.get(i).getFecha() ) );
+                matricula.appendChild(fecha);
+
+
+                Element asignatura = doc.createElement("asignatura");
+
+                Element asignaturaId = doc.createElement("id");
+                asignaturaId.appendChild(doc.createTextNode( String.valueOf(listaMatriculas.get(i).getAsignatura().getId()) ) );
+                asignatura.appendChild(asignaturaId);
+
+                Element asignaturaCreditos = doc.createElement("creditos");
+                asignaturaCreditos.appendChild(doc.createTextNode(String.valueOf(listaMatriculas.get(i).getAsignatura().getCreditos())) );
+                asignatura.appendChild(asignaturaCreditos);
+
+                Element asignaturaNombre = doc.createElement("nombre");
+                asignaturaNombre.appendChild(doc.createTextNode(listaMatriculas.get(i).getAsignatura().getNombre()));
+                asignatura.appendChild(asignaturaNombre);
+
+                matricula.appendChild(asignatura);
+                nodoMatriculas.appendChild(matricula);
             }
+            estudiante.appendChild(nodoMatriculas);
 
             nodoRaiz.appendChild(estudiante);
 
