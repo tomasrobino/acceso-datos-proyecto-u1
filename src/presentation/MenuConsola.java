@@ -502,16 +502,13 @@ public class MenuConsola {
 
             System.out.print("Ingrese ID de la asignatura: ");
             int idAsignatura = Integer.parseInt(scanner.nextLine());
+            Asignatura asignaturaExistente = asignaturaService.buscarPorId(idAsignatura);
+            if (asignaturaExistente == null) {
+                System.out.println("✗ No se encontró la asignatura con ID: " + idAsignatura);
+                return;
+            }
 
-            System.out.print("Ingrese nombre de la asignatura: ");
-            String nombre = scanner.nextLine();
-
-            System.out.print("Ingrese créditos de la asignatura: ");
-            int creditos = Integer.parseInt(scanner.nextLine());
-
-            Asignatura asignatura = new Asignatura(idAsignatura, nombre, creditos);
-
-            Matricula matricula = new Matricula(id, nota, fechaStr, asignatura);
+            Matricula matricula = new Matricula(id, nota, fechaStr, asignaturaExistente);
 
             if (matriculaService.crear(matricula)) {
                 System.out.println("✓ Matrícula agregada exitosamente.");
