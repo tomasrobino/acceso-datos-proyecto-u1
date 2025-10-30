@@ -105,13 +105,9 @@ abstract class Secuencial extends BDInterfaz {
             ObjectOutputStream out = new ObjectOutputStream(fos);
 
             for (int i = 0; i < lista.size(); i++) {
-                if (lista.get(i).getId() == id) {
-                    lista.remove(i);
-                    out.close();
-                    fos.close();
-                    return true;
+                if (lista.get(i).getId() != id) {
+                    out.writeObject(lista.get(i));
                 }
-                out.writeObject(lista.get(i));
             }
             out.close();
             fos.close();
