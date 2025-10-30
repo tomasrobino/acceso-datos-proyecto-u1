@@ -9,12 +9,16 @@ import java.util.ArrayList;
 public class EstudianteService {
     private final BDInterfaz repository;
 
-    public EstudianteService(BDInterfaz repository) {
+    public EstudianteService(BDInterfaz repository, BDInterfaz matriculaRepository, BDInterfaz asignaturaRepository) {
         this.repository = repository;
     }
 
     public Estudiante buscarPorId(int id) {
-        return (Estudiante) repository.find(id);
+        Estudiante estudiante = (Estudiante) repository.find(id);
+        if (estudiante == null) {
+            return null;
+        }
+        return estudiante;
     }
 
     public ArrayList<Estudiante> listarTodas() {

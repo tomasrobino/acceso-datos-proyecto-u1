@@ -59,7 +59,7 @@ public class Main {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                es = new EstudianteService(new EstudianteSecuencial("src/data/estudiantes.bin"));
+                es = new EstudianteService(new EstudianteSecuencial("src/data/estudiantes.bin"), new MatriculaSecuencial("src/data/matriculas.bin"), new AsignaturaSecuencial("src/data/asignaturas.bin"));
                 as = new AsignaturaService(new AsignaturaSecuencial("src/data/asignaturas.bin"));
                 ms = new MatriculaService(new MatriculaSecuencial("src/data/matriculas.bin"), new AsignaturaSecuencial("src/data/asignaturas.bin"));
 
@@ -81,7 +81,7 @@ public class Main {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                es = new EstudianteService(new EstudianteCSV("src/data/estudiantes.csv"));
+                es = new EstudianteService(new EstudianteCSV("src/data/estudiantes.csv"), new MatriculaCSV("src/data/matriculas.csv"), new AsignaturaCSV("src/data/asignaturas.csv"));
                 as = new AsignaturaService(new AsignaturaCSV("src/data/asignaturas.csv"));
                 ms = new MatriculaService(new MatriculaCSV("src/data/matriculas.csv"), new AsignaturaCSV("src/data/asignaturas.csv"));
                 break;
@@ -102,7 +102,7 @@ public class Main {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                es = new EstudianteService(new EstudianteXML("src/data/estudiantes.xml"));
+                es = new EstudianteService(new EstudianteXML("src/data/estudiantes.xml"), new MatriculaXML("src/data/matriculas.xml"), new AsignaturaXML("src/data/asignaturas.xml"));
                 as = new AsignaturaService(new AsignaturaXML("src/data/asignaturas.xml"));
                 ms = new MatriculaService(new MatriculaXML("src/data/matriculas.xml"), new AsignaturaXML("src/data/asignaturas.xml"));
                 break;

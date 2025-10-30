@@ -278,6 +278,9 @@ public class MenuConsola {
 
         for (Estudiante estudiante : estudiantes) {
             System.out.println("Id:" + estudiante.getId() + ", Nombre: " + estudiante.getNombre() + ", Email: " + estudiante.getEmail());
+            for (int i = 0; i < estudiante.getMatriculas().size(); i++) {
+                System.out.println("Matricula #" + i + ": " + estudiante.getMatriculas().get(i).getAsignatura().getNombre());
+            }
         }
     }
 
