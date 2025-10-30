@@ -61,7 +61,7 @@ public class Main {
                 }
                 es = new EstudianteService(new EstudianteSecuencial("src/data/estudiantes.bin"));
                 as = new AsignaturaService(new AsignaturaSecuencial("src/data/asignaturas.bin"));
-                ms = new MatriculaService(new MatriculaSecuencial("src/data/matriculas.bin"));
+                ms = new MatriculaService(new MatriculaSecuencial("src/data/matriculas.bin"), new AsignaturaSecuencial("src/data/asignaturas.bin"));
 
                 break;
             case "csv":
@@ -83,7 +83,7 @@ public class Main {
                 }
                 es = new EstudianteService(new EstudianteCSV("src/data/estudiantes.csv"));
                 as = new AsignaturaService(new AsignaturaCSV("src/data/asignaturas.csv"));
-                ms = new MatriculaService(new MatriculaCSV("src/data/matriculas.csv"));
+                ms = new MatriculaService(new MatriculaCSV("src/data/matriculas.csv"), new AsignaturaCSV("src/data/asignaturas.csv"));
                 break;
             case "xml":
                 try {
@@ -104,7 +104,7 @@ public class Main {
                 }
                 es = new EstudianteService(new EstudianteXML("src/data/estudiantes.xml"));
                 as = new AsignaturaService(new AsignaturaXML("src/data/asignaturas.xml"));
-                ms = new MatriculaService(new MatriculaXML("src/data/matriculas.xml"));
+                ms = new MatriculaService(new MatriculaXML("src/data/matriculas.xml"), new AsignaturaXML("src/data/asignaturas.xml"));
                 break;
             default:
                 throw new IllegalArgumentException("Invalid persistence type: " + persistenceType);

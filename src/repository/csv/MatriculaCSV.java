@@ -32,7 +32,7 @@ public class MatriculaCSV extends CSV {
                 String[] data = line.split(",");
                 if (Integer.parseInt(data[0]) == id) {
                     br.close();
-                    return new Matricula(id, Double.parseDouble(data[1]), data[2], new Asignatura(Integer.parseInt(data[3]), data[4], Integer.parseInt(data[5])));
+                    return new Matricula(id, Double.parseDouble(data[1]), data[2], new Asignatura(Integer.parseInt(data[3])));
                 }
             }
             br.close();
@@ -51,7 +51,7 @@ public class MatriculaCSV extends CSV {
             while ( (line = br.readLine()) != null ) {
                 line = line.substring(0, line.length()-1);
                 String[] data = line.split(",");
-                lista.add(new Matricula(Integer.parseInt(data[0]), Double.parseDouble(data[1]), data[2], new Asignatura(Integer.parseInt(data[3]), data[4], Integer.parseInt(data[5]))));
+                lista.add(new Matricula(Integer.parseInt(data[0]), Double.parseDouble(data[1]), data[2], new Asignatura(Integer.parseInt(data[3]))));
             }
             br.close();
             return lista;

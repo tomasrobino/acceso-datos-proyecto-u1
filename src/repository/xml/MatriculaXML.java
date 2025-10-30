@@ -47,9 +47,7 @@ public class MatriculaXML extends XML {
                             Double.parseDouble(item.getElementsByTagName("nota").item(0).getTextContent()),
                             item.getElementsByTagName("fecha").item(0).getTextContent(),
                             new Asignatura(
-                                    Integer.parseInt(asignatura.getElementsByTagName("id").item(0).getTextContent()),
-                                    asignatura.getElementsByTagName("nombre").item(0).getTextContent(),
-                                    Integer.parseInt(asignatura.getElementsByTagName("creditos").item(0).getTextContent())
+                                    Integer.parseInt(asignatura.getElementsByTagName("id").item(0).getTextContent())
                             )
                     );
                 }

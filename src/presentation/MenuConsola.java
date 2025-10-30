@@ -584,14 +584,13 @@ public class MenuConsola {
 
             System.out.print("Nuevo ID de asignatura: ");
             int idAsignatura = Integer.parseInt(scanner.nextLine());
+            Asignatura asignaturaExistente = asignaturaService.buscarPorId(id);
+            if (asignaturaExistente == null) {
+                System.out.println("✗ No se encontró asignatura con ID: " + id);
+                return;
+            }
 
-            System.out.print("Nuevo nombre de asignatura: ");
-            String nombreAsignatura = scanner.nextLine();
-
-            System.out.print("Nuevos creditos de asignatura: ");
-            int creditos = Integer.parseInt(scanner.nextLine());
-
-            Matricula actualizada = new Matricula(id, nota, fecha, new Asignatura(idAsignatura, nombreAsignatura, creditos));
+            Matricula actualizada = new Matricula(id, nota, fecha, asignaturaExistente);
 
             if (matriculaService.actualizar(actualizada)) {
                 System.out.println("✓ Matrícula actualizada exitosamente.");
