@@ -111,7 +111,7 @@ abstract class Secuencial extends BDInterfaz {
             }
             out.close();
             fos.close();
-            return false;
+            return true;
         } catch (IOException e) {
             return false;
         }
