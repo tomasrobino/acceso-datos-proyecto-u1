@@ -328,7 +328,20 @@ public class MenuConsola {
             String email = scanner.nextLine();
             if (email.trim().isEmpty()) email = existente.getEmail();
 
-            Estudiante actualizado = new Estudiante(id, nombre, email);
+            System.out.println("Ingrese la cantidad de matriculas");
+            int cantidad = Integer.parseInt(scanner.nextLine());
+            ArrayList<Matricula> matriculas = new ArrayList<>();
+            for (int i = 0; i < cantidad; i++) {
+                System.out.print("Ingrese el ID de la matricula #"+i);
+                int matriculaId = Integer.parseInt(scanner.nextLine());
+                Matricula matricula = matriculaService.buscarPorId(matriculaId);
+                if (matricula == null) {
+                    System.out.println("✗ Error: ID de matricula no existe.");
+                    break;
+                }
+                matriculas.add(matricula);
+            }
+            Estudiante actualizado = new Estudiante(id, nombre, email, matriculas);
 
             if (estudianteService.actualizar(actualizado)) {
                 System.out.println("✓ Estudiante actualizado exitosamente.");
