@@ -584,9 +584,9 @@ public class MenuConsola {
 
             System.out.print("Nuevo ID de asignatura: ");
             int idAsignatura = Integer.parseInt(scanner.nextLine());
-            Asignatura asignaturaExistente = asignaturaService.buscarPorId(id);
+            Asignatura asignaturaExistente = asignaturaService.buscarPorId(idAsignatura);
             if (asignaturaExistente == null) {
-                System.out.println("✗ No se encontró asignatura con ID: " + id);
+                System.out.println("✗ No se encontró asignatura con ID: " + idAsignatura);
                 return;
             }
 

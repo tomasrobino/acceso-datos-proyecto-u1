@@ -35,7 +35,7 @@ abstract class CSV extends BDInterfaz {
                     bw.write(model.stringifyCSV()+";\n");
                     ret = true;
                 } else {
-                    bw.write(line);
+                    bw.write(line+"\n");
                 }
             }
             br.close();
@@ -63,7 +63,7 @@ abstract class CSV extends BDInterfaz {
                 String[] data = line.split(",");
                 if ((Integer.parseInt(data[0]) == id)) {
                     ret = true;
-                } else bw.write(line);
+                } else bw.write(line+"\n");
             }
             br.close();
             bw.close();
