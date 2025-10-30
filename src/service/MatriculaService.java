@@ -18,6 +18,9 @@ public class MatriculaService {
 
     public Matricula buscarPorId(int id) {
         Matricula matricula = (Matricula) repository.find(id);
+        if (matricula == null) {
+            return null;
+        }
         matricula.setAsignatura((Asignatura) asignaturaRepository.find(matricula.getAsignatura().getId()));
         return matricula;
     }

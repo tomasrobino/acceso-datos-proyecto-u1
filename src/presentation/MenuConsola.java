@@ -242,7 +242,7 @@ public class MenuConsola {
             int cantidad = Integer.parseInt(scanner.nextLine());
             ArrayList<Matricula> matriculas = new ArrayList<>();
             for (int i = 0; i < cantidad; i++) {
-                System.out.println("Ingrese el ID de la matricula #"+i);
+                System.out.print("Ingrese el ID de la matricula #"+i);
                 int matriculaId = Integer.parseInt(scanner.nextLine());
                 Matricula matricula = matriculaService.buscarPorId(matriculaId);
                 if (matricula == null) {
