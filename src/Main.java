@@ -42,9 +42,6 @@ public class Main {
 
         switch (persistenceType) {
             case "binary":
-                es = new EstudianteService(new EstudianteSecuencial("src/data/estudiantes.bin"));
-                as = new AsignaturaService(new AsignaturaSecuencial("src/data/asignaturas.bin"));
-                ms = new MatriculaService(new MatriculaSecuencial("src/data/matriculas.bin"));
                 try {
                     File file = new File("src/data/estudiantes.bin");
                     if (!file.exists()) {
@@ -61,12 +58,12 @@ public class Main {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+                es = new EstudianteService(new EstudianteSecuencial("src/data/estudiantes.bin"));
+                as = new AsignaturaService(new AsignaturaSecuencial("src/data/asignaturas.bin"));
+                ms = new MatriculaService(new MatriculaSecuencial("src/data/matriculas.bin"));
 
                 break;
             case "csv":
-                es = new EstudianteService(new EstudianteCSV("src/data/estudiantes.csv"));
-                as = new AsignaturaService(new AsignaturaCSV("src/data/asignaturas.csv"));
-                ms = new MatriculaService(new MatriculaCSV("src/data/matriculas.csv"));
                 try {
                     File file = new File("src/data/estudiantes.csv");
                     if (!file.exists()) {
@@ -83,11 +80,11 @@ public class Main {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+                es = new EstudianteService(new EstudianteCSV("src/data/estudiantes.csv"));
+                as = new AsignaturaService(new AsignaturaCSV("src/data/asignaturas.csv"));
+                ms = new MatriculaService(new MatriculaCSV("src/data/matriculas.csv"));
                 break;
             case "xml":
-                es = new EstudianteService(new EstudianteXML("src/data/estudiantes.xml"));
-                as = new AsignaturaService(new AsignaturaXML("src/data/asignaturas.xml"));
-                ms = new MatriculaService(new MatriculaXML("src/data/matriculas.xml"));
                 try {
                     File file = new File("src/data/estudiantes.xml");
                     if (!file.exists()) {
@@ -104,6 +101,9 @@ public class Main {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+                es = new EstudianteService(new EstudianteXML("src/data/estudiantes.xml"));
+                as = new AsignaturaService(new AsignaturaXML("src/data/asignaturas.xml"));
+                ms = new MatriculaService(new MatriculaXML("src/data/matriculas.xml"));
                 break;
             default:
                 throw new IllegalArgumentException("Invalid persistence type: " + persistenceType);
