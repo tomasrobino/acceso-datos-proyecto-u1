@@ -97,6 +97,27 @@ abstract class Secuencial extends BDInterfaz {
 
     @Override
     public boolean delete(int id) {
-        return false;
+        FileOutputStream fos;
+        try {
+            ArrayList<Model> lista = findAll();
+
+            fos = new FileOutputStream(uri);
+            ObjectOutputStream out = new ObjectOutputStream(fos);
+
+            for (int i = 0; i < lista.size(); i++) {
+                if (lista.get(i).getId() == id) {
+                    lista.remove(i);
+                    out.close();
+                    fos.close();
+                    return true;
+                }
+                out.writeObject(lista.get(i));
+            }
+            out.close();
+            fos.close();
+            return false;
+        } catch (IOException e) {
+            return false;
+        }
     }
 }
