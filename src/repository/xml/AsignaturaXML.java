@@ -41,7 +41,7 @@ public class AsignaturaXML extends XML {
             for (int i = 0; i < lista.getLength(); i++) {
                 Element item = (Element) lista.item(i);
                 if (Integer.parseInt(item.getElementsByTagName("id").item(0).getTextContent()) == id ) {
-                    new Asignatura(
+                    return new Asignatura(
                             Integer.parseInt(item.getElementsByTagName("id").item(0).getTextContent()),
                             item.getElementsByTagName("nombre").item(0).getTextContent(),
                             Integer.parseInt(item.getElementsByTagName("creditos").item(0).getTextContent())
