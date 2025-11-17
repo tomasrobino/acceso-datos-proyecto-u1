@@ -10,7 +10,7 @@ public class Database<T> {
         this.uri = uri;
     }
 
-    public Model find(int id) {
+    public T find(int id) {
 
     }
 

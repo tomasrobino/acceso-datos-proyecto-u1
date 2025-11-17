@@ -12,7 +12,7 @@ public class Service<T> {
     }
 
     public T buscarPorId(int id) {
-        return (T) repository.find(id);
+        return repository.find(id);
     }
 
     public ArrayList<T> listarTodas() {
@@ -39,7 +39,7 @@ public class Service<T> {
             return false;
         }
 
-        T existente = (T) repository.find(((Model)model).getId());
+        T existente = repository.find(((Model)model).getId());
         if (existente == null) {
             return false;
         }
