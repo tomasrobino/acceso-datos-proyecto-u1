@@ -2,8 +2,7 @@ import model.Estudiante;
 import model.Matricula;
 import presentation.MenuConsola;
 import repository.Database;
-import service.EstudianteService;
-import service.MatriculaService;
+import service.Service;
 
 import java.io.File;
 import java.io.FileReader;
@@ -24,8 +23,6 @@ public class Main {
             System.err.println("Warning: Could not read config.properties. Using default persistence type (binary).");
             System.err.println("Error: " + e.getMessage());
         }
-        EstudianteService es;
-        MatriculaService ms;
 
         File data = new File("src/data");
         if (!data.exists()) {
@@ -48,11 +45,8 @@ public class Main {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Database<Matricula> dm = new Database<Matricula>("");
-        es = new EstudianteService(new Database<Estudiante>(""), dm);
-        ms = new MatriculaService(dm);
 
-        MenuConsola menu = new MenuConsola(es, ms);
+        MenuConsola menu = new MenuConsola(new Service<Estudiante>(new Database<Estudiante>("")), new Service<Matricula>(new Database<Matricula>("")));
         menu.mostrarMenu();
     }
 }

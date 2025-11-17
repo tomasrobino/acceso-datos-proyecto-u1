@@ -4,6 +4,7 @@ import model.Estudiante;
 import model.Matricula;
 import service.EstudianteService;
 import service.MatriculaService;
+import service.Service;
 
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -12,10 +13,10 @@ import java.util.Scanner;
 public class MenuConsola {
     private final Scanner scanner;
     private boolean salir;
-    private final EstudianteService estudianteService;
-    private final MatriculaService matriculaService;
+    private final Service<Estudiante> estudianteService;
+    private final Service<Matricula> matriculaService;
 
-    public MenuConsola(EstudianteService estudianteService, MatriculaService matriculaService) {
+    public MenuConsola(Service<Estudiante> estudianteService, Service<Matricula> matriculaService) {
         this.scanner = new Scanner(System.in);
         this.salir = false;
         this.estudianteService = estudianteService;

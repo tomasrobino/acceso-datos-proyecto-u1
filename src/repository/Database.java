@@ -14,15 +14,15 @@ public class Database<T> {
 
     }
 
-    public ArrayList<Model> findAll() {
+    public ArrayList<T> findAll() {
 
     }
 
-    public boolean insert(Model model) {
+    public boolean insert(T model) {
 
     }
 
-    public boolean update(Model model) {
+    public boolean update(T model) {
 
     }
 
