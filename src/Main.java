@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) {
         // Read persistence type from config.properties
         Properties config = new Properties();
-        String persistenceType = "binary";
+        String persistenceType;
         
         try (FileReader reader = new FileReader("src/config.properties")) {
             config.load(reader);

@@ -1,6 +1,5 @@
 package repository;
 
-import model.Model;
 import java.util.ArrayList;
 
 public class Database<T> {
