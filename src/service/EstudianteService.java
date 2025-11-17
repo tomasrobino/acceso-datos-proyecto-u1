@@ -2,14 +2,14 @@ package service;
 
 import model.Estudiante;
 import model.Model;
-import repository.BDInterfaz;
+import repository.Database;
 
 import java.util.ArrayList;
 
 public class EstudianteService {
-    private final BDInterfaz repository;
+    private final Database repository;
 
-    public EstudianteService(BDInterfaz repository, BDInterfaz matriculaRepository, BDInterfaz asignaturaRepository) {
+    public EstudianteService(Database repository, Database matriculaRepository) {
         this.repository = repository;
     }
 

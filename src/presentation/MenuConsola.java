@@ -1,9 +1,7 @@
 package presentation;
 
-import model.Asignatura;
 import model.Estudiante;
 import model.Matricula;
-import service.AsignaturaService;
 import service.EstudianteService;
 import service.MatriculaService;
 
@@ -15,14 +13,12 @@ public class MenuConsola {
     private final Scanner scanner;
     private boolean salir;
     private final EstudianteService estudianteService;
-    private final AsignaturaService asignaturaService;
     private final MatriculaService matriculaService;
 
-    public MenuConsola(EstudianteService estudianteService, AsignaturaService asignaturaService, MatriculaService matriculaService) {
+    public MenuConsola(EstudianteService estudianteService, MatriculaService matriculaService) {
         this.scanner = new Scanner(System.in);
         this.salir = false;
         this.estudianteService = estudianteService;
-        this.asignaturaService = asignaturaService;
         this.matriculaService = matriculaService;
     }
 
@@ -32,7 +28,6 @@ public class MenuConsola {
             System.out.println("       MENÚ PRINCIPAL");
             System.out.println("========================================");
             System.out.println("1. Gestión de Estudiantes");
-            System.out.println("2. Gestión de Asignaturas");
             System.out.println("3. Gestión de Matrículas");
             System.out.println("4. Salir");
             System.out.println("========================================");
@@ -58,9 +53,6 @@ public class MenuConsola {
         switch (opcion) {
             case 1:
                 menuEstudiantes();
-                break;
-            case 2:
-                menuAsignaturas();
                 break;
             case 3:
                 menuMatriculas();
@@ -113,56 +105,6 @@ public class MenuConsola {
             }
             case 5 -> {
                 eliminarEstudiante();
-                yield false;
-            }
-            case 6 -> true;
-            default -> {
-                System.out.println("Opción no válida. Por favor, intente nuevamente.");
-                yield false;
-            }
-        };
-    }
-
-    private void menuAsignaturas() {
-        boolean volver = false;
-        while (!volver) {
-            System.out.println("\n========================================");
-            System.out.println("     GESTIÓN DE ASIGNATURAS");
-            System.out.println("========================================");
-            System.out.println("1. Agregar asignatura");
-            System.out.println("2. Listar asignaturas");
-            System.out.println("3. Buscar asignatura");
-            System.out.println("4. Actualizar asignatura");
-            System.out.println("5. Eliminar asignatura");
-            System.out.println("6. Volver al menú principal");
-            System.out.println("========================================");
-            System.out.print("Seleccione una opción: ");
-
-            int opcion = leerOpcion();
-            volver = procesarOpcionAsignaturas(opcion);
-        }
-    }
-
-    private boolean procesarOpcionAsignaturas(int opcion) {
-        return switch (opcion) {
-            case 1 -> {
-                agregarAsignatura();
-                yield false;
-            }
-            case 2 -> {
-                listarAsignaturas();
-                yield false;
-            }
-            case 3 -> {
-                buscarAsignatura();
-                yield false;
-            }
-            case 4 -> {
-                actualizarAsignatura();
-                yield false;
-            }
-            case 5 -> {
-                eliminarAsignatura();
                 yield false;
             }
             case 6 -> true;
@@ -279,7 +221,7 @@ public class MenuConsola {
         for (Estudiante estudiante : estudiantes) {
             System.out.println("Id:" + estudiante.getId() + ", Nombre: " + estudiante.getNombre() + ", Email: " + estudiante.getEmail());
             for (int i = 0; i < estudiante.getMatriculas().size(); i++) {
-                System.out.println("Matricula #" + i + ": " + estudiante.getMatriculas().get(i).getAsignatura().getNombre());
+                System.out.println("Matricula #" + i);
             }
         }
     }
@@ -387,137 +329,6 @@ public class MenuConsola {
         }
     }
 
-    // Métodos para Asignaturas
-    private void agregarAsignatura() {
-        System.out.println("\n--- Agregar Asignatura ---");
-        try {
-            System.out.print("Ingrese ID: ");
-            int id = Integer.parseInt(scanner.nextLine());
-
-            System.out.print("Ingrese nombre: ");
-            String nombre = scanner.nextLine();
-
-            System.out.print("Ingrese créditos: ");
-            int creditos = Integer.parseInt(scanner.nextLine());
-
-            Asignatura asignatura = new Asignatura(id, nombre, creditos);
-
-            if (asignaturaService.crear(asignatura)) {
-                System.out.println("✓ Asignatura agregada exitosamente.");
-            } else {
-                System.out.println("✗ Error al agregar la asignatura.");
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("✗ Error: ID y créditos deben ser números válidos.");
-        } catch (Exception e) {
-            System.out.println("✗ Error al agregar asignatura: " + e.getMessage());
-        }
-    }
-
-    private void listarAsignaturas() {
-        System.out.println("\n--- Listar Asignaturas ---");
-        ArrayList<Asignatura> asignaturas = asignaturaService.listarTodas();
-
-        if (asignaturas.isEmpty()) {
-            System.out.println("No hay asignaturas registradas.");
-            return;
-        }
-        for (Asignatura asignatura : asignaturas) {
-            System.out.println("Id: " + asignatura.getId() + " Nombre: "+asignatura.getNombre()+" Creditos: "+asignatura.getCreditos());
-        }
-    }
-
-    private void buscarAsignatura() {
-        System.out.println("\n--- Buscar Asignatura ---");
-        try {
-            System.out.print("Ingrese el ID de la asignatura: ");
-            int id = Integer.parseInt(scanner.nextLine());
-
-            Asignatura asignatura = asignaturaService.buscarPorId(id);
-
-            if (asignatura != null) {
-                System.out.println("\n✓ Asignatura encontrada:");
-                System.out.println("ID: " + asignatura.getId());
-                System.out.println("Nombre: " + asignatura.getNombre());
-                System.out.println("Créditos: " + asignatura.getCreditos());
-            } else {
-                System.out.println("✗ No se encontró asignatura con ID: " + id);
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("✗ Error: ID debe ser un número válido.");
-        }
-    }
-
-    private void actualizarAsignatura() {
-        System.out.println("\n--- Actualizar Asignatura ---");
-        try {
-            System.out.print("Ingrese el ID de la asignatura a actualizar: ");
-            int id = Integer.parseInt(scanner.nextLine());
-
-            Asignatura existente = asignaturaService.buscarPorId(id);
-            if (existente == null) {
-                System.out.println("✗ No se encontró asignatura con ID: " + id);
-                return;
-            }
-
-            System.out.println("\nAsignatura actual: " + existente.getNombre());
-            System.out.println("Deje en blanco para mantener el valor actual.\n");
-
-            System.out.print("Nuevo nombre [" + existente.getNombre() + "]: ");
-            String nombre = scanner.nextLine();
-            if (nombre.trim().isEmpty()) nombre = existente.getNombre();
-
-            System.out.print("Nuevos créditos [" + existente.getCreditos() + "]: ");
-            String creditosStr = scanner.nextLine();
-            int creditos = existente.getCreditos();
-            if (!creditosStr.trim().isEmpty()) {
-                creditos = Integer.parseInt(creditosStr);
-            }
-
-            Asignatura actualizada = new Asignatura(id, nombre, creditos);
-
-            if (asignaturaService.actualizar(actualizada)) {
-                System.out.println("✓ Asignatura actualizada exitosamente.");
-            } else {
-                System.out.println("✗ Error al actualizar la asignatura.");
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("✗ Error: ID y créditos deben ser números válidos.");
-        } catch (Exception e) {
-            System.out.println("✗ Error al actualizar asignatura: " + e.getMessage());
-        }
-    }
-
-    private void eliminarAsignatura() {
-        System.out.println("\n--- Eliminar Asignatura ---");
-        try {
-            System.out.print("Ingrese el ID de la asignatura a eliminar: ");
-            int id = Integer.parseInt(scanner.nextLine());
-
-            Asignatura asignatura = asignaturaService.buscarPorId(id);
-            if (asignatura == null) {
-                System.out.println("✗ No se encontró asignatura con ID: " + id);
-                return;
-            }
-
-            System.out.println("\n¿Está seguro que desea eliminar la asignatura " + asignatura.getNombre() + "?");
-            System.out.print("Escriba 'SI' para confirmar: ");
-            String confirmacion = scanner.nextLine();
-
-            if (confirmacion.equalsIgnoreCase("SI")) {
-                if (asignaturaService.eliminar(id)) {
-                    System.out.println("✓ Asignatura eliminada exitosamente.");
-                } else {
-                    System.out.println("✗ Error al eliminar la asignatura.");
-                }
-            } else {
-                System.out.println("Operación cancelada.");
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("✗ Error: ID debe ser un número válido.");
-        }
-    }
-
     // Métodos para Matrículas
     private void agregarMatricula() {
         System.out.println("\n--- Agregar Matrícula ---");
@@ -531,15 +342,7 @@ public class MenuConsola {
             System.out.print("Ingrese fecha de matrícula (dd/MM/yyyy): ");
             String fechaStr = scanner.nextLine();
 
-            System.out.print("Ingrese ID de la asignatura: ");
-            int idAsignatura = Integer.parseInt(scanner.nextLine());
-            Asignatura asignaturaExistente = asignaturaService.buscarPorId(idAsignatura);
-            if (asignaturaExistente == null) {
-                System.out.println("✗ No se encontró la asignatura con ID: " + idAsignatura);
-                return;
-            }
-
-            Matricula matricula = new Matricula(id, nota, fechaStr, asignaturaExistente);
+            Matricula matricula = new Matricula(id, nota, fechaStr);
 
             if (matriculaService.crear(matricula)) {
                 System.out.println("✓ Matrícula agregada exitosamente.");
@@ -564,7 +367,7 @@ public class MenuConsola {
             return;
         }
         for (Matricula matricula : matriculas) {
-            System.out.println("Id: "+matricula.getId()+" Nota: "+matricula.getNota()+" Fecha: "+matricula.getFecha()+" Asignatura id: "+matricula.getAsignatura().getId()+" Asignatura nombre: "+matricula.getAsignatura().getNombre()+" Asignatura creditos: "+matricula.getAsignatura().getCreditos());
+            System.out.println("Id: "+matricula.getId()+" Nota: "+matricula.getNota()+" Fecha: "+matricula.getFecha());
         }
     }
 
@@ -581,9 +384,6 @@ public class MenuConsola {
                 System.out.println("ID: " + matricula.getId());
                 System.out.println("Nota: " + matricula.getNota());
                 System.out.println("Fecha: " + matricula.getFecha());
-                System.out.println("ID Asignatura: " + matricula.getAsignatura().getId());
-                System.out.println("Nombre Asignatura: " + matricula.getAsignatura().getNombre());
-                System.out.println("Creditos Asignatura: " + matricula.getAsignatura().getCreditos());
             } else {
                 System.out.println("✗ No se encontró matrícula con ID: " + id);
             }
@@ -610,15 +410,7 @@ public class MenuConsola {
             System.out.print("Nueva fecha de matrícula: ");
             String fecha = scanner.nextLine();
 
-            System.out.print("Nuevo ID de asignatura: ");
-            int idAsignatura = Integer.parseInt(scanner.nextLine());
-            Asignatura asignaturaExistente = asignaturaService.buscarPorId(idAsignatura);
-            if (asignaturaExistente == null) {
-                System.out.println("✗ No se encontró asignatura con ID: " + idAsignatura);
-                return;
-            }
-
-            Matricula actualizada = new Matricula(id, nota, fecha, asignaturaExistente);
+            Matricula actualizada = new Matricula(id, nota, fecha);
 
             if (matriculaService.actualizar(actualizada)) {
                 System.out.println("✓ Matrícula actualizada exitosamente.");

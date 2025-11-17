@@ -1,28 +1,20 @@
 package service;
 
-import model.Asignatura;
 import model.Matricula;
 import model.Model;
-import repository.BDInterfaz;
+import repository.Database;
 
 import java.util.ArrayList;
 
 public class MatriculaService {
-    private final BDInterfaz repository;
-    private final BDInterfaz asignaturaRepository;
+    private final Database repository;
 
-    public MatriculaService(BDInterfaz repository, BDInterfaz asignaturaRepository) {
+    public MatriculaService(Database repository) {
         this.repository = repository;
-        this.asignaturaRepository = asignaturaRepository;
     }
 
     public Matricula buscarPorId(int id) {
-        Matricula matricula = (Matricula) repository.find(id);
-        if (matricula == null) {
-            return null;
-        }
-        matricula.setAsignatura((Asignatura) asignaturaRepository.find(matricula.getAsignatura().getId()));
-        return matricula;
+        return (Matricula) repository.find(id);
     }
 
     public ArrayList<Matricula> listarTodas() {
@@ -33,7 +25,6 @@ public class MatriculaService {
         }
         for (int i = 0; i < modelos.size(); i++) {
             matriculas.add(i, (Matricula) modelos.get(i));
-            matriculas.get(i).setAsignatura((Asignatura) asignaturaRepository.find(matriculas.get(i).getAsignatura().getId()));
         }
         return matriculas;
     }
@@ -42,7 +33,7 @@ public class MatriculaService {
         if (matricula == null) {
             return false;
         }
-        return repository.insert(matricula) && asignaturaRepository.update(matricula.getAsignatura());
+        return repository.insert(matricula);
     }
 
     public boolean actualizar(Matricula matricula) {
@@ -55,7 +46,7 @@ public class MatriculaService {
             return false;
         }
 
-        return repository.update(matricula) && asignaturaRepository.update(matricula.getAsignatura());
+        return repository.update(matricula);
     }
 
     public boolean eliminar(int id) {
