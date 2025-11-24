@@ -99,8 +99,8 @@ public class EstudianteRepository extends Database<Estudiante, Integer>{
 
     @Override
     public boolean update(Estudiante model) {
-        Estudiante es = find(model.getId());
-        if (es == null) {
+        Estudiante estudiante = find(model.getId());
+        if (estudiante == null) {
             return false;
         }
 
@@ -112,7 +112,7 @@ public class EstudianteRepository extends Database<Estudiante, Integer>{
                 PreparedStatement psEstudiante = conexion.prepareStatement("UPDATE estudiantes SET nombre = ?, email = ? WHERE id = ?");
                 PreparedStatement psMatriculas = conexion.prepareStatement("INSERT INTO matriculas (id_estudiante, nota, fecha) VALUES (?, ?, ?)");
 
-                for (Matricula matricula : es.getMatriculas()) {
+                for (Matricula matricula : estudiante.getMatriculas()) {
                     delete(matricula.getId());
                 }
 
@@ -145,6 +145,38 @@ public class EstudianteRepository extends Database<Estudiante, Integer>{
 
     @Override
     public boolean delete(Integer id) {
+        Estudiante estudiante = find(id);
+        if (estudiante == null) {
+            return false;
+        }
+
+        try {
+            Connection conexion = DriverManager.getConnection(uri, usuario, password);
+
+            try {
+                conexion.setAutoCommit(false);
+                PreparedStatement psEstudiante = conexion.prepareStatement("DELETE FROM estudiantes WHERE id = ?");
+
+                for (Matricula matricula : estudiante.getMatriculas()) {
+                    delete(matricula.getId());
+                }
+
+                psEstudiante.setInt(1, id);
+                psEstudiante.executeQuery();
+
+                conexion.commit();
+                conexion.close();
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                conexion.rollback();
+                conexion.setAutoCommit(true);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 }

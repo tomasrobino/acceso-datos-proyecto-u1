@@ -2,8 +2,6 @@ package presentation;
 
 import model.Estudiante;
 import model.Matricula;
-import service.EstudianteService;
-import service.MatriculaService;
 import service.Service;
 
 import java.time.format.DateTimeParseException;
@@ -179,7 +177,7 @@ public class MenuConsola {
             System.out.print("Ingrese email: ");
             String email = scanner.nextLine();
 
-            Estudiante estudiante = new Estudiante(id, nombre, email);
+            Estudiante estudiante = new Estudiante(id, nombre, email, new ArrayList<>());
 
             System.out.println("Ingrese la cantidad de matriculas");
             int cantidad = Integer.parseInt(scanner.nextLine());
