@@ -5,9 +5,9 @@ import repository.Database;
 import java.util.ArrayList;
 
 public class Service<T> {
-    private final Database<T> repository;
+    private final Database<T, Integer> repository;
 
-    public Service(Database<T> repository) {
+    public Service(Database<T, Integer> repository) {
         this.repository = repository;
     }
 

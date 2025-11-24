@@ -1,35 +1,23 @@
 package repository;
 
+import java.sql.*;
 import java.util.ArrayList;
 
-public class Database<T> {
-    private final String uri;
+public abstract class Database<T, K> implements DatabaseInterface<T, K> {
+    static protected final String uri = "";
+    static protected final String usuario = "root";
+    static protected final String password = "password";
 
-    public Database(String uri) {
-        this.uri = uri;
-    }
+    @Override
+    public abstract T find(K id);
+    @Override
+    public abstract ArrayList<T> findAll();
+    @Override
+    public abstract boolean insert(T model);
+    @Override
+    public abstract boolean update(T model);
+    @Override
+    public abstract boolean delete(K id);
 
-    public T find(int id) {
 
-    }
-
-    public ArrayList<T> findAll() {
-
-    }
-
-    public boolean insert(T model) {
-
-    }
-
-    public boolean update(T model) {
-
-    }
-
-    public boolean delete(int id) {
-
-    }
-
-    public String getUri() {
-        return uri;
-    }
 }

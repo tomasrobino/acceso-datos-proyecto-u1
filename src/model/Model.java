@@ -1,8 +1,6 @@
 package model;
 
-import java.io.Serializable;
-
-public abstract class Model implements Serializable {
+public abstract class Model {
     protected int id;
 
     public abstract String stringifyCSV();
