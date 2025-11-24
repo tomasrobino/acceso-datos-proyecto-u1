@@ -29,23 +29,6 @@ public class Main {
             data.mkdir();
         }
 
-        try {
-            File file = new File("src/data/estudiantes.bin");
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            file = new File("src/data/asignaturas.bin");
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            file = new File("src/data/matriculas.bin");
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
         MenuConsola menu = new MenuConsola(new Service<Estudiante>(new Database<Estudiante>("")), new Service<Matricula>(new Database<Matricula>("")));
         menu.mostrarMenu();
     }
