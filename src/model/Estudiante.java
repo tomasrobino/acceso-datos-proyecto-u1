@@ -15,13 +15,6 @@ public class Estudiante extends Model {
         this.matriculas = matriculas;
     }
 
-    public Estudiante(int id, String nombre, String email) {
-        this.id = id;
-        this.nombre = nombre;
-        this.email = email;
-        this.matriculas = new ArrayList<>();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

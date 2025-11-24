@@ -1,18 +1,62 @@
 package repository;
 
 import model.Estudiante;
+import model.Matricula;
 
+import java.sql.*;
 import java.util.ArrayList;
 
 public class EstudianteRepository extends Database<Estudiante, Integer>{
 
     @Override
     public Estudiante find(Integer id) {
+        try{
+            Connection conexion = DriverManager.getConnection(uri, usuario, password);
+
+            Statement st = conexion.createStatement();
+            ResultSet rsMatriculas = st.executeQuery("SELECT * FROM matriculas WHERE id_estudiante = " + id);
+            ArrayList<Matricula> matriculas = new ArrayList<>();
+            while(rsMatriculas.next()){
+                matriculas.add( new Matricula(rsMatriculas.getInt("id"), rsMatriculas.getDouble("nota"), rsMatriculas.getString("fecha") ));
+            }
+
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM estudiantes WHERE id = ?");
+            ps.setInt(1, (Integer) id);
+            ResultSet rsEstudiante = ps.executeQuery();
+            rsEstudiante.next();
+
+            conexion.close();
+            return new Estudiante(rsEstudiante.getInt("id"), rsEstudiante.getString("nombre"), rsEstudiante.getString("email"), matriculas);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public ArrayList<Estudiante> findAll() {
+        try{
+            Connection conexion = DriverManager.getConnection(uri, usuario, password);
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM estudiantes");
+
+            ArrayList<Estudiante> estudiantes = new ArrayList<>();
+            while(rs.next()){
+                Statement st2 = conexion.createStatement();
+                ResultSet rsMatriculas = st2.executeQuery("SELECT * FROM matriculas WHERE id_estudiante = " + rs.getInt("id"));
+                ArrayList<Matricula> matriculas = new ArrayList<>();
+                while(rsMatriculas.next()){
+                    matriculas.add( new Matricula(rsMatriculas.getInt("id"), rsMatriculas.getDouble("nota"), rsMatriculas.getString("fecha") ));
+                }
+
+                estudiantes.add(new Estudiante(rs.getInt("id"), rs.getString("nombre"), rs.getString("email"), matriculas));
+            }
+
+            conexion.close();
+            return estudiantes;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

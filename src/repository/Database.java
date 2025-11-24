@@ -1,6 +1,5 @@
 package repository;
 
-import java.sql.*;
 import java.util.ArrayList;
 
 public abstract class Database<T, K> implements DatabaseInterface<T, K> {
