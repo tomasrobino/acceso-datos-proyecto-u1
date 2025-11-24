@@ -37,14 +37,4 @@ public class Estudiante extends Model {
     public void setMatriculas(ArrayList<Matricula> matriculas) {
         this.matriculas = matriculas;
     }
-
-    @Override
-    public String stringifyCSV() {
-        String s = id+","+nombre+","+email;
-        for (Matricula matricula : matriculas) {
-            s += "," + matricula.stringifyCSV();
-        }
-        return s;
-    }
-
 }

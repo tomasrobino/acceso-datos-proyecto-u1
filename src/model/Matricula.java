@@ -17,10 +17,4 @@ public class Matricula extends Model {
     public String getFecha() {
         return fecha;
     }
-
-    @Override
-    public String stringifyCSV() {
-        return id+","+nota+","+fecha;
-    }
-
 }
