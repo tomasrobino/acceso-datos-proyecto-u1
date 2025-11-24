@@ -62,11 +62,84 @@ public class EstudianteRepository extends Database<Estudiante, Integer>{
 
     @Override
     public boolean insert(Estudiante model) {
+        try {
+            Connection conexion = DriverManager.getConnection(uri, usuario, password);
+
+            try {
+                conexion.setAutoCommit(false);
+                PreparedStatement psEstudiante = conexion.prepareStatement("INSERT INTO estudiantes (nombre, email) VALUES (?, ?)");
+                PreparedStatement psMatriculas = conexion.prepareStatement("INSERT INTO matriculas (id_estudiante, nota, fecha) VALUES (?, ?, ?)");
+
+                for (Matricula matricula : model.getMatriculas()) {
+                    psMatriculas.setInt(1, model.getId());
+                    psMatriculas.setDouble(2, matricula.getNota());
+                    psMatriculas.setString(3, matricula.getFecha());
+                    psMatriculas.executeUpdate();
+                }
+
+                psEstudiante.setString(1, model.getNombre());
+                psEstudiante.setString(2, model.getEmail());
+                psEstudiante.executeUpdate();
+
+                conexion.commit();
+                conexion.close();
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                conexion.rollback();
+                conexion.setAutoCommit(true);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 
     @Override
     public boolean update(Estudiante model) {
+        Estudiante es = find(model.getId());
+        if (es == null) {
+            return false;
+        }
+
+        try {
+            Connection conexion = DriverManager.getConnection(uri, usuario, password);
+
+            try {
+                conexion.setAutoCommit(false);
+                PreparedStatement psEstudiante = conexion.prepareStatement("UPDATE estudiantes SET nombre = ?, email = ? WHERE id = ?");
+                PreparedStatement psMatriculas = conexion.prepareStatement("INSERT INTO matriculas (id_estudiante, nota, fecha) VALUES (?, ?, ?)");
+
+                for (Matricula matricula : es.getMatriculas()) {
+                    delete(matricula.getId());
+                }
+
+                for (Matricula matricula : model.getMatriculas()) {
+                    psMatriculas.setInt(1, model.getId());
+                    psMatriculas.setDouble(2, matricula.getNota());
+                    psMatriculas.setString(3, matricula.getFecha());
+                    psMatriculas.executeUpdate();
+                }
+
+                psEstudiante.setString(1, model.getNombre());
+                psEstudiante.setString(2, model.getEmail());
+                psEstudiante.executeUpdate();
+
+                conexion.commit();
+                conexion.close();
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                conexion.rollback();
+                conexion.setAutoCommit(true);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 
