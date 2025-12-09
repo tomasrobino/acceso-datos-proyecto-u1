@@ -341,7 +341,10 @@ public class MenuConsola {
             System.out.print("Ingrese fecha de matrícula (dd/MM/yyyy): ");
             String fechaStr = scanner.nextLine();
 
-            Matricula matricula = new Matricula(id, nota, fechaStr);
+            System.out.print("Ingrese ID del estudiante al que corresponde: ");
+            int estudiante_id = Integer.parseInt(scanner.nextLine());
+
+            Matricula matricula = new Matricula(id, nota, fechaStr, estudiante_id);
 
             if (matriculaService.crear(matricula)) {
                 System.out.println("✓ Matrícula agregada exitosamente.");
@@ -366,7 +369,7 @@ public class MenuConsola {
             return;
         }
         for (Matricula matricula : matriculas) {
-            System.out.println("Id: "+matricula.getId()+" Nota: "+matricula.getNota()+" Fecha: "+matricula.getFecha());
+            System.out.println("Id: "+matricula.getId()+" Nota: "+matricula.getNota()+" Fecha: "+matricula.getFecha()+ "ID del estudiante: "+matricula.getEstudiante_id());
         }
     }
 
@@ -383,6 +386,7 @@ public class MenuConsola {
                 System.out.println("ID: " + matricula.getId());
                 System.out.println("Nota: " + matricula.getNota());
                 System.out.println("Fecha: " + matricula.getFecha());
+                System.out.println("ID del estudiante: " + matricula.getEstudiante_id());
             } else {
                 System.out.println("✗ No se encontró matrícula con ID: " + id);
             }
@@ -409,7 +413,11 @@ public class MenuConsola {
             System.out.print("Nueva fecha de matrícula: ");
             String fecha = scanner.nextLine();
 
-            Matricula actualizada = new Matricula(id, nota, fecha);
+            System.out.print("Nuevo id del estudiante: ");
+            int estudiante_id = scanner.nextInt();
+            scanner.nextLine();
+
+            Matricula actualizada = new Matricula(id, nota, fecha, estudiante_id);
 
             if (matriculaService.actualizar(actualizada)) {
                 System.out.println("✓ Matrícula actualizada exitosamente.");
