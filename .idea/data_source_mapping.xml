@@ -2,6 +2,7 @@
 <project version="4">
   <component name="DataSourcePerFileMappings">
     <file url="file://$PROJECT_DIR$/.idea/queries/Query.sql" value="e69c6253-46bb-4fb4-a2c4-62ac94365d60" />
+    <file url="file://$PROJECT_DIR$/src/Main.java" value="e69c6253-46bb-4fb4-a2c4-62ac94365d60" />
     <file url="file://$PROJECT_DIR$/src/repository/ClaseRepository.java" value="e69c6253-46bb-4fb4-a2c4-62ac94365d60" />
     <file url="file://$PROJECT_DIR$/src/repository/EstudianteRepository.java" value="e69c6253-46bb-4fb4-a2c4-62ac94365d60" />
     <file url="file://$PROJECT_DIR$/src/repository/MatriculaRepository.java" value="e69c6253-46bb-4fb4-a2c4-62ac94365d60" />
