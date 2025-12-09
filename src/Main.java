@@ -5,7 +5,8 @@ import service.Service;
 
 public class Main {
     public static void main(String[] args) {
-        MenuConsola menu = new MenuConsola(new Service<>(new EstudianteRepository()), new Service<>(new MatriculaRepository()));
+        MatriculaRepository matriculaRepository = new MatriculaRepository();
+        MenuConsola menu = new MenuConsola(new Service<>(new EstudianteRepository(matriculaRepository)), new Service<>(matriculaRepository));
         menu.mostrarMenu();
     }
 }
