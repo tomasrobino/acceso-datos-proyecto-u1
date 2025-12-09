@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Clase extends Model {
     private final String nombre;
     private final String horario;
-    private ArrayList<Profesor> profesores;
+    private final ArrayList<Profesor> profesores;
 
     public Clase(int id, String nombre, String horario, ArrayList<Profesor> profesores) {
         this.id = id;
@@ -24,9 +24,5 @@ public class Clase extends Model {
 
     public ArrayList<Profesor> getProfesores() {
         return profesores;
-    }
-
-    public void setProfesores(ArrayList<Profesor> profesores) {
-        this.profesores = profesores;
     }
 }
