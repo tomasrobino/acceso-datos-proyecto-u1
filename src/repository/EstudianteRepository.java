@@ -21,7 +21,7 @@ public class EstudianteRepository extends Database<Estudiante, Integer>{
                 // PreparedStatement is not necessary because "id" is an integer
                 ArrayList<Matricula> matriculas = new ArrayList<>();
                 while (rsMatriculas.next()) {
-                    matriculas.add(new Matricula(rsMatriculas.getInt("id"), rsMatriculas.getDouble("nota"), rsMatriculas.getString("fecha")));
+                    matriculas.add(new Matricula(rsMatriculas.getInt("id"), rsMatriculas.getDouble("nota"), rsMatriculas.getString("fecha"), rsMatriculas.getInt("id_estudiante")));
                 }
 
                 try (Statement st2 = conexion.createStatement();
@@ -49,7 +49,7 @@ public class EstudianteRepository extends Database<Estudiante, Integer>{
 
                     ArrayList<Matricula> matriculas = new ArrayList<>();
                     while (rsMatriculas.next()) {
-                        matriculas.add(new Matricula(rsMatriculas.getInt("id"), rsMatriculas.getDouble("nota"), rsMatriculas.getString("fecha")));
+                        matriculas.add(new Matricula(rsMatriculas.getInt("id"), rsMatriculas.getDouble("nota"), rsMatriculas.getString("fecha"), rsMatriculas.getInt("id_estudiante")));
                     }
 
                     estudiantes.add(new Estudiante(rs.getInt("id"), rs.getString("nombre"), rs.getString("email"), matriculas));
