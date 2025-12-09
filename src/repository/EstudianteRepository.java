@@ -90,13 +90,15 @@ public class EstudianteRepository extends Database<Estudiante, Integer>{
                 psEstudiante.executeUpdate();
 
                 conexion.commit();
-                conexion.close();
+                psMatriculas.close();
+                psEstudiante.close();
                 return true;
             } catch (SQLException e) {
+                conexion.rollback();
                 e.printStackTrace();
             } finally {
-                conexion.rollback();
                 conexion.setAutoCommit(true);
+                conexion.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -135,14 +137,16 @@ public class EstudianteRepository extends Database<Estudiante, Integer>{
                 psEstudiante.setString(2, model.getEmail());
                 psEstudiante.executeUpdate();
 
+                psMatriculas.close();
+                psEstudiante.close();
                 conexion.commit();
-                conexion.close();
                 return true;
             } catch (SQLException e) {
+                conexion.rollback();
                 e.printStackTrace();
             } finally {
-                conexion.rollback();
                 conexion.setAutoCommit(true);
+                conexion.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -173,13 +177,13 @@ public class EstudianteRepository extends Database<Estudiante, Integer>{
                 psEstudiante.executeQuery();
 
                 conexion.commit();
-                conexion.close();
                 return true;
             } catch (SQLException e) {
+                conexion.rollback();
                 e.printStackTrace();
             } finally {
-                conexion.rollback();
                 conexion.setAutoCommit(true);
+                conexion.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();

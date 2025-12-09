@@ -3,7 +3,7 @@ package repository;
 import java.util.ArrayList;
 
 public abstract class Database<T, K> implements DatabaseInterface<T, K> {
-    static protected final String uri = "";
+    static protected final String uri = "jdbc:mariadb://localhost:3306";
     static protected final String usuario = "root";
     static protected final String password = "password";
 
