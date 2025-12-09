@@ -13,10 +13,6 @@ public class ProfesorRepository extends Database<Profesor, Integer> {
         this.claseRepository = null;
     }
 
-    public ProfesorRepository(ClaseRepository claseRepository) {
-        this.claseRepository = claseRepository;
-    }
-
     public void setClaseRepository(ClaseRepository claseRepository) {
         this.claseRepository = claseRepository;
     }
