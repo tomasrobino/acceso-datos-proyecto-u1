@@ -1,7 +1,9 @@
 package presentation;
 
+import model.Clase;
 import model.Estudiante;
 import model.Matricula;
+import model.Profesor;
 import service.Service;
 
 import java.time.format.DateTimeParseException;
@@ -13,12 +15,17 @@ public class MenuConsola {
     private boolean salir;
     private final Service<Estudiante> estudianteService;
     private final Service<Matricula> matriculaService;
+    private final Service<Clase> claseService;
+    private final Service<Profesor> profesorService;
 
-    public MenuConsola(Service<Estudiante> estudianteService, Service<Matricula> matriculaService) {
+    public MenuConsola(Service<Estudiante> estudianteService, Service<Matricula> matriculaService, Service<Profesor> profesorService, Service<Clase> claseService) {
         this.scanner = new Scanner(System.in);
         this.salir = false;
         this.estudianteService = estudianteService;
         this.matriculaService = matriculaService;
+        this.profesorService = profesorService;
+        this.claseService = claseService;
+
     }
 
     public void mostrarMenu() {

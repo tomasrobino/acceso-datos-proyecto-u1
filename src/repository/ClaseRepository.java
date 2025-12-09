@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class ClaseRepository extends Database<Clase, Integer> {
     private final ProfesorRepository profesorRepository;
 
-    public ClaseRepository() {
-        this.profesorRepository = new ProfesorRepository(this);
+    public ClaseRepository(ProfesorRepository profesorRepository) {
+        this.profesorRepository = profesorRepository;
     }
 
     @Override

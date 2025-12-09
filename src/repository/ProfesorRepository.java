@@ -7,9 +7,17 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class ProfesorRepository extends Database<Profesor, Integer> {
-    private final ClaseRepository claseRepository;
+    private ClaseRepository claseRepository;
+
+    public ProfesorRepository() {
+        this.claseRepository = null;
+    }
 
     public ProfesorRepository(ClaseRepository claseRepository) {
+        this.claseRepository = claseRepository;
+    }
+
+    public void setClaseRepository(ClaseRepository claseRepository) {
         this.claseRepository = claseRepository;
     }
 
