@@ -147,10 +147,6 @@ public class EstudianteRepository extends Database<Estudiante, Integer>{
         try (Connection conexion = DriverManager.getConnection(uri, usuario, password)) {
             conexion.setAutoCommit(false);
             try (PreparedStatement psEstudiante = conexion.prepareStatement("DELETE FROM estudiantes WHERE id = ?")) {
-                for (Matricula matricula : estudiante.getMatriculas()) {
-                    matriculaRepository.delete(matricula.getId());
-                }
-
                 psEstudiante.setInt(1, id);
                 psEstudiante.executeQuery();
 
