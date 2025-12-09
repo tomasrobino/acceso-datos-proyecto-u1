@@ -17,6 +17,4 @@ public abstract class Database<T, K> implements DatabaseInterface<T, K> {
     public abstract boolean update(T model);
     @Override
     public abstract boolean delete(K id);
-
-
 }

@@ -39,7 +39,7 @@ public class Service<T> {
             return false;
         }
 
-        T existente = repository.find(((Model)model).getId());
+        T existente = repository.find(((Model) model).getId());
         if (existente == null) {
             return false;
         }

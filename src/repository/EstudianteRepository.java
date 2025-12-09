@@ -10,23 +10,27 @@ public class EstudianteRepository extends Database<Estudiante, Integer>{
 
     @Override
     public Estudiante find(Integer id) {
-        try{
+        try {
             Connection conexion = DriverManager.getConnection(uri, usuario, password);
 
             Statement st = conexion.createStatement();
+            // PreparedStatement is not necessary because "id" is an integer
             ResultSet rsMatriculas = st.executeQuery("SELECT * FROM matriculas WHERE id_estudiante = " + id);
             ArrayList<Matricula> matriculas = new ArrayList<>();
             while(rsMatriculas.next()){
                 matriculas.add( new Matricula(rsMatriculas.getInt("id"), rsMatriculas.getDouble("nota"), rsMatriculas.getString("fecha") ));
             }
+            rsMatriculas.close();
+            st.close();
 
-            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM estudiantes WHERE id = ?");
-            ps.setInt(1, (Integer) id);
-            ResultSet rsEstudiante = ps.executeQuery();
+            Statement st2 = conexion.createStatement();
+            ResultSet rsEstudiante = st2.executeQuery("SELECT * FROM estudiantes WHERE id = "+ id);
             rsEstudiante.next();
-
+            Estudiante estudiante = new Estudiante(rsEstudiante.getInt("id"), rsEstudiante.getString("nombre"), rsEstudiante.getString("email"), matriculas);
+            rsEstudiante.close();
+            st2.close();
             conexion.close();
-            return new Estudiante(rsEstudiante.getInt("id"), rsEstudiante.getString("nombre"), rsEstudiante.getString("email"), matriculas);
+            return estudiante;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -50,9 +54,13 @@ public class EstudianteRepository extends Database<Estudiante, Integer>{
                 }
 
                 estudiantes.add(new Estudiante(rs.getInt("id"), rs.getString("nombre"), rs.getString("email"), matriculas));
+                rsMatriculas.close();
+                st2.close();
             }
-
+            rs.close();
+            st.close();
             conexion.close();
+
             return estudiantes;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,7 +76,7 @@ public class EstudianteRepository extends Database<Estudiante, Integer>{
             try {
                 conexion.setAutoCommit(false);
                 PreparedStatement psEstudiante = conexion.prepareStatement("INSERT INTO estudiantes (nombre, email) VALUES (?, ?)");
-                PreparedStatement psMatriculas = conexion.prepareStatement("INSERT INTO matriculas (id_estudiante, nota, fecha) VALUES (?, ?, ?)");
+                PreparedStatement psMatriculas = conexion.prepareStatement("INSERT INTO matriculas (estudiante_id, nota, fecha) VALUES (?, ?, ?)");
 
                 for (Matricula matricula : model.getMatriculas()) {
                     psMatriculas.setInt(1, model.getId());
@@ -110,7 +118,7 @@ public class EstudianteRepository extends Database<Estudiante, Integer>{
             try {
                 conexion.setAutoCommit(false);
                 PreparedStatement psEstudiante = conexion.prepareStatement("UPDATE estudiantes SET nombre = ?, email = ? WHERE id = ?");
-                PreparedStatement psMatriculas = conexion.prepareStatement("INSERT INTO matriculas (id_estudiante, nota, fecha) VALUES (?, ?, ?)");
+                PreparedStatement psMatriculas = conexion.prepareStatement("INSERT INTO matriculas (estudiante_id, nota, fecha) VALUES (?, ?, ?)");
 
                 for (Matricula matricula : estudiante.getMatriculas()) {
                     delete(matricula.getId());
