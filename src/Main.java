@@ -222,7 +222,7 @@ public class Main {
 
         // 2. Recuperar estudiante y verificar que tiene foto
         ArrayList<Estudiante> todosEstudiantes = estudianteService.listarTodas();
-        Estudiante ultimoEstudiante = todosEstudiantes.get(todosEstudiantes.size() - 1);
+        Estudiante ultimoEstudiante = todosEstudiantes.getLast();
 
         System.out.println("\n✓ Estudiante recuperado: " + ultimoEstudiante.getNombre());
         System.out.println("  Email: " + ultimoEstudiante.getEmail());
@@ -283,7 +283,7 @@ public class Main {
                         nombres[i],
                         emails[i],
                         foto,
-                        new ArrayList<>(Arrays.asList(new Matricula(8.0 + i, "2024-03-" + (10 + i))))
+                        new ArrayList<>(List.of(new Matricula(8.0 + i, "2024-03-" + (10 + i))))
                 );
                 estudianteService.crear(est);
                 System.out.println("✓ " + nombres[i] + " - con foto");
@@ -292,7 +292,7 @@ public class Main {
                         nombres[i],
                         emails[i],
                         null,
-                        new ArrayList<>(Arrays.asList(new Matricula(8.0 + i, "2024-03-" + (10 + i))))
+                        new ArrayList<>(List.of(new Matricula(8.0 + i, "2024-03-" + (10 + i))))
                 );
                 estudianteService.crear(est);
                 System.out.println("✓ " + nombres[i] + " - sin foto (archivo no encontrado)");
