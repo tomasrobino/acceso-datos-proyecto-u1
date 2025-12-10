@@ -8,7 +8,7 @@ import repository.MatriculaRepository;
 import repository.ProfesorRepository;
 import service.Service;
 
-import java.nio.charset.StandardCharsets;
+import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -100,8 +100,14 @@ public class Main {
                 new Matricula(6.0, "2022-01-03")
         );
 
-        estudianteService.crear(new Estudiante("aaa", "bbb", "xxxx".getBytes(StandardCharsets.UTF_8), new ArrayList<>(matriculaList)));
-        estudianteService.crear(new Estudiante("ccc", "ddd", "yyyy".getBytes(StandardCharsets.UTF_8), new ArrayList<>(matriculaList2)));
+        try {
+            estudianteService.crear(new Estudiante("aaa", "bbb", new FileInputStream("foto1.jpg"), new ArrayList<>(matriculaList)));
+            estudianteService.crear(new Estudiante("ccc", "ddd", new FileInputStream("foto2.jpg"), new ArrayList<>(matriculaList2)));
+        } catch (FileNotFoundException e) {
+            estudianteService.crear(new Estudiante("aaa", "bbb", null, new ArrayList<>(matriculaList)));
+            estudianteService.crear(new Estudiante("ccc", "ddd", null, new ArrayList<>(matriculaList2)));
+        }
+
         ArrayList<Estudiante> estudianteList = estudianteService.listarTodas();
         int primerEstudianteId = estudianteList.getFirst().getId();
         matriculaService.crear(new Matricula(7.0, "2022-01-01", primerEstudianteId));
@@ -175,5 +181,122 @@ public class Main {
         // Verificar que las clases siguen existiendo pero sin ese profesor
         System.out.println("Clases después de eliminar profesor:");
         System.out.println(claseService.listarTodas());
+
+
+        // BLOB
+
+        try {
+            // Intenta cargar una imagen desde el sistema de archivos
+            InputStream imagenEstudiante = new FileInputStream("student_photo.jpg");
+
+            Estudiante estudianteConFoto = new Estudiante(
+                    "Juan Pérez",
+                    "juan.perez@universidad.com",
+                    imagenEstudiante,
+                    new ArrayList<>(Arrays.asList(
+                            new Matricula(9.5, "2024-01-15"),
+                            new Matricula(8.7, "2024-02-20")
+                    ))
+            );
+
+            estudianteService.crear(estudianteConFoto);
+            System.out.println("✓ Estudiante con foto creado exitosamente");
+
+        } catch (FileNotFoundException e) {
+            System.out.println("⚠ Imagen 'student_photo.jpg' no encontrada");
+            System.out.println("  Puedes colocar una imagen JPG en la raíz del proyecto con ese nombre");
+
+            // Alternativa: crear estudiante sin foto
+            Estudiante estudianteSinFoto = new Estudiante(
+                    "Juan Pérez",
+                    "juan.perez@universidad.com",
+                    null,
+                    new ArrayList<>(Arrays.asList(
+                            new Matricula(9.5, "2024-01-15"),
+                            new Matricula(8.7, "2024-02-20")
+                    ))
+            );
+            estudianteService.crear(estudianteSinFoto);
+            System.out.println("✓ Estudiante sin foto creado exitosamente");
+        }
+
+        // 2. Recuperar estudiante y verificar que tiene foto
+        ArrayList<Estudiante> todosEstudiantes = estudianteService.listarTodas();
+        Estudiante ultimoEstudiante = todosEstudiantes.get(todosEstudiantes.size() - 1);
+
+        System.out.println("\n✓ Estudiante recuperado: " + ultimoEstudiante.getNombre());
+        System.out.println("  Email: " + ultimoEstudiante.getEmail());
+
+        if (ultimoEstudiante.getFoto() != null) {
+            System.out.println("  Foto: InputStream disponible");
+
+            // 3. Guardar la imagen recuperada en un archivo (demostración)
+            try (InputStream fotoStream = ultimoEstudiante.getFoto();
+                 FileOutputStream fos = new FileOutputStream("foto_recuperada.jpg")) {
+
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = fotoStream.read(buffer)) != -1) {
+                    fos.write(buffer, 0, bytesRead);
+                }
+
+                System.out.println("  ✓ Foto guardada como 'foto_recuperada.jpg'");
+
+            } catch (IOException e) {
+                System.out.println("  ⚠ Error al guardar la foto: " + e.getMessage());
+            }
+        } else {
+            System.out.println("  Foto: No disponible (null)");
+        }
+
+        // 4. Actualizar estudiante con nueva foto
+        try {
+            InputStream nuevaFoto = new FileInputStream("student_photo_updated.jpg");
+
+            Estudiante estudianteActualizar = new Estudiante(
+                    ultimoEstudiante.getId(),
+                    ultimoEstudiante.getNombre(),
+                    "nuevo.email@universidad.com",
+                    nuevaFoto,
+                    ultimoEstudiante.getMatriculas()
+            );
+
+            estudianteService.actualizar(estudianteActualizar);
+            System.out.println("\n✓ Estudiante actualizado con nueva foto");
+
+        } catch (FileNotFoundException e) {
+            System.out.println("\n⚠ Imagen 'student_photo_updated.jpg' no encontrada para actualización");
+            System.out.println("  La actualización de foto se omitió");
+        }
+
+        // 5. Demostración con múltiples estudiantes e imágenes
+        System.out.println("\n=== Creando múltiples estudiantes con fotos ===");
+
+        String[] nombres = {"María González", "Carlos Rodríguez", "Ana Martínez"};
+        String[] emails = {"maria@uni.com", "carlos@uni.com", "ana@uni.com"};
+        String[] fotos = {"foto_maria.jpg", "foto_carlos.jpg", "foto_ana.jpg"};
+
+        for (int i = 0; i < nombres.length; i++) {
+            try {
+                InputStream foto = new FileInputStream(fotos[i]);
+                Estudiante est = new Estudiante(
+                        nombres[i],
+                        emails[i],
+                        foto,
+                        new ArrayList<>(Arrays.asList(new Matricula(8.0 + i, "2024-03-" + (10 + i))))
+                );
+                estudianteService.crear(est);
+                System.out.println("✓ " + nombres[i] + " - con foto");
+            } catch (FileNotFoundException e) {
+                Estudiante est = new Estudiante(
+                        nombres[i],
+                        emails[i],
+                        null,
+                        new ArrayList<>(Arrays.asList(new Matricula(8.0 + i, "2024-03-" + (10 + i))))
+                );
+                estudianteService.crear(est);
+                System.out.println("✓ " + nombres[i] + " - sin foto (archivo no encontrado)");
+            }
+        }
     }
 }
