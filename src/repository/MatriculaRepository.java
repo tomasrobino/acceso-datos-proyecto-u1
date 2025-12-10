@@ -85,6 +85,7 @@ public class MatriculaRepository extends Database<Matricula, Integer> {
             ps.setInt(1, model.getEstudiante_id());
             ps.setDouble(2, model.getNota());
             ps.setString(3, model.getFecha());
+            ps.setInt(4, model.getId());
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {

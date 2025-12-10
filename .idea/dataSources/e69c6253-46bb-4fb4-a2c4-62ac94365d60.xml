@@ -1028,7 +1028,7 @@
     <schema id="328" parent="1" name="proyecto_u2">
       <AutoIntrospectionLevel>3</AutoIntrospectionLevel>
       <LastIntrospectionLevel>3</LastIntrospectionLevel>
-      <LastIntrospectionLocalTimestamp>2025-12-10.21:38:39</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2025-12-10.22:32:38</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_general_ci</CollationName>
     </schema>
     <schema id="329" parent="1" name="test">
@@ -1096,7 +1096,7 @@
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="344" parent="335" name="id">
-      <AutoIncrement>1</AutoIncrement>
+      <AutoIncrement>5</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int(11)|0s</StoredType>
@@ -1111,118 +1111,122 @@
       <Position>3</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <index id="347" parent="335" name="PRIMARY">
+    <column id="347" parent="335" name="foto">
+      <Position>4</Position>
+      <StoredType>blob|0s</StoredType>
+    </column>
+    <index id="348" parent="335" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="348" parent="335" name="PRIMARY">
+    <key id="349" parent="335" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="349" parent="336" name="id">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="350" parent="336" name="id">
+      <AutoIncrement>13</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int(11)|0s</StoredType>
     </column>
-    <column id="350" parent="336" name="estudiante_id">
+    <column id="351" parent="336" name="estudiante_id">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>int(11)|0s</StoredType>
     </column>
-    <column id="351" parent="336" name="nota">
+    <column id="352" parent="336" name="nota">
       <Position>3</Position>
       <StoredType>double|0s</StoredType>
     </column>
-    <column id="352" parent="336" name="fecha">
+    <column id="353" parent="336" name="fecha">
       <Position>4</Position>
       <StoredType>varchar(50)|0s</StoredType>
     </column>
-    <foreign-key id="353" parent="336" name="matriculas_ibfk_1">
+    <foreign-key id="354" parent="336" name="matriculas_ibfk_1">
       <ColNames>estudiante_id</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>id</RefColNames>
       <RefTableName>estudiantes</RefTableName>
     </foreign-key>
-    <index id="354" parent="336" name="PRIMARY">
+    <index id="355" parent="336" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="355" parent="336" name="estudiante_id">
+    <index id="356" parent="336" name="estudiante_id">
       <ColNames>estudiante_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="356" parent="336" name="PRIMARY">
+    <key id="357" parent="336" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="357" parent="337" name="id">
+    <column id="358" parent="337" name="id">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int(11)|0s</StoredType>
     </column>
-    <column id="358" parent="337" name="profesor_id">
+    <column id="359" parent="337" name="profesor_id">
       <Position>2</Position>
       <StoredType>int(11)|0s</StoredType>
     </column>
-    <column id="359" parent="337" name="clase_id">
+    <column id="360" parent="337" name="clase_id">
       <Position>3</Position>
       <StoredType>int(11)|0s</StoredType>
     </column>
-    <foreign-key id="360" parent="337" name="profesor_clase_ibfk_1">
+    <foreign-key id="361" parent="337" name="profesor_clase_ibfk_1">
       <ColNames>profesor_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>profesores</RefTableName>
     </foreign-key>
-    <foreign-key id="361" parent="337" name="profesor_clase_ibfk_2">
+    <foreign-key id="362" parent="337" name="profesor_clase_ibfk_2">
       <ColNames>clase_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>clases</RefTableName>
     </foreign-key>
-    <index id="362" parent="337" name="PRIMARY">
+    <index id="363" parent="337" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="363" parent="337" name="profesor_id">
+    <index id="364" parent="337" name="profesor_id">
       <ColNames>profesor_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="364" parent="337" name="clase_id">
+    <index id="365" parent="337" name="clase_id">
       <ColNames>clase_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="365" parent="337" name="PRIMARY">
+    <key id="366" parent="337" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="366" parent="338" name="id">
+    <column id="367" parent="338" name="id">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int(11)|0s</StoredType>
     </column>
-    <column id="367" parent="338" name="nombre">
+    <column id="368" parent="338" name="nombre">
       <Position>2</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <column id="368" parent="338" name="especialidad">
+    <column id="369" parent="338" name="especialidad">
       <Position>3</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <index id="369" parent="338" name="PRIMARY">
+    <index id="370" parent="338" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="370" parent="338" name="PRIMARY">
+    <key id="371" parent="338" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>

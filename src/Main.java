@@ -8,8 +8,6 @@ import repository.MatriculaRepository;
 import repository.ProfesorRepository;
 import service.Service;
 
-import java.io.ByteArrayInputStream;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
@@ -85,6 +83,11 @@ public class Main {
         Service<Profesor> profesorService = new Service<>(profesorRepository);
         Service<Clase> claseService = new Service<>(claseRepository);
 
+        // NO PONGO PRINTS PORQUE SE VE MEJOR CON EL DEBUGGER
+
+
+
+        // Estudiante y Matricula
         List<Matricula> matriculaList = Arrays.asList(
                 new Matricula(1.0, "2022-01-01"),
                 new Matricula(2.0, "2022-01-02"),
@@ -98,8 +101,79 @@ public class Main {
         );
 
         estudianteService.crear(new Estudiante("aaa", "bbb", "xxxx".getBytes(StandardCharsets.UTF_8), new ArrayList<>(matriculaList)));
-        estudianteService.crear(new Estudiante("ccc", "ddd", "yyyy".getBytes(StandardCharsets.UTF_8), new ArrayList<>(matriculaList)));
+        estudianteService.crear(new Estudiante("ccc", "ddd", "yyyy".getBytes(StandardCharsets.UTF_8), new ArrayList<>(matriculaList2)));
         ArrayList<Estudiante> estudianteList = estudianteService.listarTodas();
-        System.out.println(estudianteList);
+        int primerEstudianteId = estudianteList.getFirst().getId();
+        matriculaService.crear(new Matricula(7.0, "2022-01-01", primerEstudianteId));
+        estudianteList = estudianteService.listarTodas();
+        Matricula primeraMatricula = estudianteService.buscarPorId(primerEstudianteId).getMatriculas().getFirst();
+        matriculaService.actualizar(new Matricula(primeraMatricula.getId(), 8.0, "sfdsfdsffsd", primeraMatricula.getEstudiante_id()));
+        primeraMatricula = matriculaService.buscarPorId(primeraMatricula.getId());
+        System.out.println(matriculaService.listarTodas());
+        estudianteService.eliminar(primerEstudianteId);
+        System.out.println(estudianteService.listarTodas());
+        System.out.println(matriculaService.listarTodas());
+
+
+        // Profesor y Clase
+
+        // Crear clases primero (sin profesores asignados aún)
+        claseService.crear(new Clase("Matemáticas", "Lunes 9:00-11:00", new ArrayList<>()));
+        claseService.crear(new Clase("Física", "Martes 10:00-12:00", new ArrayList<>()));
+        claseService.crear(new Clase("Química", "Miércoles 8:00-10:00", new ArrayList<>()));
+
+        // Obtener las clases creadas
+        ArrayList<Clase> clasesList = claseService.listarTodas();
+        Clase claseMatematicas = clasesList.get(0);
+        Clase claseFisica = clasesList.get(1);
+        Clase claseQuimica = clasesList.get(2);
+
+        // Crear profesores con sus clases asignadas
+        List<Clase> clasesProfesor1 = Arrays.asList(claseMatematicas, claseFisica);
+        List<Clase> clasesProfesor2 = Arrays.asList(claseFisica, claseQuimica);
+
+        profesorService.crear(new Profesor("Dr. García", "Matemáticas", new ArrayList<>(clasesProfesor1)));
+        profesorService.crear(new Profesor("Dra. López", "Física", new ArrayList<>(clasesProfesor2)));
+
+        // Listar todos los profesores
+        ArrayList<Profesor> profesoresList = profesorService.listarTodas();
+        int primerProfesorId = profesoresList.getFirst().getId();
+
+        // Buscar un profesor específico y ver sus clases
+        Profesor profesorBuscado = profesorService.buscarPorId(primerProfesorId);
+        System.out.println("Profesor encontrado: " + profesorBuscado.getNombre());
+
+        // Actualizar un profesor (cambiar especialidad y reasignar clases)
+        Profesor profesorActualizar = profesoresList.getFirst();
+        profesorActualizar.setEspecialidad("Matemáticas Avanzadas");
+        profesorActualizar.setClases(new ArrayList<>(Arrays.asList(claseMatematicas, claseQuimica)));
+        profesorService.actualizar(profesorActualizar);
+
+        // Verificar la actualización
+        Profesor profesorActualizado = profesorService.buscarPorId(primerProfesorId);
+        System.out.println("Especialidad actualizada: " + profesorActualizado.getEspecialidad());
+
+        // Actualizar una clase (cambiar horario y reasignar profesores)
+        Clase claseActualizar = claseService.buscarPorId(claseMatematicas.getId());
+        claseActualizar.setHorario("Lunes 14:00-16:00");
+        ArrayList<Profesor> nuevosProfesores = new ArrayList<>();
+        nuevosProfesores.add(profesoresList.get(1)); // Solo la Dra. López
+        claseActualizar.setProfesores(nuevosProfesores);
+        claseService.actualizar(claseActualizar);
+
+        // Verificar las clases
+        System.out.println("Todas las clases:");
+        System.out.println(claseService.listarTodas());
+
+        // Eliminar un profesor (esto también eliminará sus relaciones en profesor_clase)
+        profesorService.eliminar(profesoresList.get(1).getId());
+
+        // Verificar después de eliminar
+        System.out.println("Profesores después de eliminar:");
+        System.out.println(profesorService.listarTodas());
+
+        // Verificar que las clases siguen existiendo pero sin ese profesor
+        System.out.println("Clases después de eliminar profesor:");
+        System.out.println(claseService.listarTodas());
     }
 }

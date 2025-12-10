@@ -3,9 +3,9 @@ package model;
 import java.util.ArrayList;
 
 public class Clase extends Model {
-    private final String nombre;
-    private final String horario;
-    private final ArrayList<Profesor> profesores;
+    private String nombre;
+    private String horario;
+    private ArrayList<Profesor> profesores;
 
     public Clase(String nombre, String horario, ArrayList<Profesor> profesores) {
         this.nombre = nombre;
@@ -24,11 +24,23 @@ public class Clase extends Model {
         return nombre;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
     public String getHorario() {
         return horario;
     }
 
+    public void setHorario(String horario) {
+        this.horario = horario;
+    }
+
     public ArrayList<Profesor> getProfesores() {
         return profesores;
+    }
+
+    public void setProfesores(ArrayList<Profesor> profesores) {
+        this.profesores = profesores;
     }
 }
