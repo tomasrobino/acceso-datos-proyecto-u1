@@ -17,17 +17,28 @@ public class EstudianteRepository extends Database<Estudiante, Integer>{
     public Estudiante find(Integer id) {
         try (Connection conexion = DriverManager.getConnection(uri, usuario, password)) {
             try (Statement st = conexion.createStatement();
-                 ResultSet rsMatriculas = st.executeQuery("SELECT * FROM matriculas WHERE id_estudiante = " + id)) {
+                 ResultSet rsMatriculas = st.executeQuery("SELECT * FROM matriculas WHERE estudiante_id = " + id)) {
                 // PreparedStatement is not necessary because "id" is an integer
                 ArrayList<Matricula> matriculas = new ArrayList<>();
                 while (rsMatriculas.next()) {
-                    matriculas.add(new Matricula(rsMatriculas.getInt("id"), rsMatriculas.getDouble("nota"), rsMatriculas.getString("fecha"), rsMatriculas.getInt("id_estudiante")));
+                    matriculas.add(new Matricula(
+                        rsMatriculas.getInt("id"),
+                        rsMatriculas.getDouble("nota"),
+                        rsMatriculas.getString("fecha"),
+                        rsMatriculas.getInt("estudiante_id")
+                    ));
                 }
 
                 try (Statement st2 = conexion.createStatement();
                      ResultSet rsEstudiante = st2.executeQuery("SELECT * FROM estudiantes WHERE id = " + id)) {
                     rsEstudiante.next();
-                    return new Estudiante(rsEstudiante.getInt("id"), rsEstudiante.getString("nombre"), rsEstudiante.getString("email"), matriculas);
+                    return new Estudiante(
+                            rsEstudiante.getInt("id"),
+                            rsEstudiante.getString("nombre"),
+                            rsEstudiante.getString("email"),
+                            rsEstudiante.getBytes("foto"),
+                            matriculas
+                    );
                 }
             }
         } catch (SQLException e) {
@@ -45,14 +56,19 @@ public class EstudianteRepository extends Database<Estudiante, Integer>{
             ArrayList<Estudiante> estudiantes = new ArrayList<>();
             while (rs.next()) {
                 try (Statement st2 = conexion.createStatement();
-                     ResultSet rsMatriculas = st2.executeQuery("SELECT * FROM matriculas WHERE id_estudiante = " + rs.getInt("id"))) {
+                     ResultSet rsMatriculas = st2.executeQuery("SELECT * FROM matriculas WHERE estudiante_id = " + rs.getInt("id"))) {
 
                     ArrayList<Matricula> matriculas = new ArrayList<>();
                     while (rsMatriculas.next()) {
-                        matriculas.add(new Matricula(rsMatriculas.getInt("id"), rsMatriculas.getDouble("nota"), rsMatriculas.getString("fecha"), rsMatriculas.getInt("id_estudiante")));
+                        matriculas.add(new Matricula(rsMatriculas.getInt("id"), rsMatriculas.getDouble("nota"), rsMatriculas.getString("fecha"), rsMatriculas.getInt("estudiante_id")));
                     }
 
-                    estudiantes.add(new Estudiante(rs.getInt("id"), rs.getString("nombre"), rs.getString("email"), matriculas));
+                    estudiantes.add(new Estudiante(
+                            rs.getInt("id"),
+                            rs.getString("nombre"),
+                            rs.getString("email"),
+                            rs.getBytes("foto"),
+                            matriculas));
                 }
             }
 
@@ -67,19 +83,22 @@ public class EstudianteRepository extends Database<Estudiante, Integer>{
     public boolean insert(Estudiante model) {
         try (Connection conexion = DriverManager.getConnection(uri, usuario, password)) {
             conexion.setAutoCommit(false);
-            try (PreparedStatement psEstudiante = conexion.prepareStatement("INSERT INTO estudiantes (nombre, email) VALUES (?, ?)");
+            try (PreparedStatement psEstudiante = conexion.prepareStatement("INSERT INTO estudiantes (nombre, email, foto) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
                  PreparedStatement psMatriculas = conexion.prepareStatement("INSERT INTO matriculas (estudiante_id, nota, fecha) VALUES (?, ?, ?)")) {
 
+                psEstudiante.setString(1, model.getNombre());
+                psEstudiante.setString(2, model.getEmail());
+                psEstudiante.setBytes(3, model.getFoto());
+                psEstudiante.executeUpdate();
+                ResultSet rs = psEstudiante.getGeneratedKeys();
+                rs.next();
+
                 for (Matricula matricula : model.getMatriculas()) {
-                    psMatriculas.setInt(1, model.getId());
+                    psMatriculas.setInt(1, rs.getInt(1));
                     psMatriculas.setDouble(2, matricula.getNota());
                     psMatriculas.setString(3, matricula.getFecha());
                     psMatriculas.executeUpdate();
                 }
-
-                psEstudiante.setString(1, model.getNombre());
-                psEstudiante.setString(2, model.getEmail());
-                psEstudiante.executeUpdate();
 
                 conexion.commit();
                 return true;
@@ -105,7 +124,7 @@ public class EstudianteRepository extends Database<Estudiante, Integer>{
 
         try (Connection conexion = DriverManager.getConnection(uri, usuario, password)) {
             conexion.setAutoCommit(false);
-            try (PreparedStatement psEstudiante = conexion.prepareStatement("UPDATE estudiantes SET nombre = ?, email = ? WHERE id = ?");
+            try (PreparedStatement psEstudiante = conexion.prepareStatement("UPDATE estudiantes SET nombre = ?, email = ?, foto = ? WHERE id = ?");
                  PreparedStatement psMatriculas = conexion.prepareStatement("INSERT INTO matriculas (estudiante_id, nota, fecha) VALUES (?, ?, ?)")) {
 
                 for (Matricula matricula : estudiante.getMatriculas()) {
@@ -121,6 +140,7 @@ public class EstudianteRepository extends Database<Estudiante, Integer>{
 
                 psEstudiante.setString(1, model.getNombre());
                 psEstudiante.setString(2, model.getEmail());
+                psEstudiante.setBytes(3, model.getFoto());
                 psEstudiante.executeUpdate();
 
                 conexion.commit();

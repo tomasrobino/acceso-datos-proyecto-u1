@@ -1,8 +1,20 @@
+import model.Clase;
+import model.Estudiante;
+import model.Matricula;
+import model.Profesor;
 import repository.ClaseRepository;
+import repository.EstudianteRepository;
 import repository.MatriculaRepository;
 import repository.ProfesorRepository;
+import service.Service;
 
+import java.io.ByteArrayInputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,9 +28,12 @@ public class Main {
                 CREATE TABLE IF NOT EXISTS estudiantes (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     nombre VARCHAR(255) NOT NULL,
-                    email VARCHAR(255) NOT NULL
+                    email VARCHAR(255) NOT NULL,
+                    foto BLOB
                 );
             """);
+            // Uso ON DELETE CASCADE porque no puede haber matriculas que no correspondan a ningun estudiante,
+            // por lo que si se elimina un estudiante, se deben eliminar también sus matrículas
             stmt.execute("""
                 CREATE TABLE IF NOT EXISTS matriculas (
                     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -58,11 +73,33 @@ public class Main {
             System.exit(1);
         }
 
+        // Creating repositories
         MatriculaRepository matriculaRepository = new MatriculaRepository();
         ProfesorRepository profesorRepository = new ProfesorRepository();
         ClaseRepository claseRepository = new ClaseRepository(profesorRepository);
         profesorRepository.setClaseRepository(claseRepository);
-        //MenuConsola menu = new MenuConsola(new Service<>(new EstudianteRepository(matriculaRepository)), new Service<>(matriculaRepository), new Service<>(profesorRepository), new Service<>(claseRepository));
-        //menu.mostrarMenu();
+
+        // Creating services
+        Service<Matricula> matriculaService = new Service<>(matriculaRepository);
+        Service<Estudiante> estudianteService = new Service<>(new EstudianteRepository(matriculaRepository));
+        Service<Profesor> profesorService = new Service<>(profesorRepository);
+        Service<Clase> claseService = new Service<>(claseRepository);
+
+        List<Matricula> matriculaList = Arrays.asList(
+                new Matricula(1.0, "2022-01-01"),
+                new Matricula(2.0, "2022-01-02"),
+                new Matricula(3.0, "2022-01-03")
+        );
+
+        List<Matricula> matriculaList2 = Arrays.asList(
+                new Matricula(4.0, "2022-01-01"),
+                new Matricula(5.0, "2022-01-02"),
+                new Matricula(6.0, "2022-01-03")
+        );
+
+        estudianteService.crear(new Estudiante("aaa", "bbb", "xxxx".getBytes(StandardCharsets.UTF_8), new ArrayList<>(matriculaList)));
+        estudianteService.crear(new Estudiante("ccc", "ddd", "yyyy".getBytes(StandardCharsets.UTF_8), new ArrayList<>(matriculaList)));
+        ArrayList<Estudiante> estudianteList = estudianteService.listarTodas();
+        System.out.println(estudianteList);
     }
 }

@@ -5,6 +5,12 @@ public class Matricula extends Model {
     private final String fecha;
     private final int estudiante_id;
 
+    public Matricula(double nota, String fecha) {
+        this.nota = nota;
+        this.fecha = fecha;
+        this.estudiante_id = 0;
+    }
+
     public Matricula(double nota, String fecha, int estudiante_id) {
         this.nota = nota;
         this.fecha = fecha;

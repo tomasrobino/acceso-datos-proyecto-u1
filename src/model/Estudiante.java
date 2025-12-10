@@ -1,23 +1,25 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Estudiante extends Model {
     private final String nombre;
     private final String email;
-    private ArrayList<Matricula> matriculas;
+    private final byte[] foto;
+    private final ArrayList<Matricula> matriculas;
 
-    public Estudiante(String nombre, String email, ArrayList<Matricula> matriculas) {
+    public Estudiante(String nombre, String email, byte[] foto, ArrayList<Matricula> matriculas) {
         this.nombre = nombre;
         this.email = email;
+        this.foto = foto;
         this.matriculas = matriculas;
     }
 
-    public Estudiante(int id, String nombre, String email, ArrayList<Matricula> matriculas) {
+    public Estudiante(int id, String nombre, String email, byte[] foto, ArrayList<Matricula> matriculas) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
+        this.foto = foto;
         this.matriculas = matriculas;
     }
 
@@ -29,10 +31,11 @@ public class Estudiante extends Model {
         return email;
     }
 
+    public byte[] getFoto() {
+        return foto;
+    }
+
     public ArrayList<Matricula> getMatriculas() {
         return matriculas;
-    }
-    public void setMatriculas(ArrayList<Matricula> matriculas) {
-        this.matriculas = matriculas;
     }
 }
