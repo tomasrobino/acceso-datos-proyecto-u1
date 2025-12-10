@@ -7,6 +7,12 @@ public class Clase extends Model {
     private final String horario;
     private final ArrayList<Profesor> profesores;
 
+    public Clase(String nombre, String horario, ArrayList<Profesor> profesores) {
+        this.nombre = nombre;
+        this.horario = horario;
+        this.profesores = profesores;
+    }
+
     public Clase(int id, String nombre, String horario, ArrayList<Profesor> profesores) {
         this.id = id;
         this.nombre = nombre;

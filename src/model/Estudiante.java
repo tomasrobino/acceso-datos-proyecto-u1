@@ -8,6 +8,12 @@ public class Estudiante extends Model {
     private final String email;
     private ArrayList<Matricula> matriculas;
 
+    public Estudiante(String nombre, String email, ArrayList<Matricula> matriculas) {
+        this.nombre = nombre;
+        this.email = email;
+        this.matriculas = matriculas;
+    }
+
     public Estudiante(int id, String nombre, String email, ArrayList<Matricula> matriculas) {
         this.id = id;
         this.nombre = nombre;
