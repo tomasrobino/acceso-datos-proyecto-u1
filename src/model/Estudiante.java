@@ -15,14 +15,6 @@ public class Estudiante extends Model {
         this.matriculas = matriculas;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Estudiante Estudiante = (Estudiante) o;
-        return Objects.equals(id, Estudiante.id) && Objects.equals(nombre, Estudiante.nombre);
-    }
-
     public String getNombre() {
         return nombre;
     }

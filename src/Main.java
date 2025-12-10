@@ -1,9 +1,6 @@
-import presentation.MenuConsola;
 import repository.ClaseRepository;
-import repository.EstudianteRepository;
 import repository.MatriculaRepository;
 import repository.ProfesorRepository;
-import service.Service;
 
 import java.sql.*;
 
@@ -14,6 +11,7 @@ public class Main {
              Statement stmt = conn.createStatement()) {
 
             stmt.execute("CREATE SCHEMA IF NOT EXISTS proyecto_u2");
+            stmt.execute("USE proyecto_u2");
             stmt.execute("""
                 CREATE TABLE IF NOT EXISTS estudiantes (
                     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -64,7 +62,7 @@ public class Main {
         ProfesorRepository profesorRepository = new ProfesorRepository();
         ClaseRepository claseRepository = new ClaseRepository(profesorRepository);
         profesorRepository.setClaseRepository(claseRepository);
-        MenuConsola menu = new MenuConsola(new Service<>(new EstudianteRepository(matriculaRepository)), new Service<>(matriculaRepository), new Service<>(profesorRepository), new Service<>(claseRepository));
-        menu.mostrarMenu();
+        //MenuConsola menu = new MenuConsola(new Service<>(new EstudianteRepository(matriculaRepository)), new Service<>(matriculaRepository), new Service<>(profesorRepository), new Service<>(claseRepository));
+        //menu.mostrarMenu();
     }
 }
